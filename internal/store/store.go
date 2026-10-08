@@ -119,7 +119,8 @@ type Store struct {
 
 	requests   map[string]*obs.AuditRequest // keyed by RequestKey
 	reqOrder   []string
-	byAudit    map[string][]string // auditID -> request keys
+	byAudit    map[string][]string // auditID -> request keys (at most MaxRequestsPerAuditID)
+	auditCount map[string]int      // auditID -> number of stored requests carrying it
 	spans      map[spanKey]*obs.Span
 	spanOrder  []spanKey
 	byTrace    map[string][]spanKey
@@ -141,19 +142,20 @@ type Store struct {
 // New returns an empty store.
 func New(cfg Config) *Store {
 	return &Store{
-		cfg:      cfg,
-		requests: map[string]*obs.AuditRequest{},
-		byAudit:  map[string][]string{},
-		spans:    map[spanKey]*obs.Span{},
-		byTrace:  map[string][]spanKey{},
-		objects:  map[string]*ObjectHistory{},
-		byName:   map[nameKey][]string{},
-		children: map[string][]string{},
-		events:   map[string]*obs.EventObservation{},
-		occ:      map[string][]Occurrence{},
-		byRegard: map[string][]string{},
-		metrics:  map[string][]obs.MetricResult{},
-		sources:  map[string][]obs.SourceStatus{},
+		cfg:        cfg,
+		requests:   map[string]*obs.AuditRequest{},
+		byAudit:    map[string][]string{},
+		auditCount: map[string]int{},
+		spans:      map[spanKey]*obs.Span{},
+		byTrace:    map[string][]spanKey{},
+		objects:    map[string]*ObjectHistory{},
+		byName:     map[nameKey][]string{},
+		children:   map[string][]string{},
+		events:     map[string]*obs.EventObservation{},
+		occ:        map[string][]Occurrence{},
+		byRegard:   map[string][]string{},
+		metrics:    map[string][]obs.MetricResult{},
+		sources:    map[string][]obs.SourceStatus{},
 		stats: Stats{
 			Applied:   map[obs.Kind]uint64{},
 			Duplicate: map[obs.Kind]uint64{},
@@ -176,12 +178,7 @@ func (s *Store) Apply(r obs.Record) (bool, error) {
 	var applied bool
 	switch r.Kind {
 	case obs.KindAudit:
-		var err error
-		applied, err = s.applyAudit(r.Audit)
-		if err != nil {
-			s.stats.Rejected[r.Kind]++
-			return false, err
-		}
+		applied, _ = s.applyAudit(r.Audit)
 	case obs.KindSpan:
 		applied = s.applySpan(r.Span)
 	case obs.KindObject:
@@ -218,14 +215,11 @@ func RequestKey(a *obs.AuditRequest) string {
 		a.Namespace + "|" + a.Name + "|" + a.ReceivedAt.UTC().Format(time.RFC3339Nano)
 }
 
-// MaxRequestsPerAuditID bounds how many distinct requests may share one
-// Audit-ID. Legitimate reuse is rare; a client reusing an ID at scale is
-// refused beyond this bound instead of growing one index entry.
+// MaxRequestsPerAuditID bounds the per-Audit-ID index. Every audit record is
+// always stored (dropping one would let a client hide a real mutation by
+// pre-filling its ID); an ID carried by more requests than this is treated
+// as untrusted and confirms nothing.
 const MaxRequestsPerAuditID = 8
-
-// ErrAuditIDReused is returned when an Audit-ID is shared by too many
-// distinct requests.
-var ErrAuditIDReused = errors.New("audit ID reused by too many requests")
 
 func (s *Store) applyAudit(a *obs.AuditRequest) (bool, error) {
 	key := RequestKey(a)
@@ -241,15 +235,14 @@ func (s *Store) applyAudit(a *obs.AuditRequest) (bool, error) {
 		}
 		return false, nil
 	}
-	keys := s.byAudit[a.AuditID]
-	if len(keys) >= MaxRequestsPerAuditID {
-		return false, ErrAuditIDReused
-	}
 	c := *a
 	s.requests[key] = &c
 	s.reqOrder = append(s.reqOrder, key)
-	i, _ := slices.BinarySearch(keys, key)
-	s.byAudit[a.AuditID] = slices.Insert(keys, i, key)
+	s.auditCount[a.AuditID]++
+	if keys := s.byAudit[a.AuditID]; len(keys) < MaxRequestsPerAuditID {
+		i, _ := slices.BinarySearch(keys, key)
+		s.byAudit[a.AuditID] = slices.Insert(keys, i, key)
+	}
 	s.touch(a.ReceivedAt)
 	for len(s.reqOrder) > s.cfg.MaxRequests {
 		s.evictRequest(s.reqOrder[0])
@@ -264,6 +257,9 @@ func (s *Store) evictRequest(key string) {
 		return
 	}
 	delete(s.requests, key)
+	if s.auditCount[r.AuditID]--; s.auditCount[r.AuditID] <= 0 {
+		delete(s.auditCount, r.AuditID)
+	}
 	keys := slices.DeleteFunc(s.byAudit[r.AuditID], func(k string) bool { return k == key })
 	if len(keys) == 0 {
 		delete(s.byAudit, r.AuditID)
@@ -648,18 +644,28 @@ func (v View) Requests() []*obs.AuditRequest {
 // Request returns the audit request with an Audit-ID, if exactly one request
 // carries it. Reused IDs return false.
 func (v View) Request(auditID string) (*obs.AuditRequest, bool) {
-	keys := v.s.byAudit[auditID]
+	keys := v.trustedKeys(auditID)
 	if len(keys) != 1 {
 		return nil, false
 	}
 	return v.s.requests[keys[0]], true
 }
 
+// trustedKeys returns the indexed requests of an Audit-ID, or nil when the
+// ID is carried by more requests than the index holds (untrusted).
+func (v View) trustedKeys(auditID string) []string {
+	keys := v.s.byAudit[auditID]
+	if v.s.auditCount[auditID] != len(keys) {
+		return nil
+	}
+	return keys
+}
+
 // RequestsByAuditID returns every request carrying an Audit-ID (more than
 // one only if a client reused an ID), in key order.
 func (v View) RequestsByAuditID(auditID string) []*obs.AuditRequest {
 	var out []*obs.AuditRequest
-	for _, k := range v.s.byAudit[auditID] {
+	for _, k := range v.trustedKeys(auditID) {
 		out = append(out, v.s.requests[k])
 	}
 	return out
@@ -669,7 +675,7 @@ func (v View) RequestsByAuditID(auditID string) []*obs.AuditRequest {
 // Audit-ID, suffixed with a digest of the request facts when the ID is
 // shared by more than one request.
 func (v View) RequestID(r *obs.AuditRequest) string {
-	if len(v.s.byAudit[r.AuditID]) <= 1 {
+	if v.s.auditCount[r.AuditID] <= 1 {
 		return r.AuditID
 	}
 	h := sha256.Sum256([]byte(RequestKey(r)))

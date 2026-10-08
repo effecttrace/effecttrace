@@ -239,22 +239,30 @@ func TestEventSeriesKeepsOccurrences(t *testing.T) {
 	}
 }
 
-func TestAuditIDReuseIsBounded(t *testing.T) {
+func TestAuditIDReuseIsBoundedWithoutDroppingRecords(t *testing.T) {
+	// A client that reuses one Audit-ID many times must not be able to hide
+	// a later real mutation: every record is kept, and the reused ID simply
+	// stops confirming anything.
 	s := New(DefaultConfig())
-	rejected := 0
 	for i := range 1000 {
-		_, err := s.Apply(obs.Record{Kind: obs.KindAudit, Audit: &obs.AuditRequest{AuditID: "same", Verb: "patch", Resource: "deployments",
-			Name: fmt.Sprint("d", i), ReceivedAt: t0.Add(time.Duration(i) * time.Millisecond)}})
-		if errors.Is(err, ErrAuditIDReused) {
-			rejected++
+		if _, err := s.Apply(obs.Record{Kind: obs.KindAudit, Audit: &obs.AuditRequest{AuditID: "same", Verb: "patch", Resource: "deployments",
+			Name: fmt.Sprint("d", i), ReceivedAt: t0.Add(time.Duration(i) * time.Millisecond)}}); err != nil {
+			t.Fatal(err)
 		}
 	}
 	s.Read(func(v View) {
-		if n := len(v.RequestsByAuditID("same")); n != MaxRequestsPerAuditID {
-			t.Fatalf("kept %d requests for one audit ID", n)
+		if n := len(v.Requests()); n != 1000 {
+			t.Fatalf("stored %d of 1000 requests", n)
+		}
+		if got := v.RequestsByAuditID("same"); got != nil {
+			t.Fatalf("reused audit ID still confirms %d requests", len(got))
+		}
+		ids := map[string]bool{}
+		for _, r := range v.Requests() {
+			ids[v.RequestID(r)] = true
+		}
+		if len(ids) != 1000 {
+			t.Fatalf("request IDs not unique: %d", len(ids))
 		}
 	})
-	if rejected != 1000-MaxRequestsPerAuditID {
-		t.Fatalf("rejected %d", rejected)
-	}
 }
