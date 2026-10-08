@@ -95,6 +95,10 @@ build_images() {
 up() {
   ensure_kind; setup_provider
   mkdir -p "${LAB}/shared"
+  # The collector writes its recording here as UID 0 without capabilities, so
+  # it cannot rely on DAC override; on Linux hosts the directory is owned by
+  # the invoking user. Lab-only: world-writable with the sticky bit.
+  chmod 1777 "${LAB}/shared"
   if cluster_exists; then
     log "cluster ${CLUSTER} already exists"
   else
@@ -122,6 +126,9 @@ up() {
     if ! kc -n "${d%%/*}" rollout status "deployment/${d##*/}" --timeout=240s >/dev/null; then
       log "deployment ${d} did not become ready; pods and recent events:"
       kc -n "${d%%/*}" get pods -o wide >&2 || true
+      for p in $(kc -n "${d%%/*}" get pods -o name 2>/dev/null); do
+        kc -n "${d%%/*}" logs "${p}" --previous --tail=20 >&2 2>/dev/null || kc -n "${d%%/*}" logs "${p}" --tail=20 >&2 2>/dev/null || true
+      done
       kc -n "${d%%/*}" get events --sort-by=.lastTimestamp 2>/dev/null | tail -15 >&2 || true
       die "lab setup failed"
     fi
