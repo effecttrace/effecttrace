@@ -1,0 +1,352 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/effecttrace/effecttrace/schemas/effect-graph.schema.json",
+  "title": "EffectTrace effect graph",
+  "description": "Canonical JSON encoding of an EffectTrace effect graph (schemaVersion effecttrace.io/v1alpha1), as produced by model.EffectGraph.MarshalCanonical in pkg/model. Unknown properties are rejected, matching model.UnmarshalGraph. An edge's evidence class is fixed by its relationship. Temporal correlation does not prove causation.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "id", "status", "action", "windows", "nodes", "edges", "coverage"],
+  "properties": {
+    "schemaVersion": {
+      "const": "effecttrace.io/v1alpha1"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Graph identifier: \"g-\" followed by the action ID."
+    },
+    "status": {
+      "$ref": "#/$defs/GraphStatus"
+    },
+    "action": {
+      "$ref": "#/$defs/Action"
+    },
+    "windows": {
+      "description": "Observation windows. Encoded as null when the graph has no window (for example a tool call with no linked Kubernetes request).",
+      "type": ["array", "null"],
+      "items": { "$ref": "#/$defs/ObservationWindow" }
+    },
+    "nodes": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Nodes sorted by id. A valid graph always contains the action node \"action:<action.id>\" (model.Validate rejects a graph without it).",
+      "items": { "$ref": "#/$defs/Node" }
+    },
+    "edges": {
+      "type": ["array", "null"],
+      "description": "Edges sorted by (from, to, relationship). Encoded as null when the graph has no edge.",
+      "items": { "$ref": "#/$defs/Edge" }
+    },
+    "ambiguities": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/Ambiguity" }
+    },
+    "exclusions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/Exclusion" }
+    },
+    "coverage": {
+      "type": ["array", "null"],
+      "items": { "$ref": "#/$defs/SourceCoverage" }
+    },
+    "notes": {
+      "type": "array",
+      "description": "Human-readable caveats that apply to the whole graph, sorted and de-duplicated.",
+      "items": { "type": "string" }
+    }
+  },
+  "$defs": {
+    "Timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "RFC 3339 timestamp in UTC."
+    },
+    "EvidenceType": {
+      "description": "Class of evidence supporting an edge. INFERRED is reserved for experimental heuristics and is not emitted by EffectTrace v0.1.",
+      "enum": ["DIRECT", "TRACE_LINK", "STRUCTURAL", "EVENT_REFERENCE", "TEMPORAL_CORRELATION", "INFERRED"]
+    },
+    "Relationship": {
+      "description": "What an edge asserts about its two nodes. Each relationship admits exactly one evidence class.",
+      "enum": ["TRACE_PARENT", "TRACE_LINK", "DIRECT_REQUEST", "STRUCTURAL_OWNER", "EVENT_REFERENCE", "TEMPORAL_CORRELATION"]
+    },
+    "PathGrade": {
+      "description": "Weakest evidence on the strongest path from the action node to a node.",
+      "enum": ["ATTRIBUTED", "CORRELATED", "INFERRED"]
+    },
+    "GraphStatus": {
+      "enum": ["OBSERVING", "SETTLING", "COMPLETE"]
+    },
+    "ActionKind": {
+      "enum": ["MCP_TOOL_CALL", "KUBERNETES_API_CALL"]
+    },
+    "NodeType": {
+      "enum": ["ACTION", "KUBERNETES_REQUEST", "KUBERNETES_OBJECT", "KUBERNETES_EVENT", "TRACE_SPAN", "METRIC_OBSERVATION"]
+    },
+    "ChangeType": {
+      "enum": ["MUTATED", "CREATED", "DELETED", "SCALED", "UNCHANGED"]
+    },
+    "ObjectRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "name"],
+      "description": "A Kubernetes object. The UID is authoritative; names are descriptive and may be reused after deletion.",
+      "properties": {
+        "apiVersion": { "type": "string" },
+        "kind": { "type": "string" },
+        "namespace": { "type": "string" },
+        "name": { "type": "string" },
+        "uid": { "type": "string" }
+      }
+    },
+    "TraceRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["traceId", "spanId"],
+      "description": "An OpenTelemetry span, identified by lowercase hex trace and span IDs.",
+      "properties": {
+        "traceId": { "type": "string" },
+        "spanId": { "type": "string" }
+      }
+    },
+    "Action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind", "name", "startedAt"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "\"mcp-<first 16 hex of trace ID>-<span ID>\" for MCP tool calls, \"k8s-<audit ID>\" for Kubernetes API calls."
+        },
+        "kind": { "$ref": "#/$defs/ActionKind" },
+        "name": { "type": "string" },
+        "tool": { "type": "string" },
+        "actor": { "type": "string" },
+        "service": { "type": "string" },
+        "startedAt": { "$ref": "#/$defs/Timestamp" },
+        "endedAt": { "$ref": "#/$defs/Timestamp" },
+        "trace": { "$ref": "#/$defs/TraceRef" },
+        "auditId": { "type": "string" },
+        "outcome": { "type": "string", "description": "\"ok\" or \"error\"." },
+        "targets": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/ObjectRef" }
+        }
+      }
+    },
+    "ObjectChange": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type"],
+      "properties": {
+        "type": { "$ref": "#/$defs/ChangeType" },
+        "generationFrom": { "type": "integer" },
+        "generationTo": { "type": "integer" },
+        "resourceVersion": {
+          "type": "string",
+          "description": "Opaque resourceVersion produced by a direct mutation. Compared only for equality."
+        },
+        "replicasFrom": { "type": "integer", "minimum": -2147483648, "maximum": 2147483647 },
+        "replicasTo": { "type": "integer", "minimum": -2147483648, "maximum": 2147483647 },
+        "revision": { "type": "string" },
+        "at": { "$ref": "#/$defs/Timestamp" },
+        "readyAt": { "$ref": "#/$defs/Timestamp" },
+        "deletedAt": { "$ref": "#/$defs/Timestamp" }
+      }
+    },
+    "RequestInfo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["verb", "resource", "sources"],
+      "properties": {
+        "verb": { "type": "string" },
+        "resource": { "type": "string" },
+        "subresource": { "type": "string" },
+        "apiGroup": { "type": "string" },
+        "namespace": { "type": "string" },
+        "name": { "type": "string" },
+        "auditId": { "type": "string" },
+        "user": { "type": "string" },
+        "userAgent": { "type": "string" },
+        "statusCode": { "type": "integer" },
+        "receivedAt": { "$ref": "#/$defs/Timestamp" },
+        "sources": {
+          "type": ["array", "null"],
+          "description": "Independent observations confirming the request.",
+          "items": { "enum": ["kubernetes-audit", "otlp-client-span"] }
+        }
+      }
+    },
+    "EventInfo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reason"],
+      "properties": {
+        "reason": { "type": "string" },
+        "type": { "type": "string" },
+        "note": { "type": "string" },
+        "controller": { "type": "string" },
+        "count": { "type": "integer", "minimum": -2147483648, "maximum": 2147483647 }
+      }
+    },
+    "MetricInfo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["signal", "workload", "baseline", "observed", "direction", "changed", "samples"],
+      "properties": {
+        "signal": { "type": "string" },
+        "unit": { "type": "string" },
+        "workload": { "type": "string" },
+        "baseline": { "type": "number" },
+        "observed": { "type": "number" },
+        "direction": { "enum": ["increased", "decreased", "unchanged"] },
+        "changed": { "type": "boolean" },
+        "samples": { "type": "integer" }
+      }
+    },
+    "Node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "type", "label"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "type": { "$ref": "#/$defs/NodeType" },
+        "label": { "type": "string" },
+        "object": { "$ref": "#/$defs/ObjectRef" },
+        "change": { "$ref": "#/$defs/ObjectChange" },
+        "request": { "$ref": "#/$defs/RequestInfo" },
+        "span": { "$ref": "#/$defs/TraceRef" },
+        "event": { "$ref": "#/$defs/EventInfo" },
+        "metric": { "$ref": "#/$defs/MetricInfo" },
+        "observedAt": { "$ref": "#/$defs/Timestamp" },
+        "grade": {
+          "$ref": "#/$defs/PathGrade",
+          "description": "Absent for nodes not reachable from the action node."
+        }
+      }
+    },
+    "Fact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "value"],
+      "properties": {
+        "key": { "type": "string" },
+        "value": { "type": "string" }
+      }
+    },
+    "Edge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "from", "to", "relationship", "evidence", "reason", "source"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^e-[0-9a-f]{16}$",
+          "description": "\"e-\" followed by the first 8 bytes (hex) of SHA-256(from NUL to NUL relationship)."
+        },
+        "from": { "type": "string" },
+        "to": { "type": "string" },
+        "relationship": { "$ref": "#/$defs/Relationship" },
+        "evidence": { "$ref": "#/$defs/EvidenceType" },
+        "reason": { "type": "string" },
+        "observedAt": { "$ref": "#/$defs/Timestamp" },
+        "source": {
+          "type": "string",
+          "description": "System the evidence came from, for example otlp, kubernetes-audit, kubernetes-watch, kubernetes-events or prometheus."
+        },
+        "sourceRef": { "type": "string" },
+        "facts": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Fact" }
+        },
+        "rule": {
+          "type": "string",
+          "description": "Name of the documented attribution rule that admitted the edge (see docs/evidence-model.md)."
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "relationship": { "const": "DIRECT_REQUEST" } } },
+          "then": { "properties": { "evidence": { "const": "DIRECT" } } }
+        },
+        {
+          "if": { "properties": { "relationship": { "const": "STRUCTURAL_OWNER" } } },
+          "then": { "properties": { "evidence": { "const": "STRUCTURAL" } } }
+        },
+        {
+          "if": { "properties": { "relationship": { "enum": ["TRACE_PARENT", "TRACE_LINK"] } } },
+          "then": { "properties": { "evidence": { "const": "TRACE_LINK" } } }
+        },
+        {
+          "if": { "properties": { "relationship": { "const": "EVENT_REFERENCE" } } },
+          "then": { "properties": { "evidence": { "const": "EVENT_REFERENCE" } } }
+        },
+        {
+          "if": { "properties": { "relationship": { "const": "TEMPORAL_CORRELATION" } } },
+          "then": { "properties": { "evidence": { "const": "TEMPORAL_CORRELATION" } } }
+        }
+      ]
+    },
+    "ObservationWindow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "start", "end", "reason"],
+      "properties": {
+        "name": { "type": "string" },
+        "start": { "$ref": "#/$defs/Timestamp" },
+        "end": { "$ref": "#/$defs/Timestamp" },
+        "reason": { "type": "string" },
+        "open": { "type": "boolean", "description": "True while the window has not closed." }
+      }
+    },
+    "Exclusion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label", "kind", "reason"],
+      "description": "An observation deliberately not attached to the graph, with the reason.",
+      "properties": {
+        "label": { "type": "string" },
+        "object": { "$ref": "#/$defs/ObjectRef" },
+        "kind": {
+          "type": "string",
+          "description": "CREATED, DELETED or SCALED for object changes; METRIC for telemetry."
+        },
+        "at": { "$ref": "#/$defs/Timestamp" },
+        "reason": { "type": "string" },
+        "claimedBy": {
+          "type": "string",
+          "description": "Comma-separated IDs of the actions that claim the change, if any."
+        }
+      }
+    },
+    "Ambiguity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label", "candidates", "reason"],
+      "description": "A change inside the scope of more than one action; it is attributed to none of them.",
+      "properties": {
+        "label": { "type": "string" },
+        "object": { "$ref": "#/$defs/ObjectRef" },
+        "at": { "$ref": "#/$defs/Timestamp" },
+        "candidates": {
+          "type": ["array", "null"],
+          "items": { "type": "string" }
+        },
+        "reason": { "type": "string" }
+      }
+    },
+    "SourceCoverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "available"],
+      "properties": {
+        "source": {
+          "type": "string",
+          "description": "kubernetes-audit, otlp, kubernetes-watch, kubernetes-events or prometheus."
+        },
+        "available": { "type": "boolean" },
+        "detail": { "type": "string" }
+      }
+    }
+  }
+}
