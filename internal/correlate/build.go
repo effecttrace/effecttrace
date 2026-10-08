@@ -69,7 +69,7 @@ func build(v store.View, ix *index, a *action, cfg Config, opts Options) *model.
 	}
 	for _, r := range a.requests {
 		if r.link == linkTemporal && r.audit != nil {
-			b.self["k8s-"+r.audit.AuditID] = true
+			b.self["k8s-"+v.RequestID(r.audit)] = true
 		}
 	}
 	b.g.Action.Targets = slices.Clone(a.Targets)

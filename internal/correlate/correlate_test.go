@@ -487,3 +487,38 @@ func TestNoOpRequestNeverClaimsLaterEffects(t *testing.T) {
 		}
 	}
 }
+
+func TestReusedAuditIDCannotTamperWithAttribution(t *testing.T) {
+	// kube-apiserver accepts client-supplied Audit-IDs. A second request that
+	// reuses a victim's Audit-ID must stay a separate request: it must not
+	// replace the victim's actor or object, and must not confirm the victim's
+	// client span.
+	c := synth.New(t0)
+	c.Sources()
+	w := c.Deployment("shop", "checkout", 2)
+	c.Advance(time.Minute)
+	victimAudit := "11111111-2222-4333-8444-555555555555"
+	_, finish := c.MCPCall("restart_workload", synth.Request{AuditID: victimAudit, Verb: "patch", Res: "deployments", NS: "shop", Name: "checkout"}, w.Deploy, synth.MCPOptions{})
+	w.Mutate()
+	finish()
+	w.Rollout(false)
+	c.Advance(time.Second)
+	c.Audit(synth.Request{AuditID: victimAudit, Verb: "patch", Res: "deployments", NS: "shop", Name: "checkout", User: "aaa-attacker", At: c.Now})
+	e, now := engineFor(t, c.Records())
+	g := graphFor(t, e, now, byKind(model.ActionMCPToolCall))
+	for _, n := range g.Nodes {
+		if n.Request != nil && n.Request.User == "aaa-attacker" {
+			t.Fatalf("attacker's audit record confirmed the victim's request: %+v", n.Request)
+		}
+	}
+	ids := map[string]bool{}
+	for _, a := range e.Actions(now, time.Time{}) {
+		if ids[a.ID] {
+			t.Fatalf("duplicate action id %s", a.ID)
+		}
+		ids[a.ID] = true
+	}
+	if len(g.Notes) == 0 {
+		t.Error("expected a note that the audit ID did not confirm the request")
+	}
+}

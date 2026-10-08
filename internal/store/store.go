@@ -6,6 +6,8 @@
 package store
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
 	"errors"
 	"fmt"
 	"slices"
@@ -115,8 +117,9 @@ type Store struct {
 	cfg     Config
 	version uint64
 
-	requests   map[string]*obs.AuditRequest
+	requests   map[string]*obs.AuditRequest // keyed by RequestKey
 	reqOrder   []string
+	byAudit    map[string][]string // auditID -> request keys
 	spans      map[spanKey]*obs.Span
 	spanOrder  []spanKey
 	byTrace    map[string][]spanKey
@@ -140,6 +143,7 @@ func New(cfg Config) *Store {
 	return &Store{
 		cfg:      cfg,
 		requests: map[string]*obs.AuditRequest{},
+		byAudit:  map[string][]string{},
 		spans:    map[spanKey]*obs.Span{},
 		byTrace:  map[string][]spanKey{},
 		objects:  map[string]*ObjectHistory{},
@@ -199,29 +203,56 @@ func (s *Store) touch(t time.Time) {
 	}
 }
 
+// RequestKey identifies one audit event. kube-apiserver accepts
+// client-supplied Audit-IDs, so an ID alone is not unique or trustworthy: a
+// client could reuse another request's ID. The key therefore also includes
+// the server-recorded request facts, so a request that merely reuses an ID
+// can never replace or merge with another request.
+func RequestKey(a *obs.AuditRequest) string {
+	return a.AuditID + "|" + a.Verb + "|" + a.APIGroup + "|" + a.Resource + "|" + a.Subresource + "|" +
+		a.Namespace + "|" + a.Name + "|" + a.ReceivedAt.UTC().Format(time.RFC3339Nano)
+}
+
 func (s *Store) applyAudit(a *obs.AuditRequest) bool {
-	if prev, ok := s.requests[a.AuditID]; ok {
+	key := RequestKey(a)
+	if prev, ok := s.requests[key]; ok {
 		// The same audit event read again (for example after a collector
-		// restart re-reads the log). If a different pseudonymization key
-		// produced a different user, keep the lexically smaller one so the
+		// restart re-reads the log). Only the pseudonym can differ, if the
+		// pseudonymization key changed; keep the lexically smaller one so the
 		// result does not depend on arrival order.
 		if a.User < prev.User {
 			c := *a
-			s.requests[a.AuditID] = &c
+			s.requests[key] = &c
 			return true
 		}
 		return false
 	}
 	c := *a
-	s.requests[a.AuditID] = &c
-	s.reqOrder = append(s.reqOrder, a.AuditID)
+	s.requests[key] = &c
+	s.reqOrder = append(s.reqOrder, key)
+	s.byAudit[a.AuditID] = append(s.byAudit[a.AuditID], key)
+	slices.Sort(s.byAudit[a.AuditID])
 	s.touch(a.ReceivedAt)
 	for len(s.reqOrder) > s.cfg.MaxRequests {
-		delete(s.requests, s.reqOrder[0])
+		s.evictRequest(s.reqOrder[0])
 		s.reqOrder = s.reqOrder[1:]
-		s.stats.Evicted[obs.KindAudit]++
 	}
 	return true
+}
+
+func (s *Store) evictRequest(key string) {
+	r, ok := s.requests[key]
+	if !ok {
+		return
+	}
+	delete(s.requests, key)
+	keys := slices.DeleteFunc(s.byAudit[r.AuditID], func(k string) bool { return k == key })
+	if len(keys) == 0 {
+		delete(s.byAudit, r.AuditID)
+	} else {
+		s.byAudit[r.AuditID] = keys
+	}
+	s.stats.Evicted[obs.KindAudit]++
 }
 
 func (s *Store) applySpan(sp *obs.Span) bool {
@@ -496,9 +527,8 @@ func (s *Store) Prune(now time.Time) {
 		if ok && !r.ReceivedAt.Before(cut) {
 			break
 		}
-		delete(s.requests, s.reqOrder[0])
+		s.evictRequest(s.reqOrder[0])
 		s.reqOrder = s.reqOrder[1:]
-		s.stats.Evicted[obs.KindAudit]++
 		changed = true
 	}
 	for len(s.spanOrder) > 0 {
@@ -597,9 +627,35 @@ func (v View) Requests() []*obs.AuditRequest {
 }
 
 // Request returns an audit request by ID.
+// Request returns the audit request with an Audit-ID, if exactly one request
+// carries it. Reused IDs return false.
 func (v View) Request(auditID string) (*obs.AuditRequest, bool) {
-	r, ok := v.s.requests[auditID]
-	return r, ok
+	keys := v.s.byAudit[auditID]
+	if len(keys) != 1 {
+		return nil, false
+	}
+	return v.s.requests[keys[0]], true
+}
+
+// RequestsByAuditID returns every request carrying an Audit-ID (more than
+// one only if a client reused an ID), in key order.
+func (v View) RequestsByAuditID(auditID string) []*obs.AuditRequest {
+	var out []*obs.AuditRequest
+	for _, k := range v.s.byAudit[auditID] {
+		out = append(out, v.s.requests[k])
+	}
+	return out
+}
+
+// RequestID returns a stable, unique identifier for an audit request: the
+// Audit-ID, suffixed with a digest of the request facts when the ID is
+// shared by more than one request.
+func (v View) RequestID(r *obs.AuditRequest) string {
+	if len(v.s.byAudit[r.AuditID]) <= 1 {
+		return r.AuditID
+	}
+	h := sha256.Sum256([]byte(RequestKey(r)))
+	return r.AuditID + "-" + hex.EncodeToString(h[:4])
 }
 
 // Spans returns all spans ordered by start time, trace and span ID.

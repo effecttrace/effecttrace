@@ -97,7 +97,7 @@ func successful(code int) bool { return code >= 200 && code < 300 }
 // discover returns all actions in a deterministic order (start time, ID).
 func discover(v store.View, cfg Config) []*action {
 	var actions []*action
-	claimed := map[string]bool{}
+	claimed := map[*obs.AuditRequest]bool{}
 
 	spans := v.Spans()
 	for _, sp := range spans {
@@ -107,17 +107,17 @@ func discover(v store.View, cfg Config) []*action {
 		a := mcpAction(v, sp)
 		for _, r := range a.requests {
 			if r.audit != nil {
-				claimed[r.audit.AuditID] = true
+				claimed[r.audit] = true
 			}
 		}
 		actions = append(actions, a)
 	}
 
 	for _, r := range v.Requests() {
-		if claimed[r.AuditID] || !isActionRequest(r, cfg) {
+		if claimed[r] || !isActionRequest(r, cfg) {
 			continue
 		}
-		actions = append(actions, apiAction(r))
+		actions = append(actions, apiAction(r, v.RequestID(r)))
 	}
 
 	if cfg.TemporalFallback {
@@ -249,22 +249,29 @@ func spanRequest(v store.View, s *obs.Span) *request {
 	}
 	r.nodeID = "request:span:" + s.TraceID + ":" + s.SpanID
 	if id := at[semconv.K8sAuditID]; id != "" {
-		if a, ok := v.Request(id); ok {
+		var match []*obs.AuditRequest
+		cands := v.RequestsByAuditID(id)
+		for _, a := range cands {
 			if a.Verb == r.verb && a.Resource == r.resource && a.Namespace == r.ns && a.Name == r.name && a.Subresource == r.subres {
-				r.audit = a
-				r.at = a.ReceivedAt
-				r.nodeID = "request:" + a.AuditID
-			} else {
-				r.auditMismatch = true
+				match = append(match, a)
 			}
+		}
+		switch {
+		case len(match) == 1:
+			r.audit = match[0]
+			r.at = match[0].ReceivedAt
+			r.nodeID = "request:" + v.RequestID(match[0])
+		case len(cands) > 0:
+			// Disagreeing or reused audit IDs never confirm a request.
+			r.auditMismatch = true
 		}
 	}
 	return r
 }
 
-func auditRequest(a *obs.AuditRequest) *request {
+func auditRequest(a *obs.AuditRequest, requestID string) *request {
 	return &request{
-		nodeID:   "request:" + a.AuditID,
+		nodeID:   "request:" + requestID,
 		audit:    a,
 		verb:     a.Verb,
 		group:    a.APIGroup,
@@ -291,11 +298,11 @@ func (r *request) statusCode() int {
 	return 0
 }
 
-func apiAction(r *obs.AuditRequest) *action {
-	req := auditRequest(r)
+func apiAction(r *obs.AuditRequest, requestID string) *action {
+	req := auditRequest(r, requestID)
 	req.link = linkSelf
 	a := &action{requests: []*request{req}}
-	a.ID = "k8s-" + r.AuditID
+	a.ID = "k8s-" + requestID
 	a.Kind = model.ActionKubernetesAPICall
 	target := r.Resource
 	if r.Subresource != "" {
@@ -318,12 +325,12 @@ func apiAction(r *obs.AuditRequest) *action {
 
 // temporalRequests returns unclaimed mutating requests received while the
 // tool span was running. They are connected only by timing.
-func temporalRequests(v store.View, a *action, cfg Config, claimed map[string]bool) []*request {
+func temporalRequests(v store.View, a *action, cfg Config, claimed map[*obs.AuditRequest]bool) []*request {
 	lo := a.StartedAt.Add(-cfg.SkewTolerance)
 	hi := a.EndedAt.Add(cfg.SkewTolerance)
 	var out []*request
 	for _, r := range v.Requests() {
-		if claimed[r.AuditID] || !isMutating(r.Verb) || !successful(r.StatusCode) || r.DryRun {
+		if claimed[r] || !isMutating(r.Verb) || !successful(r.StatusCode) || r.DryRun {
 			continue
 		}
 		if cfg.IsControllerUser(r.User) || cfg.IsIgnoredResource(r.Resource, r.Subresource) {
@@ -332,7 +339,7 @@ func temporalRequests(v store.View, a *action, cfg Config, claimed map[string]bo
 		if r.ReceivedAt.Before(lo) || r.ReceivedAt.After(hi) {
 			continue
 		}
-		req := auditRequest(r)
+		req := auditRequest(r, v.RequestID(r))
 		req.link = linkTemporal
 		out = append(out, req)
 	}
