@@ -1,0 +1,44 @@
+# kind cluster for the EffectTrace lab. scripts/lab.sh renders this template,
+# replacing __LAB_DIR__ and __REPO_DIR__ with absolute paths.
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: effecttrace-lab
+nodes:
+  - role: control-plane
+    # Default node image of kind v0.33.0 (Kubernetes v1.37.0); the digest is
+    # required by kind.
+    image: kindest/node:v1.37.0@sha256:a1ed56cfb0e7b93589bdf97c8cd566405a265939e3620fc4f5de89adff580ae5
+    kubeadmConfigPatches:
+      - |
+        kind: ClusterConfiguration
+        apiServer:
+          extraArgs:
+            audit-log-path: /var/log/kubernetes/audit/audit.log
+            audit-policy-file: /etc/kubernetes/policies/audit-policy.yaml
+            audit-log-maxsize: "50"
+            audit-log-maxbackup: "2"
+          extraVolumes:
+            - name: audit-policies
+              hostPath: /etc/kubernetes/policies
+              mountPath: /etc/kubernetes/policies
+              readOnly: true
+              pathType: DirectoryOrCreate
+            - name: audit-logs
+              hostPath: /var/log/kubernetes/audit
+              mountPath: /var/log/kubernetes/audit
+              readOnly: false
+              pathType: DirectoryOrCreate
+    extraMounts:
+      - hostPath: __REPO_DIR__/deploy/kind/audit-policy.yaml
+        containerPath: /etc/kubernetes/policies/audit-policy.yaml
+        readOnly: true
+      # Shared with the host so that experiments can read the collector's
+      # recording for offline replay.
+      - hostPath: __LAB_DIR__/shared
+        containerPath: /var/lib/effecttrace-lab
+    extraPortMappings:
+      - { containerPort: 30080, hostPort: 18080, listenAddress: "127.0.0.1" } # EffectTrace API
+      - { containerPort: 30081, hostPort: 18081, listenAddress: "127.0.0.1" } # demo MCP tool server
+      - { containerPort: 30082, hostPort: 18082, listenAddress: "127.0.0.1" } # shop fault relay
+      - { containerPort: 30318, hostPort: 14318, listenAddress: "127.0.0.1" } # OTel Collector OTLP/HTTP
+      - { containerPort: 30090, hostPort: 19090, listenAddress: "127.0.0.1" } # Prometheus

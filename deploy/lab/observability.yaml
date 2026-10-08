@@ -1,0 +1,211 @@
+# Lab observability stack: OpenTelemetry Collector (core distribution) and
+# Prometheus. Both are standard CNCF components used unmodified.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: observability
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: otel-collector
+  namespace: observability
+data:
+  config.yaml: |
+    receivers:
+      # Application traces (demo agent and tool server).
+      otlp/apps:
+        protocols:
+          http:
+            endpoint: 0.0.0.0:4318
+      # Effect graphs exported by EffectTrace, kept in a separate pipeline
+      # so they are not sent back to EffectTrace.
+      otlp/graphs:
+        protocols:
+          http:
+            endpoint: 0.0.0.0:4319
+    processors:
+      batch:
+        timeout: 500ms
+    exporters:
+      otlp_http/effecttrace:
+        endpoint: http://effecttrace.effecttrace-system.svc:4318
+        compression: gzip
+      debug:
+        verbosity: basic
+    service:
+      pipelines:
+        traces/apps:
+          receivers: [otlp/apps]
+          processors: [batch]
+          exporters: [otlp_http/effecttrace]
+        traces/graphs:
+          receivers: [otlp/graphs]
+          processors: [batch]
+          exporters: [debug]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: otel-collector
+  namespace: observability
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: otel-collector }
+  template:
+    metadata:
+      labels: { app: otel-collector }
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        seccompProfile: { type: RuntimeDefault }
+      containers:
+        - name: otelcol
+          image: docker.io/otel/opentelemetry-collector:0.162.0@sha256:ef772ad07ca455ad83fabbf3da792f0f298a3d41a08e9099367364c0d1349801
+          args: ["--config=/etc/otelcol/config.yaml"]
+          ports:
+            - { name: otlp-apps, containerPort: 4318 }
+            - { name: otlp-graphs, containerPort: 4319 }
+          resources:
+            requests: { cpu: 20m, memory: 64Mi }
+            limits: { cpu: 500m, memory: 256Mi }
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: { drop: ["ALL"] }
+          volumeMounts:
+            - { name: config, mountPath: /etc/otelcol, readOnly: true }
+      volumes:
+        - name: config
+          configMap: { name: otel-collector }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: otel-collector
+  namespace: observability
+spec:
+  type: NodePort
+  selector: { app: otel-collector }
+  ports:
+    - { name: otlp-apps, port: 4318, targetPort: otlp-apps, nodePort: 30318 }
+    - { name: otlp-graphs, port: 4319, targetPort: otlp-graphs }
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: prometheus
+  namespace: observability
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: prometheus-discovery
+  namespace: shop
+rules:
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: prometheus-discovery
+  namespace: shop
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: prometheus-discovery
+subjects:
+  - kind: ServiceAccount
+    name: prometheus
+    namespace: observability
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus
+  namespace: observability
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 2s
+      evaluation_interval: 2s
+    scrape_configs:
+      - job_name: shop-pods
+        kubernetes_sd_configs:
+          - role: pod
+            namespaces:
+              names: [shop]
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+            action: keep
+            regex: "true"
+          - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+            action: replace
+            regex: ([^:]+)(?::\d+)?;(\d+)
+            replacement: $1:$2
+            target_label: __address__
+          - source_labels: [__meta_kubernetes_namespace]
+            target_label: namespace
+          - source_labels: [__meta_kubernetes_pod_name]
+            target_label: pod
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus
+  namespace: observability
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: prometheus }
+  template:
+    metadata:
+      labels: { app: prometheus }
+    spec:
+      serviceAccountName: prometheus
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        fsGroup: 65534
+        seccompProfile: { type: RuntimeDefault }
+      containers:
+        - name: prometheus
+          image: docker.io/prom/prometheus:v3.15.0@sha256:6b41f7a45cfbd1d259a78701ee5e14fc2ad9383c9aa5d0427345a18539bc3c91
+          args:
+            - --config.file=/etc/prometheus/prometheus.yml
+            - --storage.tsdb.path=/prometheus
+            - --storage.tsdb.retention.time=6h
+          ports:
+            - { name: web, containerPort: 9090 }
+          readinessProbe:
+            httpGet: { path: /-/ready, port: web }
+          resources:
+            requests: { cpu: 50m, memory: 128Mi }
+            limits: { cpu: "1", memory: 768Mi }
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: { drop: ["ALL"] }
+          volumeMounts:
+            - { name: config, mountPath: /etc/prometheus, readOnly: true }
+            - { name: data, mountPath: /prometheus }
+      volumes:
+        - name: config
+          configMap: { name: prometheus }
+        - name: data
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus
+  namespace: observability
+spec:
+  type: NodePort
+  selector: { app: prometheus }
+  ports:
+    - { name: web, port: 9090, targetPort: web, nodePort: 30090 }

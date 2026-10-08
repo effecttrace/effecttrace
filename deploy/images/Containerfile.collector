@@ -1,0 +1,8 @@
+# EffectTrace collector and CLI. Binaries are built statically by
+# `make images` (CGO_ENABLED=0) and copied into an empty base image.
+FROM scratch
+ARG TARGETARCH
+COPY bin/linux-${TARGETARCH}/effecttrace-collector /effecttrace-collector
+COPY bin/linux-${TARGETARCH}/effecttrace /effecttrace
+USER 65532:65532
+ENTRYPOINT ["/effecttrace-collector"]

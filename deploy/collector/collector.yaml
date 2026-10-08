@@ -1,0 +1,168 @@
+# EffectTrace collector — OBSERVER deployment.
+#
+# Least privilege: the collector only gets, lists and watches workload
+# objects, Pods, Services and Events. It cannot read ConfigMaps or Secrets
+# and has no mutation rights. Compare deploy/lab/demo-actor.yaml, which holds
+# the (separate, namespace-scoped) mutation rights of the demo tool server.
+#
+# Audit log access: kube-apiserver writes the audit log as root with mode
+# 0600. The collector therefore runs as UID 0 but with every Linux capability
+# dropped, no privilege escalation and a read-only root filesystem, and it
+# mounts only the audit log directory, read-only. It must run on the node
+# that hosts kube-apiserver. See docs/deployment.md for alternatives.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: effecttrace-system
+  labels:
+    pod-security.kubernetes.io/enforce: privileged
+    pod-security.kubernetes.io/warn: baseline
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: effecttrace-collector
+  namespace: effecttrace-system
+automountServiceAccountToken: true
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: effecttrace-observer
+rules:
+  - apiGroups: ["apps"]
+    resources: ["deployments", "replicasets", "statefulsets", "daemonsets"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["batch"]
+    resources: ["jobs"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["pods", "services", "events"]
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: effecttrace-observer
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: effecttrace-observer
+subjects:
+  - kind: ServiceAccount
+    name: effecttrace-collector
+    namespace: effecttrace-system
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: effecttrace-signals
+  namespace: effecttrace-system
+data:
+  signals.yaml: |
+    # Telemetry signals evaluated for every action. $namespace and $workload
+    # are replaced with validated Kubernetes names. A change becomes a
+    # TEMPORAL_CORRELATION edge only; it is never presented as causation.
+    signals:
+      - name: http_error_ratio
+        unit: ratio
+        query: >-
+          sum(rate(shop_http_requests_total{namespace="$namespace",service="$workload",code=~"5.."}[10s]))
+          / clamp_min(sum(rate(shop_http_requests_total{namespace="$namespace",service="$workload"}[10s])), 0.001)
+        absThreshold: 0.02
+        relThreshold: 1.0
+        reduce: max
+      - name: http_p99_latency
+        unit: seconds
+        query: >-
+          histogram_quantile(0.99, sum by (le) (rate(shop_http_request_duration_seconds_bucket{namespace="$namespace",service="$workload"}[10s])))
+        absThreshold: 0.03
+        relThreshold: 0.5
+        reduce: max
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: effecttrace-collector
+  namespace: effecttrace-system
+  labels: { app.kubernetes.io/name: effecttrace-collector }
+spec:
+  replicas: 1
+  strategy: { type: Recreate }
+  selector:
+    matchLabels: { app.kubernetes.io/name: effecttrace-collector }
+  template:
+    metadata:
+      labels: { app.kubernetes.io/name: effecttrace-collector }
+    spec:
+      serviceAccountName: effecttrace-collector
+      nodeSelector:
+        node-role.kubernetes.io/control-plane: ""
+      tolerations:
+        - key: node-role.kubernetes.io/control-plane
+          operator: Exists
+          effect: NoSchedule
+      securityContext:
+        seccompProfile: { type: RuntimeDefault }
+      containers:
+        - name: collector
+          image: localhost/effecttrace/collector:dev
+          imagePullPolicy: IfNotPresent
+          args:
+            - --api-listen=:8080
+            - --otlp-listen=:4318
+            - --audit-log=/var/log/kubernetes/audit/audit.log
+            - --kube=in-cluster
+            - --prometheus-url=http://prometheus.observability.svc:9090
+            - --signals=/etc/effecttrace/signals.yaml
+            - --record=/var/lib/effecttrace/recording.jsonl
+            - --otlp-export-endpoint=otel-collector.observability.svc:4319
+            - --otlp-export-insecure
+            # Lab value: caps the window of a rollout that never stabilizes
+            # (default 3m) so failed-rollout experiments finish sooner.
+            - --max-reconcile=90s
+          env:
+            - name: EFFECTTRACE_IDENTITY_KEY
+              valueFrom:
+                secretKeyRef: { name: effecttrace-identity, key: key, optional: true }
+          ports:
+            - { name: api, containerPort: 8080 }
+            - { name: otlp-http, containerPort: 4318 }
+          readinessProbe:
+            httpGet: { path: /readyz, port: api }
+            periodSeconds: 2
+          livenessProbe:
+            httpGet: { path: /healthz, port: api }
+            periodSeconds: 10
+          resources:
+            requests: { cpu: 50m, memory: 64Mi }
+            limits: { cpu: "1", memory: 512Mi }
+          securityContext:
+            runAsUser: 0
+            runAsNonRoot: false
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: { drop: ["ALL"] }
+          volumeMounts:
+            - { name: audit, mountPath: /var/log/kubernetes/audit, readOnly: true }
+            - { name: signals, mountPath: /etc/effecttrace, readOnly: true }
+            - { name: recording, mountPath: /var/lib/effecttrace }
+      volumes:
+        - name: audit
+          hostPath: { path: /var/log/kubernetes/audit, type: Directory }
+        - name: signals
+          configMap: { name: effecttrace-signals }
+        - name: recording
+          hostPath: { path: /var/lib/effecttrace-lab, type: DirectoryOrCreate }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: effecttrace
+  namespace: effecttrace-system
+spec:
+  type: NodePort
+  selector: { app.kubernetes.io/name: effecttrace-collector }
+  ports:
+    - { name: api, port: 8080, targetPort: api, nodePort: 30080 }
+    - { name: otlp-http, port: 4318, targetPort: otlp-http }

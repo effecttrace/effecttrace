@@ -1,0 +1,98 @@
+# Demo ACTOR: the MCP tool server that performs mutations on behalf of the
+# scripted agent. Its rights are limited to the shop namespace and to the
+# verbs its tools need. These rights are separate from the read-only
+# EffectTrace observer (deploy/collector/collector.yaml).
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: effecttrace-demo
+  labels:
+    pod-security.kubernetes.io/enforce: restricted
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: demo-actor
+  namespace: effecttrace-demo
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: demo-actor
+  namespace: shop
+rules:
+  - apiGroups: ["apps"]
+    resources: ["deployments", "deployments/scale"]
+    verbs: ["get", "patch"]
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "delete"]
+  - apiGroups: [""]
+    resources: ["configmaps", "services"]
+    verbs: ["get", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: demo-actor
+  namespace: shop
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: demo-actor
+subjects:
+  - kind: ServiceAccount
+    name: demo-actor
+    namespace: effecttrace-demo
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mcp-tools
+  namespace: effecttrace-demo
+  labels: { app: mcp-tools }
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: mcp-tools }
+  template:
+    metadata:
+      labels: { app: mcp-tools }
+    spec:
+      serviceAccountName: demo-actor
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        seccompProfile: { type: RuntimeDefault }
+      containers:
+        - name: mcp-tools
+          image: localhost/effecttrace/demo:dev
+          imagePullPolicy: IfNotPresent
+          command: ["/mcp-tools"]
+          env:
+            - { name: ALLOWED_NAMESPACES, value: shop }
+            - { name: OTEL_EXPORTER_OTLP_ENDPOINT, value: "http://otel-collector.observability.svc:4318" }
+            - { name: UNINSTRUMENTED_KUBERNETES_CLIENT, value: "false" }
+          ports:
+            - { name: http, containerPort: 8080 }
+          readinessProbe:
+            httpGet: { path: /healthz, port: http }
+            periodSeconds: 2
+          resources:
+            requests: { cpu: 10m, memory: 32Mi }
+            limits: { cpu: 500m, memory: 128Mi }
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: { drop: ["ALL"] }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mcp-tools
+  namespace: effecttrace-demo
+spec:
+  type: NodePort
+  selector: { app: mcp-tools }
+  ports:
+    - { name: http, port: 8080, targetPort: http, nodePort: 30081 }

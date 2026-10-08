@@ -1,0 +1,7 @@
+# Demo workload (shopsim) and demo MCP tool server. Not part of EffectTrace.
+FROM scratch
+ARG TARGETARCH
+COPY bin/linux-${TARGETARCH}/shopsim /shopsim
+COPY bin/linux-${TARGETARCH}/mcp-tools /mcp-tools
+USER 65532:65532
+ENTRYPOINT ["/shopsim"]

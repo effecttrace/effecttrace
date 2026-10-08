@@ -1,0 +1,26 @@
+# Audit policy for the EffectTrace lab.
+#
+# Privacy: the most detailed level used is Metadata. Request and response
+# bodies (including Secret and ConfigMap contents) are never written.
+# Reads (get, list, watch) and high-volume internal writes are not audited,
+# because EffectTrace only needs mutations.
+apiVersion: audit.k8s.io/v1
+kind: Policy
+omitStages:
+  - RequestReceived
+rules:
+  - level: None
+    verbs: ["get", "list", "watch"]
+  - level: None
+    resources:
+      - group: "coordination.k8s.io"
+        resources: ["leases"]
+      - group: ""
+        resources: ["events"]
+      - group: "events.k8s.io"
+        resources: ["events"]
+  - level: None
+    users: ["system:kube-proxy"]
+  - level: None
+    nonResourceURLs: ["/healthz*", "/readyz*", "/livez*", "/version", "/metrics"]
+  - level: Metadata
