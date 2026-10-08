@@ -1,0 +1,18 @@
+# Local tool binaries and build output
+/.bin/
+/bin/
+/dist/
+/.lab/
+*.test
+*.out
+coverage.*
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
+# Never commit local kubeconfigs or env files
+kubeconfig*
+*.kubeconfig
+.env
+.env.*
+*.log
