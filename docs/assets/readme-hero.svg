@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="420" viewBox="0 0 900 420" role="img" aria-labelledby="hero-title hero-desc">
+<title id="hero-title">EffectTrace: trace the effect, not just the call</title>
+<desc id="hero-desc">Left to right. AGENT ACTS: an MCP tools/call restart_workload for shop/checkout, carrying trace context. EFFECTTRACE GRADES: the EffectTrace mark observes the action. KUBERNETES EFFECTS: a solid green DIRECT edge reaches Deployment shop/checkout (generation 3 to 4); solid teal STRUCTURAL edges reach the new ReplicaSet checkout-8554d95446 and its 3 Pods (3/3 ready); a dotted amber TEMPORAL edge reaches a p99 latency card (50ms to 149ms, correlation only). A grey card, Deployment shop/payments scaled by kubectl at the same time, stays disconnected and is tagged EXCLUDED. Footer: Evidence, not guesses. Correlation is not causation.</desc>
+<style>
+.sans{font-family:ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif}
+.mono{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace}
+.pre{white-space:pre}
+@media (prefers-reduced-motion: reduce){*{animation:none !important}}</style>
+<defs>
+<pattern id="hero-grid" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.1" fill="#e2e8f1"/></pattern>
+<linearGradient id="hero-bgg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#eef2f8"/><stop offset="1" stop-color="#f6f8fb"/></linearGradient>
+<radialGradient id="hero-vig" cx="50%" cy="0%" r="80%"><stop offset="0" stop-color="#086f79" stop-opacity=".06"/><stop offset="1" stop-color="#086f79" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="900" height="420" rx="16" fill="url(#hero-bgg)"/>
+<rect width="900" height="420" rx="16" fill="url(#hero-grid)" opacity=".9"/>
+<rect width="900" height="420" rx="16" fill="url(#hero-vig)"/>
+<rect x=".5" y=".5" width="899" height="419" rx="15.5" fill="none" stroke="#d3dbe7"/>
+<defs>
+<marker id="hero-ar-086f79" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#086f79"/></marker>
+<marker id="hero-ar-0a5fc8" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#0a5fc8"/></marker>
+<marker id="hero-ar-17782f" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#17782f"/></marker>
+<marker id="hero-ar-4d5b6e" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#4d5b6e"/></marker>
+<marker id="hero-ar-59636e" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#59636e"/></marker>
+<marker id="hero-ar-68717b" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#68717b"/></marker>
+<marker id="hero-ar-7a46d6" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#7a46d6"/></marker>
+<marker id="hero-ar-8a5a00" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#8a5a00"/></marker>
+<marker id="hero-ar-b4c0d1" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#b4c0d1"/></marker>
+<marker id="hero-ar-b8c2d0" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#b8c2d0"/></marker>
+</defs>
+<defs><radialGradient id="hero-lens" cx="50%" cy="50%" r="50%">
+<stop offset="0" stop-color="#086f79" stop-opacity=".16"/><stop offset=".6" stop-color="#086f79" stop-opacity=".06"/><stop offset="1" stop-color="#086f79" stop-opacity="0"/></radialGradient></defs>
+<text x="28" y="44" class="mono" font-size="10" fill="#4d5b6e" font-weight="700" letter-spacing=".16em">AGENT · ACTS</text>
+<text x="340" y="44" class="mono" font-size="10" fill="#086f79" font-weight="700" text-anchor="middle" letter-spacing=".16em">EFFECTTRACE · GRADES</text>
+<text x="456" y="44" class="mono" font-size="10" fill="#17782f" font-weight="700" letter-spacing=".16em">KUBERNETES · EFFECTS</text>
+<path d="M28 56 h212 M262 56 h156 M456 56 h420" stroke="#d3dbe7" stroke-dasharray="2 4"/>
+<rect x="28" y="103" width="212" height="156" rx="10" fill="#1f2a3c" opacity=".07"/>
+<rect x="28" y="100" width="212" height="156" rx="10" fill="#ffffff" stroke="#d3dbe7" />
+<path d="M29.5 110 a8.5 8.5 0 0 1 8.5 -8.5 h0 M28 100" fill="none"/>
+<rect x="29" y="108" width="3" height="140" rx="1.5" fill="#0a5fc8"/>
+<text x="44" y="124" class="mono" font-size="9.5" fill="#4d5b6e" font-weight="700" letter-spacing=".06em">MCP · tools/call</text>
+<circle cx="224" cy="120" r="4" fill="#0a5fc8" class=""/>
+<text x="44" y="148" class="mono" font-size="15" fill="#0d1726" font-weight="700">restart_workload</text>
+<text x="44" y="166" class="mono" font-size="11" fill="#4d5b6e">(shop/checkout)</text>
+<path d="M44 182 h180" stroke="#d3dbe7"/>
+<text x="44" y="202" class="mono" font-size="10.5" fill="#0a5fc8" font-weight="700">trace c24460b7…</text>
+<text x="44" y="220" class="mono" font-size="9" fill="#4d5b6e">traceparent in params._meta</text>
+<text x="44" y="238" class="mono" font-size="9" fill="#4d5b6e">actor mcp-client:demo-agent</text>
+<rect x="28" y="272" width="212" height="34" rx="10" fill="#f1f5fa" stroke="#d3dbe7" stroke-dasharray="3 3" />
+<text x="42" y="293" class="mono" font-size="9.5" fill="#4d5b6e">also: kubectl via audit log</text>
+<circle cx="340" cy="186" r="118" fill="url(#hero-lens)" class=""/>
+<circle cx="340" cy="186" r="64" fill="#ffffff" fill-opacity=".72" stroke="#086f79" stroke-opacity=".45"/>
+<g transform="translate(293.6 139.6) scale(1.45)">
+<path d="M13 32 C 22 32 22.5 15 32 15 H 46" fill="none" stroke="#17782f" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M13 32 H 46" fill="none" stroke="#086f79" stroke-width="4.6" stroke-linecap="round"/>
+<path d="M13 32 C 22 32 22.5 49 32 49 H 46" fill="none" stroke="#8a5a00" stroke-width="4.6" stroke-linecap="round" stroke-dasharray="0.01 7.4" class=""/>
+<circle cx="52" cy="15" r="5" fill="#17782f"/>
+<circle cx="52" cy="32" r="5" fill="#086f79"/>
+<circle cx="52" cy="49" r="4" fill="none" stroke="#8a5a00" stroke-width="2.4"/>
+<circle cx="13" cy="32" r="6.4" fill="#0d1726"/>
+</g>
+<g transform="translate(291.4 288)"><path d="M10.3 0V-2.22H4.07V-5.6H9.58V-7.83H4.07V-11.04H10.3V-13.26H1.56V0ZM13.07 0H15.5V-8H17.54V-9.92H15.5V-12.12H17.54V-14.06H15.81C14.02 -14.06 13.07 -13.09 13.07 -11.34V-9.92H11.61V-8H13.07ZM19.49 0H21.93V-8H23.96V-9.92H21.93V-12.12H23.96V-14.06H22.23C20.44 -14.06 19.49 -13.09 19.49 -11.34V-9.92H18.03V-8H19.49ZM29.43 0.23C31.27 0.23 32.72 -0.47 33.54 -1.6L32.22 -3.06C31.62 -2.28 30.89 -1.71 29.7 -1.71C28.1 -1.71 27.28 -2.68 27.28 -4.1V-4.35H33.88V-5.15C33.88 -7.87 32.45 -10.15 29.36 -10.15C26.45 -10.15 24.76 -8.11 24.76 -4.98C24.76 -1.8 26.51 0.23 29.43 0.23ZM29.39 -8.32C30.65 -8.32 31.35 -7.39 31.35 -6.02V-5.85H27.28V-6C27.28 -7.37 28.12 -8.32 29.39 -8.32ZM39.71 0.23C41.63 0.23 43.02 -0.65 43.66 -2.39L41.8 -3.29C41.44 -2.39 40.87 -1.73 39.71 -1.73C38.36 -1.73 37.68 -2.66 37.68 -4.05V-5.85C37.68 -7.24 38.36 -8.19 39.71 -8.19C40.76 -8.19 41.38 -7.58 41.61 -6.75L43.61 -7.64C43.02 -9.2 41.7 -10.15 39.71 -10.15C36.78 -10.15 35.13 -8.15 35.13 -4.98C35.13 -1.79 36.78 0.23 39.71 0.23ZM48.41 0H50.16V-1.94H48.28V-7.98H50.31V-9.92H48.28V-12.63H46.09V-10.94C46.09 -10.26 45.87 -9.92 45.14 -9.92H44.38V-7.98H45.85V-2.53C45.85 -0.91 46.74 0 48.41 0Z" fill="#0d1726"/><path d="M61.43 -11.86V-13.26H51.39V-11.86H55.61V0H57.21V-11.86ZM64.09 0V-6.65C64.09 -7.58 65.08 -8.28 66.71 -8.28H67.6V-9.8H67.01C65.42 -9.8 64.52 -8.93 64.18 -8H64.09V-9.8H62.57V0ZM77.29 0V-1.33H76.17V-6.73C76.17 -8.8 74.77 -10.03 72.41 -10.03C70.64 -10.03 69.46 -9.16 68.93 -8.11L69.84 -7.26C70.38 -8.15 71.16 -8.72 72.33 -8.72C73.89 -8.72 74.65 -7.96 74.65 -6.57V-5.6H72.71C69.86 -5.6 68.53 -4.58 68.53 -2.74C68.53 -0.91 69.75 0.23 71.82 0.23C73.19 0.23 74.23 -0.4 74.65 -1.6H74.75C74.86 -0.68 75.32 0 76.44 0ZM72.07 -1.06C70.89 -1.06 70.13 -1.61 70.13 -2.58V-2.98C70.13 -3.93 70.91 -4.46 72.64 -4.46H74.65V-2.85C74.65 -1.84 73.57 -1.06 72.07 -1.06ZM82.88 0.23C84.74 0.23 86.01 -0.68 86.64 -2.09L85.54 -2.83C85.01 -1.71 84.11 -1.12 82.88 -1.12C81.07 -1.12 80.14 -2.36 80.14 -4.07V-5.74C80.14 -7.45 81.07 -8.68 82.88 -8.68C84.08 -8.68 84.91 -8.09 85.27 -7.09L86.55 -7.73C85.98 -9.08 84.82 -10.03 82.88 -10.03C80.12 -10.03 78.51 -8.04 78.51 -4.9C78.51 -1.77 80.12 0.23 82.88 0.23ZM92.25 0.23C94.09 0.23 95.49 -0.68 96.12 -2.01L95.04 -2.79C94.53 -1.71 93.58 -1.1 92.34 -1.1C90.52 -1.1 89.43 -2.38 89.43 -4.07V-4.52H96.48V-5.24C96.48 -8.02 94.87 -10.03 92.25 -10.03C89.59 -10.03 87.84 -8.02 87.84 -4.9C87.84 -1.79 89.59 0.23 92.25 0.23ZM92.25 -8.76C93.8 -8.76 94.85 -7.6 94.85 -5.87V-5.66H89.43V-5.79C89.43 -7.5 90.59 -8.76 92.25 -8.76Z" fill="#086f79"/></g>
+<text x="340" y="308" class="mono" font-size="8.5" fill="#4d5b6e" font-weight="700" text-anchor="middle" letter-spacing=".12em">EVIDENCE-GRADED EFFECT GRAPH</text>
+<path d="M240 178 C 262 178, 268 186, 298.5 186" fill="none" stroke="#b4c0d1" stroke-width="1.6" stroke-linecap="round" opacity="1" marker-end="url(#hero-ar-b4c0d1)"/>
+<g>
+<rect x="456" y="95" width="184" height="56" rx="10" fill="#1f2a3c" opacity=".07"/>
+<rect x="456" y="92" width="184" height="56" rx="10" fill="#ffffff" stroke="#d3dbe7" />
+<text x="468" y="111.0" class="mono" font-size="8.5" fill="#4d5b6e" font-weight="700" letter-spacing=".14em">DEPLOYMENT</text>
+<text x="468" y="126.0" class="mono" font-size="12.5" fill="#0d1726" font-weight="700">shop/checkout</text>
+<text x="468" y="139.0" class="mono" font-size="9.5" fill="#4d5b6e">generation 3 → 4</text>
+</g>
+<path d="M380.2 161.3 C 416.2 161.3, 420 120, 453 120" fill="none" stroke="#17782f" stroke-width="2" stroke-linecap="round" opacity="1" marker-end="url(#hero-ar-17782f)"/>
+<g><rect x="389.6" y="137.8" width="48.8" height="16.5" rx="8.25" fill="#eaf3ec" stroke="#17782f" stroke-opacity=".55"/><text x="414" y="149.1" text-anchor="middle" class="mono" font-size="8.5" font-weight="700" letter-spacing=".08em" fill="#17782f">DIRECT</text></g>
+<g>
+<rect x="716" y="95" width="160" height="56" rx="10" fill="#1f2a3c" opacity=".07"/>
+<rect x="716" y="92" width="160" height="56" rx="10" fill="#ffffff" stroke="#d3dbe7" />
+<text x="728" y="111.0" class="mono" font-size="8.5" fill="#4d5b6e" font-weight="700" letter-spacing=".14em">PROMETHEUS</text>
+<text x="728" y="126.0" class="mono" font-size="12.5" fill="#0d1726" font-weight="700">p99 latency</text>
+<text x="728" y="139.0" class="mono" font-size="9.5" fill="#8a5a00">checkout 50ms → 149ms</text>
+</g>
+<path d="M826 116 l6 0 l5 -1 l5 1 l5 -9 l5 4 l6 1 l6 0" fill="none" stroke="#8a5a00" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M642 120 H 713" fill="none" stroke="#8a5a00" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="0.1 6" opacity="1" class="" marker-end="url(#hero-ar-8a5a00)"/>
+<g><rect x="647.8" y="111.8" width="60.4" height="16.5" rx="8.25" fill="#f4f0e8" stroke="#8a5a00" stroke-opacity=".55" stroke-dasharray="2.5 2.5"/><text x="678" y="123.1" text-anchor="middle" class="mono" font-size="8.5" font-weight="700" letter-spacing=".08em" fill="#8a5a00">TEMPORAL</text></g>
+<text x="796" y="166" class="mono" font-size="9" fill="#8a5a00" text-anchor="middle" letter-spacing=".04em">correlation only</text>
+<g>
+<rect x="520" y="189" width="200" height="56" rx="10" fill="#1f2a3c" opacity=".07"/>
+<rect x="520" y="186" width="200" height="56" rx="10" fill="#ffffff" stroke="#d3dbe7" />
+<text x="532" y="205.0" class="mono" font-size="8.5" fill="#4d5b6e" font-weight="700" letter-spacing=".14em">REPLICASET</text>
+<text x="532" y="220.0" class="mono" font-size="12.5" fill="#0d1726" font-weight="700">checkout-8554d95446</text>
+<text x="532" y="233.0" class="mono" font-size="9.5" fill="#4d5b6e">created</text>
+</g>
+<path d="M496 148 V 200 Q 496 214 510 214 H 517" fill="none" stroke="#086f79" stroke-width="2" stroke-linecap="round" opacity="1" marker-end="url(#hero-ar-086f79)"/>
+<g><rect x="460.0" y="161.8" width="72.0" height="16.5" rx="8.25" fill="#e9f2f3" stroke="#086f79" stroke-opacity=".55"/><text x="496" y="173.1" text-anchor="middle" class="mono" font-size="8.5" font-weight="700" letter-spacing=".08em" fill="#086f79">STRUCTURAL</text></g>
+<g>
+<rect x="600" y="285" width="222" height="58" rx="10" fill="#1f2a3c" opacity=".07"/>
+<rect x="600" y="282" width="222" height="58" rx="10" fill="#ffffff" stroke="#d3dbe7" />
+<text x="612" y="302" class="mono" font-size="8.5" fill="#4d5b6e" font-weight="700" letter-spacing=".14em">PODS</text>
+<g class="" style=""><rect x="612" y="310" width="13" height="13" rx="3.5" fill="#086f79" fill-opacity=".22" stroke="#086f79"/><path d="M615.5 316.5 l2.5 2.5 l4 -5" fill="none" stroke="#086f79" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></g>
+<g class="" style=""><rect x="630" y="310" width="13" height="13" rx="3.5" fill="#086f79" fill-opacity=".22" stroke="#086f79"/><path d="M633.5 316.5 l2.5 2.5 l4 -5" fill="none" stroke="#086f79" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></g>
+<g class="" style=""><rect x="648" y="310" width="13" height="13" rx="3.5" fill="#086f79" fill-opacity=".22" stroke="#086f79"/><path d="M651.5 316.5 l2.5 2.5 l4 -5" fill="none" stroke="#086f79" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></g>
+<text x="672" y="321" class="mono" font-size="10" fill="#0d1726" font-weight="700">3 created · 3/3 ready</text>
+</g>
+<path d="M560 242 V 297 Q 560 311 574 311 H 597" fill="none" stroke="#086f79" stroke-width="2" stroke-linecap="round" opacity="1" marker-end="url(#hero-ar-086f79)"/>
+<g><rect x="524.0" y="255.8" width="72.0" height="16.5" rx="8.25" fill="#e9f2f3" stroke="#086f79" stroke-opacity=".55"/><text x="560" y="267.1" text-anchor="middle" class="mono" font-size="8.5" font-weight="700" letter-spacing=".08em" fill="#086f79">STRUCTURAL</text></g>
+<g class="" style="">
+<rect x="392" y="330" width="182" height="54" rx="10" fill="#f1f5fa" stroke="#b8c2d0" stroke-dasharray="4 3" />
+<text x="404" y="348" class="mono" font-size="8.5" fill="#59636e" font-weight="700" letter-spacing=".14em">DEPLOYMENT</text>
+<text x="404" y="364" class="mono" font-size="12" fill="#59636e" font-weight="700">shop/payments</text>
+<text x="404" y="377" class="mono" font-size="9" fill="#59636e">kubectl scale · same moment</text>
+<g><rect x="509.2" y="322.0" width="57.6" height="16" rx="8.0" fill="#f0f1f2" stroke="#59636e" stroke-opacity=".55"/><text x="538" y="332.9" text-anchor="middle" class="mono" font-size="8" font-weight="700" letter-spacing=".08em" fill="#59636e">EXCLUDED</text></g>
+</g>
+<path d="M370 244 q 14 22 32 44" fill="none" stroke="#b8c2d0" stroke-width="1.4" stroke-dasharray="1 4" stroke-linecap="round" opacity=".0"/>
+<path d="M28 398 h844" stroke="#d3dbe7" opacity=".0"/>
+<text x="450.0" y="406" class="mono" font-size="10" fill="#4d5b6e" font-weight="700" text-anchor="middle" letter-spacing=".18em">EVIDENCE, NOT GUESSES · CORRELATION IS NOT CAUSATION</text>
+</svg>

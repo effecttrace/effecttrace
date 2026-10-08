@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="470" viewBox="0 0 900 470" role="img" aria-labelledby="wn-title wn-desc">
+<title id="wn-title">EffectTrace observation windows</title>
+<desc id="wn-desc">Observation windows on a timeline. Baseline window: 60 seconds before the action. The request marks time zero. Reconcile window: from the request until the Deployment reports a stable status plus a 5 second settle, capped if it never stabilizes. Telemetry window: the reconcile window plus 15 seconds. A p99 latency curve rises inside the telemetry window and is marked TEMPORAL_CORRELATION, observed during the window, not proven causal. A later spike after the window is marked outside window, not attached.</desc>
+<style>
+.sans{font-family:ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif}
+.mono{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace}
+.pre{white-space:pre}
+@keyframes comet{0%{stroke-dashoffset:8;opacity:0}12%{opacity:1}88%{opacity:1}100%{stroke-dashoffset:-92;opacity:0}}
+@keyframes dots{to{stroke-dashoffset:-18}}
+@keyframes breathe{0%,100%{opacity:.55}50%{opacity:1}}
+@keyframes halo{0%,100%{opacity:.35}50%{opacity:.85}}
+@keyframes ring{0%{opacity:.55;transform:scale(.85)}80%,100%{opacity:0;transform:scale(1.55)}}
+@keyframes popin{0%{opacity:0;transform:translateY(6px)}100%{opacity:1;transform:translateY(0)}}
+@keyframes fadein{0%{opacity:0}100%{opacity:1}}
+@keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+.comet{stroke-dasharray:8 92;stroke-dashoffset:8;opacity:0;animation:comet 3.2s cubic-bezier(.45,.05,.55,.95) infinite}
+.dots{animation:dots 1.4s linear infinite}
+@keyframes dotsm{to{stroke-dashoffset:-14.82}}
+.dots-mark{animation:dotsm 1.6s linear infinite}
+.breathe{animation:breathe 3.6s ease-in-out infinite}
+.halo{animation:halo 4.8s ease-in-out infinite}
+.ring{transform-box:fill-box;transform-origin:center;animation:ring 3.2s ease-out infinite}
+.pop{transform-box:fill-box;animation:popin .7s cubic-bezier(.2,.7,.2,1) both}
+.fade{animation:fadein .5s ease-out both}
+@media (prefers-reduced-motion: reduce){*{animation:none !important}.comet{opacity:0}}
+</style>
+<defs>
+<pattern id="wn-grid" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.1" fill="#1b2536"/></pattern>
+<linearGradient id="wn-bgg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0e1522"/><stop offset="1" stop-color="#0b0f17"/></linearGradient>
+<radialGradient id="wn-vig" cx="50%" cy="0%" r="80%"><stop offset="0" stop-color="#39c5cf" stop-opacity=".10"/><stop offset="1" stop-color="#39c5cf" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="900" height="470" rx="16" fill="url(#wn-bgg)"/>
+<rect width="900" height="470" rx="16" fill="url(#wn-grid)" opacity=".9"/>
+<rect width="900" height="470" rx="16" fill="url(#wn-vig)"/>
+<rect x=".5" y=".5" width="899" height="469" rx="15.5" fill="none" stroke="#27344b"/>
+<text x="28" y="40" class="mono" font-size="10" fill="#39c5cf" font-weight="700" letter-spacing=".16em">OBSERVATION WINDOWS</text>
+<text x="28" y="66" class="sans" font-size="20" fill="#e6edf3" font-weight="700" letter-spacing="-.01em">When a change counts — and when it does not</text>
+<text x="28" y="86" class="sans" font-size="12.5" fill="#9aa7b8">Windows are derived from the action itself, not from a fixed lookback.</text>
+<rect x="100" y="120" width="200" height="160" fill="#9aa7b8" opacity=".06"/>
+<rect x="300.0" y="120" width="352.79999999999995" height="160" fill="#d29922" opacity=".07"/>
+<path d="M300.0 120 V 280" stroke="#27344b" stroke-dasharray="2 4"/>
+<path d="M420.0 120 V 280" stroke="#27344b" stroke-dasharray="2 4"/>
+<path d="M540.0 120 V 280" stroke="#27344b" stroke-dasharray="2 4"/>
+<path d="M660.0 120 V 280" stroke="#27344b" stroke-dasharray="2 4"/>
+<path d="M780.0 120 V 280" stroke="#27344b" stroke-dasharray="2 4"/>
+<path d="M100 262 H 872" stroke="#9aa7b8" stroke-dasharray="4 4" opacity=".55"/>
+<text x="106" y="277" class="mono" font-size="9" fill="#9aa7b8">baseline 50ms</text>
+<text x="106" y="112" class="mono" font-size="9.5" fill="#e6edf3" font-weight="700">http_p99_latency · checkout</text>
+<path d="M100.0 263.3 L103.3 259.2 L106.7 257.7 L110.0 264.7 L113.3 267.3 L116.7 261.9 L120.0 261.7 L123.3 266.3 L126.7 263.1 L130.0 256.4 L133.3 258.7 L136.7 263.5 L140.0 260.4 L143.3 258.4 L146.7 264.9 L150.0 268.0 L153.3 262.3 L156.7 260.7 L160.0 265.1 L163.3 262.8 L166.7 256.1 L170.0 258.2 L173.3 263.9 L176.7 261.7 L180.0 259.1 L183.3 264.9 L186.7 268.3 L190.0 262.4 L193.3 259.6 L196.7 263.9 L200.0 262.7 L203.3 256.2 L206.7 257.9 L210.0 264.4 L213.3 263.1 L216.7 259.8 L220.0 264.7 L223.3 268.3 L226.7 262.4 L230.0 258.5 L233.3 262.7 L236.7 262.6 L240.0 256.6 L243.3 257.9 L246.7 265.0 L250.0 264.5 L253.3 260.4 L256.7 264.2 L260.0 268.0 L263.3 262.2 L266.7 257.5 L270.0 261.5 L273.3 262.8 L276.7 257.3 L280.0 258.1 L283.3 265.5 L286.7 265.7 L290.0 260.9 L293.3 263.4 L296.7 267.3 L300.0 262.0 L300.0 262.0 L306.0 258.3 L312.0 256.6 L318.0 257.7 L324.0 260.5 L330.0 262.6 L336.0 262.5 L342.0 260.0 L348.0 256.2 L354.0 253.2 L360.0 251.8 L366.0 250.9 L372.0 248.1 L378.0 240.7 L384.0 227.8 L390.0 210.4 L396.0 191.3 L402.0 173.6 L408.0 159.1 L414.0 148.4 L420.0 140.9 L426.0 136.5 L432.0 136.2 L438.0 141.3 L444.0 152.7 L450.0 169.8 L456.0 189.9 L462.0 209.2 L468.0 224.7 L474.0 235.1 L480.0 241.7 L486.0 246.8 L492.0 252.3 L498.0 258.5 L504.0 264.0 L510.0 267.1 L516.0 266.9 L522.0 264.2 L528.0 261.3 L534.0 260.1 L540.0 261.3 L546.0 263.8 L552.0 265.5 L558.0 264.7 L564.0 261.6 L570.0 257.9 L576.0 255.7 L582.0 256.4 L588.0 259.3 L594.0 262.6 L600.0 264.2 L606.0 263.3 L612.0 260.9 L618.0 259.1 L624.0 259.6 L630.0 262.4 L636.0 266.1 L642.0 268.3 L648.0 267.8 L654.0 264.8 L660.0 261.3 L666.0 259.5 L672.0 260.1 L678.0 262.4 L684.0 264.4 L690.0 264.1 L696.0 261.4 L702.0 257.4 L708.0 254.0 L714.0 251.9 L720.0 249.5 L726.0 243.7 L732.0 231.4 L738.0 212.7 L744.0 191.4 L750.0 174.7 L756.0 169.1 L762.0 176.9 L768.0 194.9 L774.0 216.3 L780.0 234.4 L786.0 245.9 L792.0 251.6 L798.0 254.5 L804.0 257.2 L810.0 260.5 L816.0 263.1 L822.0 263.7 L828.0 261.7 L834.0 258.4 L840.0 256.0 L846.0 256.2 L852.0 259.1 L858.0 263.0 L864.0 265.6 L870.0 265.7" fill="none" stroke="#e6edf3" stroke-width="1.8" stroke-linejoin="round" opacity=".85"/>
+<circle cx="426.0" cy="136.53708462312892" r="5" fill="#121a27" stroke="#d29922" stroke-width="2.2"/>
+<circle cx="426.0" cy="136.53708462312892" r="5" fill="none" stroke="#d29922" stroke-width="2" class="ring"/>
+<path d="M433.0 133.53708462312892 C 466.0 122.53708462312892, 476.0 122.53708462312892, 496.0 122.53708462312892" fill="none" stroke="#d29922" stroke-width="1.6" stroke-dasharray="0.1 4.5" stroke-linecap="round"/>
+<g><rect x="496.0" y="114.3" width="129.9" height="16.5" rx="8.25" fill="#252726" stroke="#d29922" stroke-opacity=".55" stroke-dasharray="2.5 2.5"/><text x="560.97" y="125.6" text-anchor="middle" class="mono" font-size="8.5" font-weight="700" letter-spacing=".08em" fill="#d29922">TEMPORAL_CORRELATION</text></g>
+<text x="498.0" y="142.53708462312892" class="mono" font-size="9" fill="#d29922">observed during the window — not proven causal</text>
+<text x="498.0" y="155.53708462312892" class="mono" font-size="9" fill="#9aa7b8">149ms observed vs 50ms baseline</text>
+<circle cx="756.0" cy="169.05678734779048" r="5" fill="#121a27" stroke="#8b949e" stroke-width="2"/>
+<text x="766.0" y="161.05678734779048" class="mono" font-size="9" fill="#8b949e" font-weight="700">outside window</text>
+<text x="766.0" y="174.05678734779048" class="mono" font-size="9" fill="#8b949e">not attached</text>
+<path d="M100 292 H 872" stroke="#33445f"/>
+<path d="M286 286 l4 12 M292 286 l4 12" stroke="#9aa7b8"/>
+<path d="M100 292 v4" stroke="#33445f"/>
+<text x="100" y="308" class="mono" font-size="9" fill="#9aa7b8" text-anchor="middle">−60 s</text>
+<path d="M300.0 292 v4" stroke="#33445f"/>
+<text x="300.0" y="308" class="mono" font-size="9" fill="#9aa7b8" text-anchor="middle">0</text>
+<path d="M420.0 292 v4" stroke="#33445f"/>
+<text x="420.0" y="308" class="mono" font-size="9" fill="#9aa7b8" text-anchor="middle">+10 s</text>
+<path d="M540.0 292 v4" stroke="#33445f"/>
+<text x="540.0" y="308" class="mono" font-size="9" fill="#9aa7b8" text-anchor="middle">+20 s</text>
+<path d="M660.0 292 v4" stroke="#33445f"/>
+<text x="660.0" y="308" class="mono" font-size="9" fill="#9aa7b8" text-anchor="middle">+30 s</text>
+<path d="M780.0 292 v4" stroke="#33445f"/>
+<text x="780.0" y="308" class="mono" font-size="9" fill="#9aa7b8" text-anchor="middle">+40 s</text>
+<path d="M300.0 106 V 292" stroke="#58a6ff" stroke-width="1.6"/>
+<path d="M300.0 98 l6 8 -6 8 -6 -8z" fill="#58a6ff"/>
+<text x="310.0" y="102" class="mono" font-size="9.5" fill="#58a6ff" font-weight="700">request</text>
+<text x="92" y="334" class="mono" font-size="9.5" fill="#e6edf3" font-weight="700" text-anchor="end">baseline</text>
+<rect x="100.0" y="322" width="200.0" height="16" rx="8" fill="#9aa7b8" fill-opacity=".20" stroke="#9aa7b8" stroke-opacity=".7"/>
+<text x="200.0" y="333.5" class="mono" font-size="9" fill="#e6edf3" text-anchor="middle">60 s before the action</text>
+<text x="92" y="368" class="mono" font-size="9.5" fill="#39c5cf" font-weight="700" text-anchor="end">reconcile</text>
+<rect x="294.0" y="356" width="178.8" height="16" rx="8" fill="#39c5cf" fill-opacity=".20" stroke="#39c5cf" stroke-opacity=".7"/>
+<text x="482.8" y="367.5" class="mono" font-size="9" fill="#9aa7b8">request → Deployment stable + 5 s settle</text>
+<text x="92" y="402" class="mono" font-size="9.5" fill="#d29922" font-weight="700" text-anchor="end">telemetry</text>
+<rect x="300.0" y="390" width="352.8" height="16" rx="8" fill="#d29922" fill-opacity=".20" stroke="#d29922" stroke-opacity=".7"/>
+<text x="662.8" y="401.5" class="mono" font-size="9" fill="#9aa7b8">reconcile window + 15 s</text>
+<path d="M412.8 356 V 372" stroke="#39c5cf" stroke-width="2"/>
+<text x="412.8" y="384" class="mono" font-size="8.5" fill="#39c5cf" text-anchor="middle">stable</text>
+<text x="472.8" y="384" class="mono" font-size="8.5" fill="#39c5cf" text-anchor="middle">+5 s</text>
+<text x="872" y="452" class="mono" font-size="9" fill="#9aa7b8" text-anchor="end">capped if the Deployment never reports a stable status</text>
+<text x="28" y="452" class="mono" font-size="9" fill="#9aa7b8">Real example: reconcile −500ms .. +14.4s · telemetry +0s .. +29.4s</text>
+</svg>

@@ -1,0 +1,140 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="584" viewBox="0 0 900 584" role="img" aria-labelledby="ev-title ev-desc">
+<title id="ev-title">EffectTrace evidence classes</title>
+<desc id="ev-desc">Legend of EffectTrace evidence classes. Attributing classes, drawn as solid lines: DIRECT (green) - the tool's own Kubernetes request changed the object, verified by the server Audit-ID echoed to the client plus object UID and resourceVersion, confirmed by the kube-apiserver audit event; TRACE_LINK (blue) - the Kubernetes client span descends from the MCP tool span; STRUCTURAL (teal) - controller ownerReferences matched by UID; EVENT_REFERENCE (violet) - a Kubernetes Event references the object by UID. Correlating class, drawn dotted: TEMPORAL_CORRELATION (amber) - a Prometheus signal changed inside the observation window, correlation only. INFERRED is greyed out: defined in the model, not emitted in v0.1. Rule: a path is only as strong as its weakest edge - all attributing edges grade ATTRIBUTED, any temporal edge grades CORRELATED.</desc>
+<style>
+.sans{font-family:ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif}
+.mono{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace}
+.pre{white-space:pre}
+@keyframes comet{0%{stroke-dashoffset:8;opacity:0}12%{opacity:1}88%{opacity:1}100%{stroke-dashoffset:-92;opacity:0}}
+@keyframes dots{to{stroke-dashoffset:-18}}
+@keyframes breathe{0%,100%{opacity:.55}50%{opacity:1}}
+@keyframes halo{0%,100%{opacity:.35}50%{opacity:.85}}
+@keyframes ring{0%{opacity:.55;transform:scale(.85)}80%,100%{opacity:0;transform:scale(1.55)}}
+@keyframes popin{0%{opacity:0;transform:translateY(6px)}100%{opacity:1;transform:translateY(0)}}
+@keyframes fadein{0%{opacity:0}100%{opacity:1}}
+@keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+.comet{stroke-dasharray:8 92;stroke-dashoffset:8;opacity:0;animation:comet 3.2s cubic-bezier(.45,.05,.55,.95) infinite}
+.dots{animation:dots 1.4s linear infinite}
+@keyframes dotsm{to{stroke-dashoffset:-14.82}}
+.dots-mark{animation:dotsm 1.6s linear infinite}
+.breathe{animation:breathe 3.6s ease-in-out infinite}
+.halo{animation:halo 4.8s ease-in-out infinite}
+.ring{transform-box:fill-box;transform-origin:center;animation:ring 3.2s ease-out infinite}
+.pop{transform-box:fill-box;animation:popin .7s cubic-bezier(.2,.7,.2,1) both}
+.fade{animation:fadein .5s ease-out both}
+@media (prefers-reduced-motion: reduce){*{animation:none !important}.comet{opacity:0}}
+</style>
+<defs>
+<pattern id="ev-grid" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.1" fill="#e2e8f1"/></pattern>
+<linearGradient id="ev-bgg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#eef2f8"/><stop offset="1" stop-color="#f6f8fb"/></linearGradient>
+<radialGradient id="ev-vig" cx="50%" cy="0%" r="80%"><stop offset="0" stop-color="#086f79" stop-opacity=".06"/><stop offset="1" stop-color="#086f79" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="900" height="584" rx="16" fill="url(#ev-bgg)"/>
+<rect width="900" height="584" rx="16" fill="url(#ev-grid)" opacity=".9"/>
+<rect width="900" height="584" rx="16" fill="url(#ev-vig)"/>
+<rect x=".5" y=".5" width="899" height="583" rx="15.5" fill="none" stroke="#d3dbe7"/>
+<defs>
+<marker id="ev-ar-086f79" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#086f79"/></marker>
+<marker id="ev-ar-0a5fc8" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#0a5fc8"/></marker>
+<marker id="ev-ar-17782f" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#17782f"/></marker>
+<marker id="ev-ar-4d5b6e" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#4d5b6e"/></marker>
+<marker id="ev-ar-59636e" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#59636e"/></marker>
+<marker id="ev-ar-68717b" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#68717b"/></marker>
+<marker id="ev-ar-7a46d6" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#7a46d6"/></marker>
+<marker id="ev-ar-8a5a00" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#8a5a00"/></marker>
+<marker id="ev-ar-b4c0d1" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#b4c0d1"/></marker>
+<marker id="ev-ar-b8c2d0" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#b8c2d0"/></marker>
+</defs>
+<text x="32" y="40" class="mono" font-size="10" fill="#086f79" font-weight="700" letter-spacing=".16em">EVIDENCE CLASSES</text>
+<text x="32" y="66" class="sans" font-size="20" fill="#0d1726" font-weight="700" letter-spacing="-.01em">Every edge carries its evidence</text>
+<text x="32" y="86" class="sans" font-size="12.5" fill="#4d5b6e">Classes come from identifiers and timestamps that were observed — never from guesses.</text>
+<g class="pop" style="animation-delay:0.00s">
+<rect x="70" y="122" width="798" height="58" rx="10" fill="#ffffff" stroke="#d3dbe7" />
+<path d="M88 151.0 h52" stroke="#17782f" stroke-width="2.6" stroke-linecap="round"/>
+<circle cx="148" cy="151.0" r="4.5" fill="#17782f"/>
+<text x="170" y="155.2" class="mono" font-size="12" fill="#17782f" font-weight="700">DIRECT</text>
+<text x="340" y="141" class="sans" font-size="12.5" fill="#0d1726" font-weight="600">The tool’s own Kubernetes request changed the object.</text>
+<text x="340" y="157" class="mono" font-size="9.5" fill="#4d5b6e">server Audit-ID echoed to the instrumented client + object UID/resourceVersion</text>
+<text x="340" y="170" class="mono" font-size="9.5" fill="#4d5b6e">from the response · independently confirmed by the kube-apiserver audit event</text>
+</g>
+<g class="pop" style="animation-delay:0.15s">
+<rect x="70" y="186" width="798" height="46" rx="10" fill="#ffffff" stroke="#d3dbe7" />
+<path d="M88 209.0 h52" stroke="#0a5fc8" stroke-width="2.6" stroke-linecap="round"/>
+<circle cx="148" cy="209.0" r="4.5" fill="#0a5fc8"/>
+<text x="170" y="213.2" class="mono" font-size="12" fill="#0a5fc8" font-weight="700">TRACE_LINK</text>
+<text x="340" y="205" class="sans" font-size="12.5" fill="#0d1726" font-weight="600">The Kubernetes client span descends from the MCP tool span.</text>
+<text x="340" y="221" class="mono" font-size="9.5" fill="#4d5b6e">OpenTelemetry parent/child · W3C traceparent propagated in MCP params._meta</text>
+</g>
+<g class="pop" style="animation-delay:0.30s">
+<rect x="70" y="238" width="798" height="46" rx="10" fill="#ffffff" stroke="#d3dbe7" />
+<path d="M88 261.0 h52" stroke="#086f79" stroke-width="2.6" stroke-linecap="round"/>
+<circle cx="148" cy="261.0" r="4.5" fill="#086f79"/>
+<text x="170" y="265.2" class="mono" font-size="12" fill="#086f79" font-weight="700">STRUCTURAL</text>
+<text x="340" y="257" class="sans" font-size="12.5" fill="#0d1726" font-weight="600">Controller ownership: Deployment owns ReplicaSet owns Pods.</text>
+<text x="340" y="273" class="mono" font-size="9.5" fill="#4d5b6e">Kubernetes controller ownerReferences matched by UID</text>
+</g>
+<g class="pop" style="animation-delay:0.45s">
+<rect x="70" y="290" width="798" height="46" rx="10" fill="#ffffff" stroke="#d3dbe7" />
+<path d="M88 313.0 h52" stroke="#7a46d6" stroke-width="2.6" stroke-linecap="round"/>
+<circle cx="148" cy="313.0" r="4.5" fill="#7a46d6"/>
+<text x="170" y="317.2" class="mono" font-size="12" fill="#7a46d6" font-weight="700">EVENT_REFERENCE</text>
+<text x="340" y="309" class="sans" font-size="12.5" fill="#0d1726" font-weight="600">A Kubernetes Event references the object.</text>
+<text x="340" y="325" class="mono" font-size="9.5" fill="#4d5b6e">the Event’s object reference is matched by UID</text>
+</g>
+<g class="pop" style="animation-delay:0.60s">
+<rect x="70" y="372" width="798" height="46" rx="10" fill="#ffffff" stroke="#d3dbe7" />
+<path d="M88 395.0 h52" stroke="#8a5a00" stroke-width="2.8" stroke-linecap="round" stroke-dasharray="0.1 6.5" class="dots"/>
+<circle cx="148" cy="395.0" r="4" fill="#ffffff" stroke="#8a5a00" stroke-width="2"/>
+<text x="170" y="399.2" class="mono" font-size="12" fill="#8a5a00" font-weight="700">TEMPORAL_CORRELATION</text>
+<text x="340" y="391" class="sans" font-size="12.5" fill="#0d1726" font-weight="600">A Prometheus signal changed inside the observation window.</text>
+<text x="340" y="407" class="mono" font-size="9.5" fill="#4d5b6e">correlation only · never presented as causation</text>
+</g>
+<rect x="70" y="430" width="798" height="36" rx="10" fill="none" stroke="#c0cbdb" stroke-dasharray="4 4" />
+<path d="M88 448 h52" stroke="#68717b" stroke-width="1.6" stroke-dasharray="6 4 1 4" opacity=".8"/>
+<text x="170" y="452" class="mono" font-size="12" fill="#68717b" font-weight="700">INFERRED</text>
+<text x="340" y="452" class="mono" font-size="9.5" fill="#68717b">reserved for experimental heuristics · not used in v0.1</text>
+<path d="M50 126 V 332" stroke="#17782f" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+<text x="70" y="113" class="mono" font-size="9" fill="#17782f" font-weight="700" letter-spacing=".16em">ATTRIBUTING</text>
+<text x="155.438" y="113" class="mono" font-size="9" fill="#4d5b6e">identifiers link the two nodes</text>
+<path d="M50 376 V 414" stroke="#8a5a00" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+<text x="70" y="363" class="mono" font-size="9" fill="#8a5a00" font-weight="700" letter-spacing=".16em">CORRELATING</text>
+<text x="155.438" y="363" class="mono" font-size="9" fill="#4d5b6e">timing only · not proof of cause</text>
+<path d="M50 434 V 462" stroke="#68717b" stroke-width="2" stroke-linecap="round" opacity=".5"/>
+<path d="M32 486 h836" stroke="#d3dbe7" stroke-dasharray="2 4"/>
+<text x="32" y="506" class="sans" font-size="13.5" fill="#0d1726" font-weight="700">A path is only as strong as its weakest edge.</text>
+<text x="868" y="506" class="mono" font-size="9" fill="#4d5b6e" font-weight="700" text-anchor="end" letter-spacing=".16em">PATH GRADE</text>
+<path d="M55 542 H 105" fill="none" stroke="#0a5fc8" stroke-width="2" stroke-linecap="round" opacity="1" marker-end="url(#ev-ar-0a5fc8)"/>
+<path d="M55 542 H 105" pathLength="100" fill="none" stroke="#0d1726" stroke-width="2.6" stroke-linecap="round" class="comet" style="animation-delay:0.00s"/>
+<path d="M121 542 H 171" fill="none" stroke="#17782f" stroke-width="2" stroke-linecap="round" opacity="1" marker-end="url(#ev-ar-17782f)"/>
+<path d="M121 542 H 171" pathLength="100" fill="none" stroke="#0d1726" stroke-width="2.6" stroke-linecap="round" class="comet" style="animation-delay:0.35s"/>
+<path d="M187 542 H 237" fill="none" stroke="#086f79" stroke-width="2" stroke-linecap="round" opacity="1" marker-end="url(#ev-ar-086f79)"/>
+<path d="M187 542 H 237" pathLength="100" fill="none" stroke="#0d1726" stroke-width="2.6" stroke-linecap="round" class="comet" style="animation-delay:0.70s"/>
+<path d="M253 542 H 303" fill="none" stroke="#086f79" stroke-width="2" stroke-linecap="round" opacity="1" marker-end="url(#ev-ar-086f79)"/>
+<path d="M253 542 H 303" pathLength="100" fill="none" stroke="#0d1726" stroke-width="2.6" stroke-linecap="round" class="comet" style="animation-delay:1.05s"/>
+<circle cx="48" cy="542" r="5.5" fill="#0d1726"/>
+<text x="48" y="562" class="mono" font-size="8.5" fill="#4d5b6e" text-anchor="middle">tool</text>
+<circle cx="114" cy="542" r="5.5" fill="#0a5fc8"/>
+<text x="114" y="562" class="mono" font-size="8.5" fill="#4d5b6e" text-anchor="middle">PATCH</text>
+<circle cx="180" cy="542" r="5.5" fill="#17782f"/>
+<text x="180" y="562" class="mono" font-size="8.5" fill="#4d5b6e" text-anchor="middle">Deployment</text>
+<circle cx="246" cy="542" r="5.5" fill="#086f79"/>
+<text x="246" y="562" class="mono" font-size="8.5" fill="#4d5b6e" text-anchor="middle">ReplicaSet</text>
+<circle cx="312" cy="542" r="5.5" fill="#086f79"/>
+<text x="312" y="562" class="mono" font-size="8.5" fill="#4d5b6e" text-anchor="middle">Pods</text>
+<rect x="330" y="531" width="92.2" height="22" rx="11" fill="#dae9de" stroke="#17782f"/><text x="376.1" y="545.6" text-anchor="middle" class="mono" font-size="10" font-weight="700" letter-spacing=".1em" fill="#17782f">ATTRIBUTED</text>
+<path d="M507 542 H 557" fill="none" stroke="#0a5fc8" stroke-width="2" stroke-linecap="round" opacity="1" marker-end="url(#ev-ar-0a5fc8)"/>
+<path d="M507 542 H 557" pathLength="100" fill="none" stroke="#0d1726" stroke-width="2.6" stroke-linecap="round" class="comet" style="animation-delay:0.00s"/>
+<path d="M573 542 H 623" fill="none" stroke="#17782f" stroke-width="2" stroke-linecap="round" opacity="1" marker-end="url(#ev-ar-17782f)"/>
+<path d="M573 542 H 623" pathLength="100" fill="none" stroke="#0d1726" stroke-width="2.6" stroke-linecap="round" class="comet" style="animation-delay:0.35s"/>
+<path d="M639 542 H 689" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="0.1 6" opacity="1" class="dots" marker-end="url(#ev-ar-8a5a00)"/>
+<circle cx="500" cy="542" r="5.5" fill="#0d1726"/>
+<text x="500" y="562" class="mono" font-size="8.5" fill="#4d5b6e" text-anchor="middle">tool</text>
+<circle cx="566" cy="542" r="5.5" fill="#0a5fc8"/>
+<text x="566" y="562" class="mono" font-size="8.5" fill="#4d5b6e" text-anchor="middle">PATCH</text>
+<circle cx="632" cy="542" r="5.5" fill="#17782f"/>
+<text x="632" y="562" class="mono" font-size="8.5" fill="#4d5b6e" text-anchor="middle">Deployment</text>
+<circle cx="698" cy="542" r="5" fill="#ffffff" stroke="#8a5a00" stroke-width="2"/>
+<text x="698" y="562" class="mono" font-size="8.5" fill="#4d5b6e" text-anchor="middle">p99</text>
+<rect x="756" y="531" width="92.2" height="22" rx="11" fill="#ece5d6" stroke="#8a5a00"/><text x="802.1" y="545.6" text-anchor="middle" class="mono" font-size="10" font-weight="700" letter-spacing=".1em" fill="#8a5a00">CORRELATED</text>
+<path d="M470 524 v40" stroke="#d3dbe7"/>
+</svg>

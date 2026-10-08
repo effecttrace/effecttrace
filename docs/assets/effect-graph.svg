@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="470" viewBox="0 0 900 470" role="img" aria-labelledby="eg-title eg-desc">
+<title id="eg-title">Anatomy of an effect graph</title>
+<desc id="eg-desc">Anatomy of an EffectTrace effect graph. Left: an action node links by TRACE_LINK to a Kubernetes request, by DIRECT to Deployment shop/checkout, by STRUCTURAL to a ReplicaSet and Pods, by EVENT_REFERENCE to Events, and by a dotted TEMPORAL_CORRELATION edge to http_p99_latency. Right: one edge record with its relationship, evidence, source, rule and facts. Bottom: the graph sections - schemaVersion, action, nodes, edges, windows, exclusions, ambiguities, coverage and notes.</desc>
+<style>
+.sans{font-family:ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif}
+.mono{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace}
+.pre{white-space:pre}
+@media (prefers-reduced-motion: reduce){*{animation:none !important}}</style>
+<defs>
+<pattern id="eg-grid" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.1" fill="#e2e8f1"/></pattern>
+<linearGradient id="eg-bgg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#eef2f8"/><stop offset="1" stop-color="#f6f8fb"/></linearGradient>
+<radialGradient id="eg-vig" cx="50%" cy="0%" r="80%"><stop offset="0" stop-color="#086f79" stop-opacity=".06"/><stop offset="1" stop-color="#086f79" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="900" height="470" rx="16" fill="url(#eg-bgg)"/>
+<rect width="900" height="470" rx="16" fill="url(#eg-grid)" opacity=".9"/>
+<rect width="900" height="470" rx="16" fill="url(#eg-vig)"/>
+<rect x=".5" y=".5" width="899" height="469" rx="15.5" fill="none" stroke="#d3dbe7"/>
+<defs>
+<marker id="eg-ar-086f79" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#086f79"/></marker>
+<marker id="eg-ar-0a5fc8" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#0a5fc8"/></marker>
+<marker id="eg-ar-17782f" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#17782f"/></marker>
+<marker id="eg-ar-4d5b6e" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#4d5b6e"/></marker>
+<marker id="eg-ar-59636e" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#59636e"/></marker>
+<marker id="eg-ar-68717b" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#68717b"/></marker>
+<marker id="eg-ar-7a46d6" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#7a46d6"/></marker>
+<marker id="eg-ar-8a5a00" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#8a5a00"/></marker>
+<marker id="eg-ar-b4c0d1" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#b4c0d1"/></marker>
+<marker id="eg-ar-b8c2d0" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#b8c2d0"/></marker>
+</defs>
+<text x="28" y="40" class="mono" font-size="10" fill="#086f79" font-weight="700" letter-spacing=".16em">EFFECT GRAPH</text>
+<text x="28" y="66" class="sans" font-size="20" fill="#0d1726" font-weight="700" letter-spacing="-.01em">Anatomy of an effect graph</text>
+<text x="28" y="86" class="sans" font-size="12.5" fill="#4d5b6e">Nodes are observations. Edges are claims — and every claim names its evidence.</text>
+<rect x="28" y="120.0" width="150" height="38" rx="8" fill="#1f2a3c" opacity=".07"/>
+<rect x="28" y="117.0" width="150" height="38" rx="8" fill="#ffffff" stroke="#d3dbe7" />
+<text x="38" y="133" class="mono" font-size="7.5" fill="#4d5b6e" font-weight="700" letter-spacing=".12em">ACTION</text>
+<text x="38" y="147" class="mono" font-size="10" fill="#0d1726" font-weight="700">restart_workload</text>
+<rect x="28" y="200.0" width="150" height="38" rx="8" fill="#1f2a3c" opacity=".07"/>
+<rect x="28" y="197.0" width="150" height="38" rx="8" fill="#ffffff" stroke="#d3dbe7" />
+<text x="38" y="213" class="mono" font-size="7.5" fill="#4d5b6e" font-weight="700" letter-spacing=".12em">KUBERNETES REQUEST</text>
+<text x="38" y="227" class="mono" font-size="10" fill="#0d1726" font-weight="700">PATCH deployments</text>
+<rect x="28" y="280.0" width="150" height="38" rx="8" fill="#1f2a3c" opacity=".07"/>
+<rect x="28" y="277.0" width="150" height="38" rx="8" fill="#ffffff" stroke="#d3dbe7" />
+<text x="38" y="293" class="mono" font-size="7.5" fill="#4d5b6e" font-weight="700" letter-spacing=".12em">DEPLOYMENT</text>
+<text x="38" y="307" class="mono" font-size="10" fill="#0d1726" font-weight="700">shop/checkout</text>
+<rect x="250" y="280.0" width="150" height="38" rx="8" fill="#1f2a3c" opacity=".07"/>
+<rect x="250" y="277.0" width="150" height="38" rx="8" fill="#ffffff" stroke="#d3dbe7" />
+<text x="260" y="293" class="mono" font-size="7.5" fill="#4d5b6e" font-weight="700" letter-spacing=".12em">REPLICASET</text>
+<text x="260" y="307" class="mono" font-size="10" fill="#0d1726" font-weight="700">checkout-8554d95446</text>
+<rect x="250" y="360.0" width="150" height="38" rx="8" fill="#1f2a3c" opacity=".07"/>
+<rect x="250" y="357.0" width="150" height="38" rx="8" fill="#ffffff" stroke="#d3dbe7" />
+<text x="260" y="373" class="mono" font-size="7.5" fill="#4d5b6e" font-weight="700" letter-spacing=".12em">PODS</text>
+<text x="260" y="387" class="mono" font-size="10" fill="#0d1726" font-weight="700">3 created · 3/3 ready</text>
+<rect x="250" y="200.0" width="150" height="38" rx="8" fill="#1f2a3c" opacity=".07"/>
+<rect x="250" y="197.0" width="150" height="38" rx="8" fill="#ffffff" stroke="#d3dbe7" />
+<text x="260" y="213" class="mono" font-size="7.5" fill="#4d5b6e" font-weight="700" letter-spacing=".12em">EVENTS</text>
+<text x="260" y="227" class="mono" font-size="10" fill="#0d1726" font-weight="700">ScalingReplicaSet</text>
+<rect x="28" y="360.0" width="150" height="38" rx="8" fill="#1f2a3c" opacity=".07"/>
+<rect x="28" y="357.0" width="150" height="38" rx="8" fill="#ffffff" stroke="#d3dbe7" />
+<text x="38" y="373" class="mono" font-size="7.5" fill="#4d5b6e" font-weight="700" letter-spacing=".12em">SIGNAL</text>
+<text x="38" y="387" class="mono" font-size="10" fill="#0d1726" font-weight="700">http_p99_latency</text>
+<path d="M103 156 V 194" fill="none" stroke="#0a5fc8" stroke-width="2" stroke-linecap="round" opacity="1" marker-end="url(#eg-ar-0a5fc8)"/>
+<g><rect x="68.7" y="168.0" width="68.6" height="16" rx="8.0" fill="#e9f1fa" stroke="#0a5fc8" stroke-opacity=".55"/><text x="103" y="178.9" text-anchor="middle" class="mono" font-size="8" font-weight="700" letter-spacing=".08em" fill="#0a5fc8">TRACE_LINK</text></g>
+<path d="M103 236 V 274" fill="none" stroke="#17782f" stroke-width="2" stroke-linecap="round" opacity="1" marker-end="url(#eg-ar-17782f)"/>
+<g><rect x="79.6" y="248.0" width="46.7" height="16" rx="8.0" fill="#eaf3ec" stroke="#17782f" stroke-opacity=".55"/><text x="103" y="258.9" text-anchor="middle" class="mono" font-size="8" font-weight="700" letter-spacing=".08em" fill="#17782f">DIRECT</text></g>
+<path d="M179 296 H 246" fill="none" stroke="#086f79" stroke-width="2" stroke-linecap="round" opacity="1" marker-end="url(#eg-ar-086f79)"/>
+<g><rect x="190.6" y="288.0" width="46.7" height="16" rx="8.0" fill="#e9f2f3" stroke="#086f79" stroke-opacity=".55"/><text x="214" y="298.9" text-anchor="middle" class="mono" font-size="8" font-weight="700" letter-spacing=".08em" fill="#086f79">STRUCT</text></g>
+<path d="M325 316 V 354" fill="none" stroke="#086f79" stroke-width="2" stroke-linecap="round" opacity="1" marker-end="url(#eg-ar-086f79)"/>
+<g><rect x="290.7" y="328.0" width="68.6" height="16" rx="8.0" fill="#e9f2f3" stroke="#086f79" stroke-opacity=".55"/><text x="325" y="338.9" text-anchor="middle" class="mono" font-size="8" font-weight="700" letter-spacing=".08em" fill="#086f79">STRUCTURAL</text></g>
+<path d="M150 277 C 150 250, 200 216, 246 216" fill="none" stroke="#7a46d6" stroke-width="2" stroke-linecap="round" opacity="1" marker-end="url(#eg-ar-7a46d6)"/>
+<g><rect x="182.4" y="238.0" width="63.1" height="16" rx="8.0" fill="#f3eefb" stroke="#7a46d6" stroke-opacity=".55"/><text x="214" y="248.9" text-anchor="middle" class="mono" font-size="8" font-weight="700" letter-spacing=".08em" fill="#7a46d6">EVENT_REF</text></g>
+<path d="M103 316 V 354" fill="none" stroke="#8a5a00" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="0.1 6" opacity="1" class="" marker-end="url(#eg-ar-8a5a00)"/>
+<g><rect x="74.2" y="328.0" width="57.6" height="16" rx="8.0" fill="#f4f0e8" stroke="#8a5a00" stroke-opacity=".55" stroke-dasharray="2.5 2.5"/><text x="103" y="338.9" text-anchor="middle" class="mono" font-size="8" font-weight="700" letter-spacing=".08em" fill="#8a5a00">TEMPORAL</text></g>
+<rect x="448" y="115" width="424" height="284" rx="12" fill="#1f2a3c" opacity=".07"/>
+<rect x="448" y="112" width="424" height="284" rx="12" fill="#ffffff" stroke="#d3dbe7" />
+<text x="466" y="136" class="mono" font-size="9" fill="#4d5b6e" font-weight="700" letter-spacing=".16em">ONE EDGE, AS RECORDED</text>
+<text x="466" y="164" class="mono" font-size="10.5" fill="#4d5b6e">from</text>
+<text x="576" y="164" class="mono" font-size="10.5" fill="#0d1726" font-weight="700">PATCH deployments shop/checkout</text>
+<text x="466" y="189" class="mono" font-size="10.5" fill="#4d5b6e">to</text>
+<text x="576" y="189" class="mono" font-size="10.5" fill="#0d1726" font-weight="700">Deployment shop/checkout</text>
+<text x="466" y="214" class="mono" font-size="10.5" fill="#4d5b6e">relationship</text>
+<text x="576" y="214" class="mono" font-size="10.5" fill="#17782f" font-weight="700">DIRECT_REQUEST</text>
+<text x="466" y="239" class="mono" font-size="10.5" fill="#4d5b6e">evidence</text>
+<text x="576" y="239" class="mono" font-size="10.5" fill="#17782f" font-weight="700">DIRECT</text>
+<text x="466" y="264" class="mono" font-size="10.5" fill="#4d5b6e">source</text>
+<text x="576" y="264" class="mono" font-size="10.5" fill="#0d1726" font-weight="700">otlp</text>
+<text x="466" y="289" class="mono" font-size="10.5" fill="#4d5b6e">rule</text>
+<text x="576" y="289" class="mono" font-size="10.5" fill="#0d1726" font-weight="700">uid-from-client-response</text>
+<text x="466" y="314" class="mono" font-size="10.5" fill="#4d5b6e">facts</text>
+<text x="576" y="314" class="mono" font-size="10.5" fill="#4d5b6e">object_uid · uid_source · audit_id</text>
+<text x="576" y="339" class="mono" font-size="10.5" fill="#4d5b6e">audit_id_match · resource_version</text>
+<text x="466" y="364" class="mono" font-size="10.5" fill="#4d5b6e">reason</text>
+<text x="576" y="364" class="mono" font-size="10.5" fill="#4d5b6e">human-readable sentence per edge</text>
+<text x="28" y="422" class="mono" font-size="9" fill="#4d5b6e" font-weight="700" letter-spacing=".16em">GRAPH</text>
+<rect x="84" y="408" width="90.3" height="20" rx="6" fill="#ffffff" stroke="#c0cbdb"/>
+<text x="129.1735" y="421.5" class="mono" font-size="9.5" fill="#0d1726" text-anchor="middle">schemaVersion</text>
+<rect x="182.34699999999998" y="408" width="50.3" height="20" rx="6" fill="#ffffff" stroke="#c0cbdb"/>
+<text x="207.504" y="421.5" class="mono" font-size="9.5" fill="#0d1726" text-anchor="middle">action</text>
+<rect x="240.66099999999997" y="408" width="44.6" height="20" rx="6" fill="#ffffff" stroke="#c0cbdb"/>
+<text x="262.95849999999996" y="421.5" class="mono" font-size="9.5" fill="#0d1726" text-anchor="middle">nodes</text>
+<rect x="293.256" y="408" width="44.6" height="20" rx="6" fill="#ffffff" stroke="#c0cbdb"/>
+<text x="315.5535" y="421.5" class="mono" font-size="9.5" fill="#0d1726" text-anchor="middle">edges</text>
+<rect x="345.851" y="408" width="56.0" height="20" rx="6" fill="#ffffff" stroke="#c0cbdb"/>
+<text x="373.8675" y="421.5" class="mono" font-size="9.5" fill="#0d1726" text-anchor="middle">windows</text>
+<rect x="409.884" y="408" width="73.2" height="20" rx="6" fill="#ffffff" stroke="#c0cbdb"/>
+<text x="446.47900000000004" y="421.5" class="mono" font-size="9.5" fill="#0d1726" text-anchor="middle">exclusions</text>
+<rect x="491.074" y="408" width="78.9" height="20" rx="6" fill="#ffffff" stroke="#c0cbdb"/>
+<text x="530.5285" y="421.5" class="mono" font-size="9.5" fill="#0d1726" text-anchor="middle">ambiguities</text>
+<rect x="577.983" y="408" width="61.8" height="20" rx="6" fill="#ffffff" stroke="#c0cbdb"/>
+<text x="608.8589999999999" y="421.5" class="mono" font-size="9.5" fill="#0d1726" text-anchor="middle">coverage</text>
+<rect x="647.7349999999999" y="408" width="44.6" height="20" rx="6" fill="#ffffff" stroke="#c0cbdb"/>
+<text x="670.0324999999999" y="421.5" class="mono" font-size="9.5" fill="#0d1726" text-anchor="middle">notes</text>
+<text x="28" y="452" class="mono" font-size="9" fill="#4d5b6e">schemaVersion effecttrace.io/v1alpha1 · canonical JSON from GET /api/v1/effects/{id}/graph</text>
+</svg>

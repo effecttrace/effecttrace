@@ -1,0 +1,180 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="480" viewBox="0 0 900 480" role="img" aria-labelledby="pl-title pl-desc">
+<title id="pl-title">EffectTrace pipeline</title>
+<desc id="pl-desc">EffectTrace architecture. Inputs: OpenTelemetry spans over OTLP/HTTP from the MCP agent and tool server via an OpenTelemetry Collector; the kube-apiserver audit log at Metadata level with no bodies; a Kubernetes watch through client-go informers for Deployments, ReplicaSets, StatefulSets, DaemonSets, Jobs, Pods, Services and Events with specs and env stripped before caching, never ConfigMaps or Secrets; and Prometheus range queries. Inside the EffectTrace collector: a bounded queue, an idempotent in-memory store and a deterministic correlation engine. Outputs: a read-only HTTP API under /api/v1, the effecttrace explain CLI, the canonical JSON effect graph, OTLP export of completed graphs as spans that link to the tool span, Prometheus /metrics, and JSON-lines recording for offline replay.</desc>
+<style>
+.sans{font-family:ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif}
+.mono{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace}
+.pre{white-space:pre}
+@keyframes comet{0%{stroke-dashoffset:8;opacity:0}12%{opacity:1}88%{opacity:1}100%{stroke-dashoffset:-92;opacity:0}}
+@keyframes dots{to{stroke-dashoffset:-18}}
+@keyframes breathe{0%,100%{opacity:.55}50%{opacity:1}}
+@keyframes halo{0%,100%{opacity:.35}50%{opacity:.85}}
+@keyframes ring{0%{opacity:.55;transform:scale(.85)}80%,100%{opacity:0;transform:scale(1.55)}}
+@keyframes popin{0%{opacity:0;transform:translateY(6px)}100%{opacity:1;transform:translateY(0)}}
+@keyframes fadein{0%{opacity:0}100%{opacity:1}}
+@keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+.comet{stroke-dasharray:8 92;stroke-dashoffset:8;opacity:0;animation:comet 3.2s cubic-bezier(.45,.05,.55,.95) infinite}
+.dots{animation:dots 1.4s linear infinite}
+@keyframes dotsm{to{stroke-dashoffset:-14.82}}
+.dots-mark{animation:dotsm 1.6s linear infinite}
+.breathe{animation:breathe 3.6s ease-in-out infinite}
+.halo{animation:halo 4.8s ease-in-out infinite}
+.ring{transform-box:fill-box;transform-origin:center;animation:ring 3.2s ease-out infinite}
+.pop{transform-box:fill-box;animation:popin .7s cubic-bezier(.2,.7,.2,1) both}
+.fade{animation:fadein .5s ease-out both}
+@media (prefers-reduced-motion: reduce){*{animation:none !important}.comet{opacity:0}}
+</style>
+<defs>
+<pattern id="pl-grid" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.1" fill="#1b2536"/></pattern>
+<linearGradient id="pl-bgg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0e1522"/><stop offset="1" stop-color="#0b0f17"/></linearGradient>
+<radialGradient id="pl-vig" cx="50%" cy="0%" r="80%"><stop offset="0" stop-color="#39c5cf" stop-opacity=".10"/><stop offset="1" stop-color="#39c5cf" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="900" height="480" rx="16" fill="url(#pl-bgg)"/>
+<rect width="900" height="480" rx="16" fill="url(#pl-grid)" opacity=".9"/>
+<rect width="900" height="480" rx="16" fill="url(#pl-vig)"/>
+<rect x=".5" y=".5" width="899" height="479" rx="15.5" fill="none" stroke="#27344b"/>
+<defs>
+<marker id="pl-ar-39c5cf" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#39c5cf"/></marker>
+<marker id="pl-ar-3a4a63" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#3a4a63"/></marker>
+<marker id="pl-ar-3fb950" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#3fb950"/></marker>
+<marker id="pl-ar-4a5568" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#4a5568"/></marker>
+<marker id="pl-ar-58a6ff" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#58a6ff"/></marker>
+<marker id="pl-ar-848d97" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#848d97"/></marker>
+<marker id="pl-ar-8b949e" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#8b949e"/></marker>
+<marker id="pl-ar-9aa7b8" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#9aa7b8"/></marker>
+<marker id="pl-ar-a371f7" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#a371f7"/></marker>
+<marker id="pl-ar-d29922" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#d29922"/></marker>
+</defs>
+<text x="28" y="40" class="mono" font-size="10" fill="#9aa7b8" font-weight="700" letter-spacing=".16em">INPUTS · OBSERVE</text>
+<text x="450" y="40" class="mono" font-size="10" fill="#39c5cf" font-weight="700" text-anchor="middle" letter-spacing=".16em">COLLECTOR · CORRELATE</text>
+<text x="640" y="40" class="mono" font-size="10" fill="#9aa7b8" font-weight="700" letter-spacing=".16em">OUTPUTS · EXPLAIN</text>
+<rect x="28" y="67" width="240" height="76" rx="10" fill="#000000" opacity=".35"/>
+<rect x="28" y="64" width="240" height="76" rx="10" fill="#121a27" stroke="#27344b" />
+<path d="M29.5 74 a8.5 8.5 0 0 1 8.5 -8.5 h0 M28 64" fill="none"/>
+<rect x="29" y="72" width="3" height="60" rx="1.5" fill="#58a6ff"/>
+<text x="44" y="82" class="mono" font-size="8.5" fill="#9aa7b8" font-weight="700" letter-spacing=".14em">OTLP/HTTP</text>
+<text x="44" y="98" class="sans" font-size="13" fill="#e6edf3" font-weight="700">OpenTelemetry spans</text>
+<text x="44" y="113" class="mono" font-size="9" fill="#9aa7b8">MCP agent + tool server</text>
+<text x="44" y="127" class="mono" font-size="9" fill="#9aa7b8">via an OpenTelemetry Collector</text>
+<rect x="28" y="155" width="240" height="62" rx="10" fill="#000000" opacity=".35"/>
+<rect x="28" y="152" width="240" height="62" rx="10" fill="#121a27" stroke="#27344b" />
+<path d="M29.5 162 a8.5 8.5 0 0 1 8.5 -8.5 h0 M28 152" fill="none"/>
+<rect x="29" y="160" width="3" height="46" rx="1.5" fill="#3fb950"/>
+<text x="44" y="170" class="mono" font-size="8.5" fill="#9aa7b8" font-weight="700" letter-spacing=".14em">KUBE-APISERVER</text>
+<text x="44" y="186" class="sans" font-size="13" fill="#e6edf3" font-weight="700">Audit log</text>
+<text x="44" y="201" class="mono" font-size="9" fill="#9aa7b8">Metadata level · no request bodies</text>
+<rect x="28" y="229" width="240" height="106" rx="10" fill="#000000" opacity=".35"/>
+<rect x="28" y="226" width="240" height="106" rx="10" fill="#121a27" stroke="#27344b" />
+<path d="M29.5 236 a8.5 8.5 0 0 1 8.5 -8.5 h0 M28 226" fill="none"/>
+<rect x="29" y="234" width="3" height="90" rx="1.5" fill="#39c5cf"/>
+<text x="44" y="244" class="mono" font-size="8.5" fill="#9aa7b8" font-weight="700" letter-spacing=".14em">CLIENT-GO INFORMERS</text>
+<text x="44" y="260" class="sans" font-size="13" fill="#e6edf3" font-weight="700">Kubernetes watch</text>
+<text x="44" y="275" class="mono" font-size="9" fill="#9aa7b8">Deployments · ReplicaSets · StatefulSets</text>
+<text x="44" y="289" class="mono" font-size="9" fill="#9aa7b8">DaemonSets · Jobs · Pods · Services</text>
+<text x="44" y="303" class="mono" font-size="9" fill="#9aa7b8">Events · cached without spec/env</text>
+<g transform="translate(44 309)"><circle cx="4.5" cy="4.5" r="4.5" fill="none" stroke="#f47067" stroke-width="1.3"/><path d="M1.4 7.6 L7.6 1.4" stroke="#f47067" stroke-width="1.3"/></g>
+<text x="58" y="317" class="mono" font-size="9" fill="#f47067" font-weight="700">never watched: ConfigMaps, Secrets</text>
+<rect x="28" y="347" width="240" height="63" rx="10" fill="#000000" opacity=".35"/>
+<rect x="28" y="344" width="240" height="63" rx="10" fill="#121a27" stroke="#27344b" />
+<path d="M29.5 354 a8.5 8.5 0 0 1 8.5 -8.5 h0 M28 344" fill="none"/>
+<rect x="29" y="352" width="3" height="47" rx="1.5" fill="#d29922"/>
+<text x="44" y="362" class="mono" font-size="8.5" fill="#9aa7b8" font-weight="700" letter-spacing=".14em">METRICS</text>
+<text x="44" y="378" class="sans" font-size="13" fill="#e6edf3" font-weight="700">Prometheus</text>
+<text x="44" y="393" class="mono" font-size="9" fill="#9aa7b8">range queries per window</text>
+<defs><radialGradient id="pl-cg" cx="50%" cy="45%" r="60%"><stop offset="0" stop-color="#39c5cf" stop-opacity=".30"/><stop offset="1" stop-color="#39c5cf" stop-opacity="0"/></radialGradient></defs>
+<ellipse cx="450" cy="236" rx="190" ry="210" fill="url(#pl-cg)" class="halo"/>
+<rect x="330" y="67" width="240" height="343" rx="16" fill="#000000" opacity=".35"/>
+<rect x="330" y="64" width="240" height="343" rx="16" fill="#121a27" stroke="#39c5cf" />
+<g transform="translate(346 76) scale(0.42)">
+<path d="M13 32 C 22 32 22.5 15 32 15 H 46" fill="none" stroke="#3fb950" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M13 32 H 46" fill="none" stroke="#39c5cf" stroke-width="4.6" stroke-linecap="round"/>
+<path d="M13 32 C 22 32 22.5 49 32 49 H 46" fill="none" stroke="#d29922" stroke-width="4.6" stroke-linecap="round" stroke-dasharray="0.01 7.4" class=""/>
+<circle cx="52" cy="15" r="5" fill="#3fb950"/>
+<circle cx="52" cy="32" r="5" fill="#39c5cf"/>
+<circle cx="52" cy="49" r="4" fill="none" stroke="#d29922" stroke-width="2.4"/>
+<circle cx="13" cy="32" r="6.4" fill="#e6edf3"/>
+</g>
+<text x="382" y="95" class="mono" font-size="11.5" fill="#e6edf3" font-weight="700">effecttrace-collector</text>
+<path d="M346 112 h208" stroke="#27344b"/>
+<rect x="346" y="128" width="208" height="56" rx="10" fill="#172235" stroke="#27344b" />
+<text x="360" y="152" class="mono" font-size="11" fill="#e6edf3" font-weight="700">bounded queue</text>
+<text x="360" y="169" class="mono" font-size="9" fill="#9aa7b8">fixed capacity · depth exported</text>
+<rect x="500" y="142" width="6" height="12" rx="1.5" fill="#39c5cf" opacity="1" class="breathe" style="animation-delay:0.0s"/>
+<rect x="509" y="142" width="6" height="12" rx="1.5" fill="#39c5cf" opacity="1" class="breathe" style="animation-delay:0.4s"/>
+<rect x="518" y="142" width="6" height="12" rx="1.5" fill="#39c5cf" opacity="1" class="breathe" style="animation-delay:0.8s"/>
+<rect x="527" y="142" width="6" height="12" rx="1.5" fill="#39c5cf" opacity="0.3" class="" style="animation-delay:1.2s"/>
+<rect x="536" y="142" width="6" height="12" rx="1.5" fill="#39c5cf" opacity="0.3" class="" style="animation-delay:1.6s"/>
+<path d="M450 186 V 206" fill="none" stroke="#39c5cf" stroke-width="1.6" stroke-linecap="round" opacity="1" marker-end="url(#pl-ar-39c5cf)"/>
+<path d="M450 186 V 206" pathLength="100" fill="none" stroke="#e6edf3" stroke-width="2.2" stroke-linecap="round" class="comet" style="animation-delay:0.40s"/>
+<rect x="346" y="208" width="208" height="56" rx="10" fill="#172235" stroke="#27344b" />
+<text x="360" y="232" class="mono" font-size="11" fill="#e6edf3" font-weight="700">idempotent in-memory store</text>
+<text x="360" y="249" class="mono" font-size="9" fill="#9aa7b8">duplicates collapse to one record</text>
+<path d="M450 266 V 286" fill="none" stroke="#39c5cf" stroke-width="1.6" stroke-linecap="round" opacity="1" marker-end="url(#pl-ar-39c5cf)"/>
+<path d="M450 266 V 286" pathLength="100" fill="none" stroke="#e6edf3" stroke-width="2.2" stroke-linecap="round" class="comet" style="animation-delay:0.90s"/>
+<rect x="346" y="288" width="208" height="56" rx="10" fill="#172235" stroke="#27344b" />
+<text x="360" y="312" class="mono" font-size="11" fill="#e6edf3" font-weight="700">deterministic correlation</text>
+<text x="360" y="329" class="mono" font-size="9" fill="#9aa7b8">same inputs → same effect graph</text>
+<text x="450" y="378" class="mono" font-size="9.5" fill="#39c5cf" font-weight="700" text-anchor="middle" letter-spacing=".04em">evidence-graded effect graphs</text>
+<path d="M392 394 h16" stroke="#3fb950" stroke-width="2.4" stroke-linecap="round"/>
+<path d="M416 394 h16" stroke="#58a6ff" stroke-width="2.4" stroke-linecap="round"/>
+<path d="M440 394 h16" stroke="#39c5cf" stroke-width="2.4" stroke-linecap="round"/>
+<path d="M464 394 h16" stroke="#a371f7" stroke-width="2.4" stroke-linecap="round"/>
+<path d="M488 394 h16" stroke="#d29922" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="0.1 4.5"/>
+<path d="M270 102.0 C 302 102.0, 294 156, 326 156" fill="none" stroke="#3a4a63" stroke-width="1.6" stroke-linecap="round" opacity="1" marker-end="url(#pl-ar-3a4a63)"/>
+<path d="M270 102.0 C 302 102.0, 294 156, 326 156" pathLength="100" fill="none" stroke="#e6edf3" stroke-width="2.2" stroke-linecap="round" class="comet" style="animation-delay:0.00s"/>
+<path d="M270 183.0 C 302 183.0, 294 208, 326 208" fill="none" stroke="#3a4a63" stroke-width="1.6" stroke-linecap="round" opacity="1" marker-end="url(#pl-ar-3a4a63)"/>
+<path d="M270 183.0 C 302 183.0, 294 208, 326 208" pathLength="100" fill="none" stroke="#e6edf3" stroke-width="2.2" stroke-linecap="round" class="comet" style="animation-delay:0.45s"/>
+<path d="M270 279.0 C 302 279.0, 294 260, 326 260" fill="none" stroke="#3a4a63" stroke-width="1.6" stroke-linecap="round" opacity="1" marker-end="url(#pl-ar-3a4a63)"/>
+<path d="M270 279.0 C 302 279.0, 294 260, 326 260" pathLength="100" fill="none" stroke="#e6edf3" stroke-width="2.2" stroke-linecap="round" class="comet" style="animation-delay:0.90s"/>
+<path d="M270 375.5 C 302 375.5, 294 312, 326 312" fill="none" stroke="#3a4a63" stroke-width="1.6" stroke-linecap="round" opacity="1" marker-end="url(#pl-ar-3a4a63)"/>
+<path d="M270 375.5 C 302 375.5, 294 312, 326 312" pathLength="100" fill="none" stroke="#e6edf3" stroke-width="2.2" stroke-linecap="round" class="comet" style="animation-delay:1.35s"/>
+<rect x="640" y="67" width="232" height="48" rx="10" fill="#000000" opacity=".35"/>
+<rect x="640" y="64" width="232" height="48" rx="10" fill="#121a27" stroke="#27344b" />
+<path d="M641.5 74 a8.5 8.5 0 0 1 8.5 -8.5 h0 M640 64" fill="none"/>
+<rect x="641" y="72" width="3" height="32" rx="1.5" fill="#39c5cf"/>
+<text x="656" y="85" class="mono" font-size="11.5" fill="#e6edf3" font-weight="700">HTTP API</text>
+<text x="656" y="101" class="mono" font-size="9" fill="#9aa7b8">read-only · /api/v1/…</text>
+<path d="M574 144 C 606 144, 606 88, 636 88" fill="none" stroke="#3a4a63" stroke-width="1.6" stroke-linecap="round" opacity="1" marker-end="url(#pl-ar-3a4a63)"/>
+<path d="M574 144 C 606 144, 606 88, 636 88" pathLength="100" fill="none" stroke="#e6edf3" stroke-width="2.2" stroke-linecap="round" class="comet" style="animation-delay:1.20s"/>
+<rect x="640" y="126" width="232" height="48" rx="10" fill="#000000" opacity=".35"/>
+<rect x="640" y="123" width="232" height="48" rx="10" fill="#121a27" stroke="#27344b" />
+<path d="M641.5 133 a8.5 8.5 0 0 1 8.5 -8.5 h0 M640 123" fill="none"/>
+<rect x="641" y="131" width="3" height="32" rx="1.5" fill="#39c5cf"/>
+<text x="656" y="144" class="mono" font-size="11.5" fill="#e6edf3" font-weight="700">effecttrace explain</text>
+<text x="656" y="160" class="mono" font-size="9" fill="#9aa7b8">CLI · evidence per edge</text>
+<path d="M574 184 C 606 184, 606 147, 636 147" fill="none" stroke="#3a4a63" stroke-width="1.6" stroke-linecap="round" opacity="1" marker-end="url(#pl-ar-3a4a63)"/>
+<path d="M574 184 C 606 184, 606 147, 636 147" pathLength="100" fill="none" stroke="#e6edf3" stroke-width="2.2" stroke-linecap="round" class="comet" style="animation-delay:1.50s"/>
+<rect x="640" y="185" width="232" height="48" rx="10" fill="#000000" opacity=".35"/>
+<rect x="640" y="182" width="232" height="48" rx="10" fill="#121a27" stroke="#27344b" />
+<path d="M641.5 192 a8.5 8.5 0 0 1 8.5 -8.5 h0 M640 182" fill="none"/>
+<rect x="641" y="190" width="3" height="32" rx="1.5" fill="#39c5cf"/>
+<text x="656" y="203" class="mono" font-size="11.5" fill="#e6edf3" font-weight="700">effect graph JSON</text>
+<text x="656" y="219" class="mono" font-size="9" fill="#9aa7b8">canonical, schema-versioned</text>
+<path d="M574 224 C 606 224, 606 206, 636 206" fill="none" stroke="#3a4a63" stroke-width="1.6" stroke-linecap="round" opacity="1" marker-end="url(#pl-ar-3a4a63)"/>
+<path d="M574 224 C 606 224, 606 206, 636 206" pathLength="100" fill="none" stroke="#e6edf3" stroke-width="2.2" stroke-linecap="round" class="comet" style="animation-delay:1.80s"/>
+<rect x="640" y="244" width="232" height="48" rx="10" fill="#000000" opacity=".35"/>
+<rect x="640" y="241" width="232" height="48" rx="10" fill="#121a27" stroke="#27344b" />
+<path d="M641.5 251 a8.5 8.5 0 0 1 8.5 -8.5 h0 M640 241" fill="none"/>
+<rect x="641" y="249" width="3" height="32" rx="1.5" fill="#39c5cf"/>
+<text x="656" y="262" class="mono" font-size="11.5" fill="#e6edf3" font-weight="700">OTLP export</text>
+<text x="656" y="278" class="mono" font-size="9" fill="#9aa7b8">graph spans LINK to the tool span</text>
+<path d="M574 264 C 606 264, 606 265, 636 265" fill="none" stroke="#3a4a63" stroke-width="1.6" stroke-linecap="round" opacity="1" marker-end="url(#pl-ar-3a4a63)"/>
+<path d="M574 264 C 606 264, 606 265, 636 265" pathLength="100" fill="none" stroke="#e6edf3" stroke-width="2.2" stroke-linecap="round" class="comet" style="animation-delay:2.10s"/>
+<rect x="640" y="303" width="232" height="48" rx="10" fill="#000000" opacity=".35"/>
+<rect x="640" y="300" width="232" height="48" rx="10" fill="#121a27" stroke="#27344b" />
+<path d="M641.5 310 a8.5 8.5 0 0 1 8.5 -8.5 h0 M640 300" fill="none"/>
+<rect x="641" y="308" width="3" height="32" rx="1.5" fill="#39c5cf"/>
+<text x="656" y="321" class="mono" font-size="11.5" fill="#e6edf3" font-weight="700">Prometheus /metrics</text>
+<text x="656" y="337" class="mono" font-size="9" fill="#9aa7b8">collector self-metrics</text>
+<path d="M574 304 C 606 304, 606 324, 636 324" fill="none" stroke="#3a4a63" stroke-width="1.6" stroke-linecap="round" opacity="1" marker-end="url(#pl-ar-3a4a63)"/>
+<path d="M574 304 C 606 304, 606 324, 636 324" pathLength="100" fill="none" stroke="#e6edf3" stroke-width="2.2" stroke-linecap="round" class="comet" style="animation-delay:2.40s"/>
+<rect x="640" y="362" width="232" height="48" rx="10" fill="#000000" opacity=".35"/>
+<rect x="640" y="359" width="232" height="48" rx="10" fill="#121a27" stroke="#27344b" />
+<path d="M641.5 369 a8.5 8.5 0 0 1 8.5 -8.5 h0 M640 359" fill="none"/>
+<rect x="641" y="367" width="3" height="32" rx="1.5" fill="#39c5cf"/>
+<text x="656" y="380" class="mono" font-size="11.5" fill="#e6edf3" font-weight="700">JSON-lines recording</text>
+<text x="656" y="396" class="mono" font-size="9" fill="#9aa7b8">for offline replay</text>
+<path d="M574 344 C 606 344, 606 383, 636 383" fill="none" stroke="#3a4a63" stroke-width="1.6" stroke-linecap="round" opacity="1" marker-end="url(#pl-ar-3a4a63)"/>
+<path d="M574 344 C 606 344, 606 383, 636 383" pathLength="100" fill="none" stroke="#e6edf3" stroke-width="2.2" stroke-linecap="round" class="comet" style="animation-delay:2.70s"/>
+<text x="450.0" y="452" class="mono" font-size="9.5" fill="#9aa7b8" font-weight="700" text-anchor="middle" letter-spacing=".16em">METADATA, NOT PAYLOADS · READ-ONLY OUTPUTS · DETERMINISTIC REPLAY</text>
+</svg>

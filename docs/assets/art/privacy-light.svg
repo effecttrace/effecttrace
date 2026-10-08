@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="500" viewBox="0 0 900 500" role="img" aria-labelledby="pv-title pv-desc">
+<title id="pv-title">EffectTrace privacy defaults</title>
+<desc id="pv-desc">Privacy defaults. Kept as metadata: kind, namespace, name, UID, verb, timestamps, trace and span IDs, tool name. Never stored: prompts, tool arguments and results, Secret and ConfigMap contents, request bodies, tokens. Human usernames are pseudonymized; system identities are kept. The audit log is read at Metadata level, watched objects are cached without spec or env, and ConfigMaps and Secrets are never watched.</desc>
+<style>
+.sans{font-family:ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif}
+.mono{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace}
+.pre{white-space:pre}
+@keyframes comet{0%{stroke-dashoffset:8;opacity:0}12%{opacity:1}88%{opacity:1}100%{stroke-dashoffset:-92;opacity:0}}
+@keyframes dots{to{stroke-dashoffset:-18}}
+@keyframes breathe{0%,100%{opacity:.55}50%{opacity:1}}
+@keyframes halo{0%,100%{opacity:.35}50%{opacity:.85}}
+@keyframes ring{0%{opacity:.55;transform:scale(.85)}80%,100%{opacity:0;transform:scale(1.55)}}
+@keyframes popin{0%{opacity:0;transform:translateY(6px)}100%{opacity:1;transform:translateY(0)}}
+@keyframes fadein{0%{opacity:0}100%{opacity:1}}
+@keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+.comet{stroke-dasharray:8 92;stroke-dashoffset:8;opacity:0;animation:comet 3.2s cubic-bezier(.45,.05,.55,.95) infinite}
+.dots{animation:dots 1.4s linear infinite}
+@keyframes dotsm{to{stroke-dashoffset:-14.82}}
+.dots-mark{animation:dotsm 1.6s linear infinite}
+.breathe{animation:breathe 3.6s ease-in-out infinite}
+.halo{animation:halo 4.8s ease-in-out infinite}
+.ring{transform-box:fill-box;transform-origin:center;animation:ring 3.2s ease-out infinite}
+.pop{transform-box:fill-box;animation:popin .7s cubic-bezier(.2,.7,.2,1) both}
+.fade{animation:fadein .5s ease-out both}
+@media (prefers-reduced-motion: reduce){*{animation:none !important}.comet{opacity:0}}
+</style>
+<defs>
+<pattern id="pv-grid" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.1" fill="#e2e8f1"/></pattern>
+<linearGradient id="pv-bgg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#eef2f8"/><stop offset="1" stop-color="#f6f8fb"/></linearGradient>
+<radialGradient id="pv-vig" cx="50%" cy="0%" r="80%"><stop offset="0" stop-color="#086f79" stop-opacity=".06"/><stop offset="1" stop-color="#086f79" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="900" height="500" rx="16" fill="url(#pv-bgg)"/>
+<rect width="900" height="500" rx="16" fill="url(#pv-grid)" opacity=".9"/>
+<rect width="900" height="500" rx="16" fill="url(#pv-vig)"/>
+<rect x=".5" y=".5" width="899" height="499" rx="15.5" fill="none" stroke="#d3dbe7"/>
+<text x="28" y="40" class="mono" font-size="10" fill="#086f79" font-weight="700" letter-spacing=".16em">PRIVACY BY DEFAULT</text>
+<text x="28" y="66" class="sans" font-size="20" fill="#0d1726" font-weight="700" letter-spacing="-.01em">Metadata, not payloads</text>
+<text x="28" y="86" class="sans" font-size="12.5" fill="#4d5b6e">EffectTrace records what changed and how it knows — never what was said.</text>
+<rect x="28" y="115" width="412" height="260" rx="14" fill="#1f2a3c" opacity=".07"/>
+<rect x="28" y="112" width="412" height="260" rx="14" fill="#ffffff" stroke="#d3dbe7" />
+<circle cx="54" cy="138" r="9" fill="#dae9de" stroke="#17782f"/>
+<path d="M49.5 138 l3 3 l5.5 -6" fill="none" stroke="#17782f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="72" y="142" class="mono" font-size="10" fill="#17782f" font-weight="700" letter-spacing=".16em">KEPT · METADATA</text>
+<g class="pop" style="animation-delay:0.00s">
+<rect x="44" y="160" width="380" height="20" rx="5" fill="#f1f5fa"/>
+<text x="56" y="174" class="mono" font-size="10.5" fill="#0d1726" font-weight="700">kind</text>
+<text x="412" y="174" class="mono" font-size="10.5" fill="#4d5b6e" text-anchor="end">Deployment</text>
+</g>
+<g class="pop" style="animation-delay:0.08s">
+<rect x="44" y="184" width="380" height="20" rx="5" fill="#f1f5fa"/>
+<text x="56" y="198" class="mono" font-size="10.5" fill="#0d1726" font-weight="700">namespace</text>
+<text x="412" y="198" class="mono" font-size="10.5" fill="#4d5b6e" text-anchor="end">shop</text>
+</g>
+<g class="pop" style="animation-delay:0.16s">
+<rect x="44" y="208" width="380" height="20" rx="5" fill="#f1f5fa"/>
+<text x="56" y="222" class="mono" font-size="10.5" fill="#0d1726" font-weight="700">name</text>
+<text x="412" y="222" class="mono" font-size="10.5" fill="#4d5b6e" text-anchor="end">checkout</text>
+</g>
+<g class="pop" style="animation-delay:0.24s">
+<rect x="44" y="232" width="380" height="20" rx="5" fill="#f1f5fa"/>
+<text x="56" y="246" class="mono" font-size="10.5" fill="#0d1726" font-weight="700">uid</text>
+<text x="412" y="246" class="mono" font-size="10.5" fill="#4d5b6e" text-anchor="end">object UID</text>
+</g>
+<g class="pop" style="animation-delay:0.32s">
+<rect x="44" y="256" width="380" height="20" rx="5" fill="#f1f5fa"/>
+<text x="56" y="270" class="mono" font-size="10.5" fill="#0d1726" font-weight="700">verb</text>
+<text x="412" y="270" class="mono" font-size="10.5" fill="#4d5b6e" text-anchor="end">patch</text>
+</g>
+<g class="pop" style="animation-delay:0.40s">
+<rect x="44" y="280" width="380" height="20" rx="5" fill="#f1f5fa"/>
+<text x="56" y="294" class="mono" font-size="10.5" fill="#0d1726" font-weight="700">timestamps</text>
+<text x="412" y="294" class="mono" font-size="10.5" fill="#4d5b6e" text-anchor="end">12:22:52.557Z</text>
+</g>
+<g class="pop" style="animation-delay:0.48s">
+<rect x="44" y="304" width="380" height="20" rx="5" fill="#f1f5fa"/>
+<text x="56" y="318" class="mono" font-size="10.5" fill="#0d1726" font-weight="700">trace / span IDs</text>
+<text x="412" y="318" class="mono" font-size="10.5" fill="#4d5b6e" text-anchor="end">c24460b7…</text>
+</g>
+<g class="pop" style="animation-delay:0.56s">
+<rect x="44" y="328" width="380" height="20" rx="5" fill="#f1f5fa"/>
+<text x="56" y="342" class="mono" font-size="10.5" fill="#0d1726" font-weight="700">tool name</text>
+<text x="412" y="342" class="mono" font-size="10.5" fill="#4d5b6e" text-anchor="end">restart_workload</text>
+</g>
+<rect x="460" y="115" width="412" height="260" rx="14" fill="#1f2a3c" opacity=".07"/>
+<rect x="460" y="112" width="412" height="260" rx="14" fill="#ffffff" stroke="#d3dbe7" />
+<g transform="translate(477 129)"><circle cx="9" cy="9" r="9" fill="#f8e0e2" stroke="#cf222e"/><path d="M3.6 14.4 L14.4 3.6" stroke="#cf222e" stroke-width="1.8"/></g>
+<text x="504" y="142" class="mono" font-size="10" fill="#cf222e" font-weight="700" letter-spacing=".16em">NEVER STORED</text>
+<rect x="476" y="165" width="380" height="28" rx="6" fill="#f1f5fa"/>
+<text x="490" y="183" class="mono" font-size="11" fill="#0d1726" font-weight="700">prompts</text>
+<path d="M486 179 h54.354" stroke="#cf222e" stroke-width="1.6" opacity=".85"/>
+<rect x="694" y="173" width="150" height="10" rx="2" fill="#4d5b6e" opacity=".22"/>
+<rect x="476" y="205" width="380" height="28" rx="6" fill="#f1f5fa"/>
+<text x="490" y="223" class="mono" font-size="11" fill="#0d1726" font-weight="700">tool arguments &amp; results</text>
+<path d="M486 219 h166.928" stroke="#cf222e" stroke-width="1.6" opacity=".85"/>
+<rect x="734" y="213" width="110" height="10" rx="2" fill="#4d5b6e" opacity=".22"/>
+<rect x="476" y="245" width="380" height="28" rx="6" fill="#f1f5fa"/>
+<text x="490" y="263" class="mono" font-size="11" fill="#0d1726" font-weight="700">Secret &amp; ConfigMap contents</text>
+<path d="M486 259 h186.79399999999998" stroke="#cf222e" stroke-width="1.6" opacity=".85"/>
+<rect x="754" y="253" width="90" height="10" rx="2" fill="#4d5b6e" opacity=".22"/>
+<rect x="476" y="285" width="380" height="28" rx="6" fill="#f1f5fa"/>
+<text x="490" y="303" class="mono" font-size="11" fill="#0d1726" font-weight="700">request bodies</text>
+<path d="M486 299 h100.708" stroke="#cf222e" stroke-width="1.6" opacity=".85"/>
+<rect x="704" y="293" width="140" height="10" rx="2" fill="#4d5b6e" opacity=".22"/>
+<rect x="476" y="325" width="380" height="28" rx="6" fill="#f1f5fa"/>
+<text x="490" y="343" class="mono" font-size="11" fill="#0d1726" font-weight="700">tokens</text>
+<path d="M486 339 h47.732" stroke="#cf222e" stroke-width="1.6" opacity=".85"/>
+<rect x="674" y="333" width="170" height="10" rx="2" fill="#4d5b6e" opacity=".22"/>
+<rect x="28" y="390" width="844" height="64" rx="14" fill="#f1f5fa" stroke="#d3dbe7" />
+<text x="48" y="414" class="mono" font-size="9" fill="#4d5b6e" font-weight="700" letter-spacing=".16em">IDENTITIES</text>
+<text x="48" y="436" class="mono" font-size="11" fill="#0d1726" font-weight="700">human user</text>
+<path d="M140 432 h40" stroke="#086f79" stroke-width="1.6" marker-end="url(#pv-ar-086f79)"/>
+<text x="190" y="436" class="mono" font-size="11" fill="#086f79" font-weight="700">user:3f9c… (keyed pseudonym)</text>
+<path d="M430 404 v36" stroke="#c0cbdb"/>
+<text x="452" y="414" class="mono" font-size="9" fill="#4d5b6e" font-weight="700" letter-spacing=".16em">SYSTEM IDENTITIES</text>
+<text x="452" y="436" class="mono" font-size="11" fill="#0d1726" font-weight="700">system:* kept verbatim</text>
+<defs>
+<marker id="pv-ar-086f79" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M1 1.2 L9 5 L1 8.8 Z" fill="#086f79"/></marker>
+</defs>
+<text x="450.0" y="480" class="mono" font-size="8.5" fill="#4d5b6e" font-weight="700" text-anchor="middle" letter-spacing=".1em">AUDIT AT METADATA LEVEL · OBJECTS CACHED WITHOUT SPEC/ENV · CONFIGMAPS &amp; SECRETS NEVER WATCHED</text>
+</svg>
