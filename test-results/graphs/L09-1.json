@@ -1,0 +1,181 @@
+{
+  "schemaVersion": "effecttrace.io/v1alpha1",
+  "id": "g-mcp-faebcb4c7351821b-5005dd0f08320335",
+  "status": "COMPLETE",
+  "action": {
+    "id": "mcp-faebcb4c7351821b-5005dd0f08320335",
+    "kind": "MCP_TOOL_CALL",
+    "name": "tools/call update_service_selector",
+    "tool": "update_service_selector",
+    "actor": "mcp-client:demo-agent",
+    "service": "demo-tools",
+    "startedAt": "2026-10-08T15:41:30.327478688Z",
+    "endedAt": "2026-10-08T15:41:30.329780737Z",
+    "trace": {
+      "traceId": "faebcb4c7351821b5a527ec72eff870a",
+      "spanId": "5005dd0f08320335"
+    },
+    "outcome": "ok",
+    "targets": [
+      {
+        "kind": "Service",
+        "namespace": "shop",
+        "name": "inventory",
+        "uid": "567af9f2-ffb7-4cf5-bee5-b334699d5b03"
+      }
+    ]
+  },
+  "windows": [
+    {
+      "name": "reconcile Service shop/inventory",
+      "start": "2026-10-08T15:41:29.827767Z",
+      "end": "2026-10-08T15:41:35.329678945Z",
+      "reason": "closed 5s after Service reported a stable status"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "action:mcp-faebcb4c7351821b-5005dd0f08320335",
+      "type": "ACTION",
+      "label": "tools/call update_service_selector",
+      "span": {
+        "traceId": "faebcb4c7351821b5a527ec72eff870a",
+        "spanId": "5005dd0f08320335"
+      },
+      "observedAt": "2026-10-08T15:41:30.327478688Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "k8s:567af9f2-ffb7-4cf5-bee5-b334699d5b03",
+      "type": "KUBERNETES_OBJECT",
+      "label": "Service shop/inventory",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Service",
+        "namespace": "shop",
+        "name": "inventory",
+        "uid": "567af9f2-ffb7-4cf5-bee5-b334699d5b03"
+      },
+      "change": {
+        "type": "MUTATED",
+        "resourceVersion": "2775",
+        "at": "2026-10-08T15:41:30.329678945Z"
+      },
+      "observedAt": "2026-10-08T15:41:30.327767Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "request:c30afbb9-00e2-4b71-8110-db6286bf0aab",
+      "type": "KUBERNETES_REQUEST",
+      "label": "PATCH services shop/inventory",
+      "request": {
+        "verb": "patch",
+        "resource": "services",
+        "namespace": "shop",
+        "name": "inventory",
+        "auditId": "c30afbb9-00e2-4b71-8110-db6286bf0aab",
+        "user": "system:serviceaccount:effecttrace-demo:demo-actor",
+        "userAgent": "effecttrace-demo-tools/v0.1.0",
+        "statusCode": 200,
+        "receivedAt": "2026-10-08T15:41:30.327767Z",
+        "sources": [
+          "kubernetes-audit",
+          "otlp-client-span"
+        ]
+      },
+      "span": {
+        "traceId": "faebcb4c7351821b5a527ec72eff870a",
+        "spanId": "a9eae638ed4ee704"
+      },
+      "observedAt": "2026-10-08T15:41:30.327767Z",
+      "grade": "ATTRIBUTED"
+    }
+  ],
+  "edges": [
+    {
+      "id": "e-03481dc113745eab",
+      "from": "action:mcp-faebcb4c7351821b-5005dd0f08320335",
+      "to": "request:c30afbb9-00e2-4b71-8110-db6286bf0aab",
+      "relationship": "TRACE_PARENT",
+      "evidence": "TRACE_LINK",
+      "reason": "The Kubernetes client span \"patch services\" descends from the tool span (1 parent hop(s)) in trace faebcb4c.",
+      "observedAt": "2026-10-08T15:41:30.327767Z",
+      "source": "otlp",
+      "facts": [
+        {
+          "key": "client_span_id",
+          "value": "a9eae638ed4ee704"
+        },
+        {
+          "key": "parent_hops",
+          "value": "1"
+        },
+        {
+          "key": "trace_id",
+          "value": "faebcb4c7351821b5a527ec72eff870a"
+        }
+      ],
+      "rule": "client-span-descends-from-tool-span"
+    },
+    {
+      "id": "e-0f2a39da5352c2a6",
+      "from": "request:c30afbb9-00e2-4b71-8110-db6286bf0aab",
+      "to": "k8s:567af9f2-ffb7-4cf5-bee5-b334699d5b03",
+      "relationship": "DIRECT_REQUEST",
+      "evidence": "DIRECT",
+      "reason": "PATCH services shop/inventory changed Service shop/inventory; the UID and resourceVersion were returned to the instrumented client; audit event c30afbb9 independently confirms the request; the watch observed the same resourceVersion.",
+      "observedAt": "2026-10-08T15:41:30.327767Z",
+      "source": "otlp",
+      "facts": [
+        {
+          "key": "audit_id",
+          "value": "c30afbb9-00e2-4b71-8110-db6286bf0aab"
+        },
+        {
+          "key": "audit_id_match",
+          "value": "client span Audit-ID equals audit event auditID"
+        },
+        {
+          "key": "object_uid",
+          "value": "567af9f2-ffb7-4cf5-bee5-b334699d5b03"
+        },
+        {
+          "key": "resource_version",
+          "value": "2775"
+        },
+        {
+          "key": "uid_source",
+          "value": "client response metadata"
+        }
+      ],
+      "rule": "uid-from-client-response"
+    }
+  ],
+  "coverage": [
+    {
+      "source": "kubernetes-audit",
+      "available": true,
+      "detail": "1/1 request(s) confirmed by an audit event"
+    },
+    {
+      "source": "kubernetes-events",
+      "available": true,
+      "detail": "informers synced"
+    },
+    {
+      "source": "kubernetes-watch",
+      "available": true,
+      "detail": "watching since 2026-10-08T15:33:13Z"
+    },
+    {
+      "source": "otlp",
+      "available": true,
+      "detail": "tool span received"
+    },
+    {
+      "source": "prometheus",
+      "available": true,
+      "detail": "10 signal evaluation(s), 0 failed"
+    }
+  ]
+}

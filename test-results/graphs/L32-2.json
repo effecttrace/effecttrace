@@ -1,0 +1,1087 @@
+{
+  "schemaVersion": "effecttrace.io/v1alpha1",
+  "id": "g-mcp-467bf30608e0de85-79e574d72738e2f3",
+  "status": "COMPLETE",
+  "action": {
+    "id": "mcp-467bf30608e0de85-79e574d72738e2f3",
+    "kind": "MCP_TOOL_CALL",
+    "name": "tools/call scale_workload",
+    "tool": "scale_workload",
+    "actor": "mcp-client:demo-agent",
+    "service": "demo-tools",
+    "startedAt": "2026-10-08T16:01:53.41190664Z",
+    "endedAt": "2026-10-08T16:01:53.415292067Z",
+    "trace": {
+      "traceId": "467bf30608e0de855200d476fae56fa2",
+      "spanId": "79e574d72738e2f3"
+    },
+    "outcome": "ok",
+    "targets": [
+      {
+        "kind": "Deployment",
+        "namespace": "shop",
+        "name": "frontend",
+        "uid": "3328379e-4a5e-4947-8bb7-acc6d93b9a05"
+      }
+    ]
+  },
+  "windows": [
+    {
+      "name": "reconcile Deployment shop/frontend",
+      "start": "2026-10-08T16:01:52.912265Z",
+      "end": "2026-10-08T16:02:07.341679529Z",
+      "reason": "closed 5s after Deployment reported a stable status"
+    },
+    {
+      "name": "baseline",
+      "start": "2026-10-08T16:00:53.412265Z",
+      "end": "2026-10-08T16:01:53.412265Z",
+      "reason": "telemetry comparison baseline before the action"
+    },
+    {
+      "name": "telemetry",
+      "start": "2026-10-08T16:01:53.412265Z",
+      "end": "2026-10-08T16:02:22.341679529Z",
+      "reason": "reconciliation window plus telemetry settle period"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "action:mcp-467bf30608e0de85-79e574d72738e2f3",
+      "type": "ACTION",
+      "label": "tools/call scale_workload",
+      "span": {
+        "traceId": "467bf30608e0de855200d476fae56fa2",
+        "spanId": "79e574d72738e2f3"
+      },
+      "observedAt": "2026-10-08T16:01:53.41190664Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "k8s:00afeb77-671d-45e7-895f-c2a379953ca4",
+      "type": "KUBERNETES_OBJECT",
+      "label": "ReplicaSet shop/frontend-64584c7769",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "namespace": "shop",
+        "name": "frontend-64584c7769",
+        "uid": "00afeb77-671d-45e7-895f-c2a379953ca4"
+      },
+      "observedAt": "2026-10-08T16:01:19.588733524Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "k8s:3328379e-4a5e-4947-8bb7-acc6d93b9a05",
+      "type": "KUBERNETES_OBJECT",
+      "label": "Deployment shop/frontend",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "namespace": "shop",
+        "name": "frontend",
+        "uid": "3328379e-4a5e-4947-8bb7-acc6d93b9a05"
+      },
+      "change": {
+        "type": "MUTATED",
+        "generationFrom": 8,
+        "generationTo": 9,
+        "resourceVersion": "7906",
+        "replicasFrom": 2,
+        "replicasTo": 3,
+        "at": "2026-10-08T16:01:53.41551161Z"
+      },
+      "observedAt": "2026-10-08T16:01:53.412265Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "k8s:8703ad70-862a-4633-b1f1-1bae1cd76b49",
+      "type": "KUBERNETES_OBJECT",
+      "label": "ReplicaSet shop/frontend-7f57f584b7",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "namespace": "shop",
+        "name": "frontend-7f57f584b7",
+        "uid": "8703ad70-862a-4633-b1f1-1bae1cd76b49"
+      },
+      "observedAt": "2026-10-08T16:01:53.424020344Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "metric:http_error_ratio:3328379e-4a5e-4947-8bb7-acc6d93b9a05",
+      "type": "METRIC_OBSERVATION",
+      "label": "http_error_ratio for frontend",
+      "metric": {
+        "signal": "http_error_ratio",
+        "unit": "ratio",
+        "workload": "frontend",
+        "baseline": 0,
+        "observed": 0,
+        "direction": "unchanged",
+        "changed": false,
+        "samples": 14
+      },
+      "observedAt": "2026-10-08T16:01:53.412265Z"
+    },
+    {
+      "id": "metric:http_p99_latency:3328379e-4a5e-4947-8bb7-acc6d93b9a05",
+      "type": "METRIC_OBSERVATION",
+      "label": "http_p99_latency for frontend",
+      "metric": {
+        "signal": "http_p99_latency",
+        "unit": "seconds",
+        "workload": "frontend",
+        "baseline": 0.13002367523844874,
+        "observed": 0.45791417777777776,
+        "direction": "increased",
+        "changed": true,
+        "samples": 14
+      },
+      "observedAt": "2026-10-08T16:01:53.412265Z",
+      "grade": "CORRELATED"
+    },
+    {
+      "id": "request:bfe7de9e-69a6-467f-8790-aedfbd3ca44d",
+      "type": "KUBERNETES_REQUEST",
+      "label": "PATCH deployments/scale shop/frontend",
+      "request": {
+        "verb": "patch",
+        "resource": "deployments",
+        "subresource": "scale",
+        "apiGroup": "apps",
+        "namespace": "shop",
+        "name": "frontend",
+        "auditId": "bfe7de9e-69a6-467f-8790-aedfbd3ca44d",
+        "user": "system:serviceaccount:effecttrace-demo:demo-actor",
+        "userAgent": "effecttrace-demo-tools/v0.1.0",
+        "statusCode": 200,
+        "receivedAt": "2026-10-08T16:01:53.412265Z",
+        "sources": [
+          "kubernetes-audit",
+          "otlp-client-span"
+        ]
+      },
+      "span": {
+        "traceId": "467bf30608e0de855200d476fae56fa2",
+        "spanId": "a573b8e5087a399a"
+      },
+      "observedAt": "2026-10-08T16:01:53.412265Z",
+      "grade": "ATTRIBUTED"
+    }
+  ],
+  "edges": [
+    {
+      "id": "e-b5c14824a4b377ab",
+      "from": "action:mcp-467bf30608e0de85-79e574d72738e2f3",
+      "to": "request:bfe7de9e-69a6-467f-8790-aedfbd3ca44d",
+      "relationship": "TRACE_PARENT",
+      "evidence": "TRACE_LINK",
+      "reason": "The Kubernetes client span \"patch deployments/scale\" descends from the tool span (1 parent hop(s)) in trace 467bf306.",
+      "observedAt": "2026-10-08T16:01:53.412265Z",
+      "source": "otlp",
+      "facts": [
+        {
+          "key": "client_span_id",
+          "value": "a573b8e5087a399a"
+        },
+        {
+          "key": "parent_hops",
+          "value": "1"
+        },
+        {
+          "key": "trace_id",
+          "value": "467bf30608e0de855200d476fae56fa2"
+        }
+      ],
+      "rule": "client-span-descends-from-tool-span"
+    },
+    {
+      "id": "e-0341f8bf3f38e2ee",
+      "from": "k8s:3328379e-4a5e-4947-8bb7-acc6d93b9a05",
+      "to": "k8s:00afeb77-671d-45e7-895f-c2a379953ca4",
+      "relationship": "STRUCTURAL_OWNER",
+      "evidence": "STRUCTURAL",
+      "reason": "ReplicaSet shop/frontend-64584c7769 is controlled by Deployment shop/frontend (ownerReference uid 3328379e); it did not change itself but owns objects that did.",
+      "observedAt": "2026-10-08T16:01:19.588733524Z",
+      "source": "kubernetes-watch",
+      "facts": [
+        {
+          "key": "owner_uid",
+          "value": "3328379e-4a5e-4947-8bb7-acc6d93b9a05"
+        }
+      ],
+      "rule": "controller-owner-of-directly-mutated-object"
+    },
+    {
+      "id": "e-65f0645d2d083b03",
+      "from": "k8s:3328379e-4a5e-4947-8bb7-acc6d93b9a05",
+      "to": "k8s:8703ad70-862a-4633-b1f1-1bae1cd76b49",
+      "relationship": "STRUCTURAL_OWNER",
+      "evidence": "STRUCTURAL",
+      "reason": "ReplicaSet shop/frontend-7f57f584b7 is controlled by Deployment shop/frontend (ownerReference uid 3328379e); it did not change itself but owns objects that did.",
+      "observedAt": "2026-10-08T16:01:53.424020344Z",
+      "source": "kubernetes-watch",
+      "facts": [
+        {
+          "key": "owner_uid",
+          "value": "3328379e-4a5e-4947-8bb7-acc6d93b9a05"
+        }
+      ],
+      "rule": "controller-owner-of-directly-mutated-object"
+    },
+    {
+      "id": "e-ad36541cdf3649c3",
+      "from": "k8s:3328379e-4a5e-4947-8bb7-acc6d93b9a05",
+      "to": "metric:http_p99_latency:3328379e-4a5e-4947-8bb7-acc6d93b9a05",
+      "relationship": "TEMPORAL_CORRELATION",
+      "evidence": "TEMPORAL_CORRELATION",
+      "reason": "http_p99_latency for frontend increased from 130ms (baseline) to 458ms during the observation window 16:01:53 - 16:02:22. Temporal correlation does not prove causation.",
+      "observedAt": "2026-10-08T16:01:53.412265Z",
+      "source": "prometheus",
+      "facts": [
+        {
+          "key": "baseline",
+          "value": "130ms"
+        },
+        {
+          "key": "observed",
+          "value": "458ms"
+        },
+        {
+          "key": "samples",
+          "value": "14"
+        }
+      ],
+      "rule": "signal-changed-in-observation-window"
+    },
+    {
+      "id": "e-6ad8e23efb85aaad",
+      "from": "request:bfe7de9e-69a6-467f-8790-aedfbd3ca44d",
+      "to": "k8s:3328379e-4a5e-4947-8bb7-acc6d93b9a05",
+      "relationship": "DIRECT_REQUEST",
+      "evidence": "DIRECT",
+      "reason": "PATCH deployments/scale shop/frontend changed Deployment shop/frontend (generation 8 -\u003e 9); the UID and resourceVersion were returned to the instrumented client; audit event bfe7de9e independently confirms the request; the watch observed the same resourceVersion.",
+      "observedAt": "2026-10-08T16:01:53.412265Z",
+      "source": "otlp",
+      "facts": [
+        {
+          "key": "audit_id",
+          "value": "bfe7de9e-69a6-467f-8790-aedfbd3ca44d"
+        },
+        {
+          "key": "audit_id_match",
+          "value": "client span Audit-ID equals audit event auditID"
+        },
+        {
+          "key": "object_uid",
+          "value": "3328379e-4a5e-4947-8bb7-acc6d93b9a05"
+        },
+        {
+          "key": "resource_version",
+          "value": "7906"
+        },
+        {
+          "key": "uid_source",
+          "value": "client response metadata"
+        }
+      ],
+      "rule": "uid-from-client-response"
+    }
+  ],
+  "ambiguities": [
+    {
+      "label": "ReplicaSet shop/frontend-64584c7769 scaled 2 -\u003e 0",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "namespace": "shop",
+        "name": "frontend-64584c7769",
+        "uid": "00afeb77-671d-45e7-895f-c2a379953ca4"
+      },
+      "at": "2026-10-08T16:01:53.418760911Z",
+      "candidates": [
+        "mcp-467bf30608e0de85-79e574d72738e2f3",
+        "mcp-4a47b92d3439fec3-1d8b2b6745a30de8"
+      ],
+      "reason": "the change falls in the reconciliation windows of more than one action that changed an owner of this object"
+    },
+    {
+      "label": "Event ScalingReplicaSet on Deployment shop/frontend",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "namespace": "shop",
+        "name": "frontend",
+        "uid": "3328379e-4a5e-4947-8bb7-acc6d93b9a05"
+      },
+      "at": "2026-10-08T16:01:53.42039325Z",
+      "candidates": [
+        "mcp-467bf30608e0de85-79e574d72738e2f3",
+        "mcp-4a47b92d3439fec3-1d8b2b6745a30de8"
+      ],
+      "reason": "the Event falls in the windows of more than one action covering this object"
+    },
+    {
+      "label": "Pod shop/frontend-64584c7769-4wwfg created",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "frontend-64584c7769-4wwfg",
+        "uid": "9bd28918-8e44-4403-83e1-85a5d940a72a"
+      },
+      "at": "2026-10-08T16:01:53.421936213Z",
+      "candidates": [
+        "mcp-467bf30608e0de85-79e574d72738e2f3",
+        "mcp-4a47b92d3439fec3-1d8b2b6745a30de8"
+      ],
+      "reason": "the change falls in the reconciliation windows of more than one action that changed an owner of this object"
+    },
+    {
+      "label": "ReplicaSet shop/frontend-7f57f584b7 created",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "namespace": "shop",
+        "name": "frontend-7f57f584b7",
+        "uid": "8703ad70-862a-4633-b1f1-1bae1cd76b49"
+      },
+      "at": "2026-10-08T16:01:53.424020344Z",
+      "candidates": [
+        "mcp-467bf30608e0de85-79e574d72738e2f3",
+        "mcp-4a47b92d3439fec3-1d8b2b6745a30de8"
+      ],
+      "reason": "the change falls in the reconciliation windows of more than one action that changed an owner of this object"
+    },
+    {
+      "label": "Event SuccessfulCreate on ReplicaSet shop/frontend-64584c7769",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "namespace": "shop",
+        "name": "frontend-64584c7769",
+        "uid": "00afeb77-671d-45e7-895f-c2a379953ca4"
+      },
+      "at": "2026-10-08T16:01:53.424441304Z",
+      "candidates": [
+        "mcp-467bf30608e0de85-79e574d72738e2f3",
+        "mcp-4a47b92d3439fec3-1d8b2b6745a30de8"
+      ],
+      "reason": "the Event falls in the windows of more than one action covering this object"
+    },
+    {
+      "label": "Pod shop/frontend-7f57f584b7-httd7 created",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "frontend-7f57f584b7-httd7",
+        "uid": "af18f41a-c4a3-45fc-9336-e65853e9e8d7"
+      },
+      "at": "2026-10-08T16:01:53.430258322Z",
+      "candidates": [
+        "mcp-467bf30608e0de85-79e574d72738e2f3",
+        "mcp-4a47b92d3439fec3-1d8b2b6745a30de8"
+      ],
+      "reason": "the change falls in the reconciliation windows of more than one action that changed an owner of this object"
+    },
+    {
+      "label": "Event ScalingReplicaSet on Deployment shop/frontend",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "namespace": "shop",
+        "name": "frontend",
+        "uid": "3328379e-4a5e-4947-8bb7-acc6d93b9a05"
+      },
+      "at": "2026-10-08T16:01:53.435597296Z",
+      "candidates": [
+        "mcp-467bf30608e0de85-79e574d72738e2f3",
+        "mcp-4a47b92d3439fec3-1d8b2b6745a30de8"
+      ],
+      "reason": "the Event falls in the windows of more than one action covering this object"
+    },
+    {
+      "label": "Event SuccessfulCreate on ReplicaSet shop/frontend-7f57f584b7",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "namespace": "shop",
+        "name": "frontend-7f57f584b7",
+        "uid": "8703ad70-862a-4633-b1f1-1bae1cd76b49"
+      },
+      "at": "2026-10-08T16:01:53.438317555Z",
+      "candidates": [
+        "mcp-467bf30608e0de85-79e574d72738e2f3",
+        "mcp-4a47b92d3439fec3-1d8b2b6745a30de8"
+      ],
+      "reason": "the Event falls in the windows of more than one action covering this object"
+    },
+    {
+      "label": "Event ScalingReplicaSet on Deployment shop/frontend",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "namespace": "shop",
+        "name": "frontend",
+        "uid": "3328379e-4a5e-4947-8bb7-acc6d93b9a05"
+      },
+      "at": "2026-10-08T16:01:56.347108643Z",
+      "candidates": [
+        "mcp-467bf30608e0de85-79e574d72738e2f3",
+        "mcp-4a47b92d3439fec3-1d8b2b6745a30de8"
+      ],
+      "reason": "the Event falls in the windows of more than one action covering this object"
+    },
+    {
+      "label": "Pod shop/frontend-64584c7769-4wwfg terminated",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "frontend-64584c7769-4wwfg",
+        "uid": "9bd28918-8e44-4403-83e1-85a5d940a72a"
+      },
+      "at": "2026-10-08T16:01:56.347392727Z",
+      "candidates": [
+        "mcp-467bf30608e0de85-79e574d72738e2f3",
+        "mcp-4a47b92d3439fec3-1d8b2b6745a30de8"
+      ],
+      "reason": "the change falls in the reconciliation windows of more than one action that changed an owner of this object"
+    },
+    {
+      "label": "Event SuccessfulDelete on ReplicaSet shop/frontend-64584c7769",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "namespace": "shop",
+        "name": "frontend-64584c7769",
+        "uid": "00afeb77-671d-45e7-895f-c2a379953ca4"
+      },
+      "at": "2026-10-08T16:01:56.446162488Z",
+      "candidates": [
+        "mcp-467bf30608e0de85-79e574d72738e2f3",
+        "mcp-4a47b92d3439fec3-1d8b2b6745a30de8"
+      ],
+      "reason": "the Event falls in the windows of more than one action covering this object"
+    },
+    {
+      "label": "Pod shop/frontend-7f57f584b7-c2dnh created",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "frontend-7f57f584b7-c2dnh",
+        "uid": "079d4ea0-bcd7-40bf-ad4e-02918920b586"
+      },
+      "at": "2026-10-08T16:01:56.496457268Z",
+      "candidates": [
+        "mcp-467bf30608e0de85-79e574d72738e2f3",
+        "mcp-4a47b92d3439fec3-1d8b2b6745a30de8"
+      ],
+      "reason": "the change falls in the reconciliation windows of more than one action that changed an owner of this object"
+    },
+    {
+      "label": "Event SuccessfulCreate on ReplicaSet shop/frontend-7f57f584b7",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "namespace": "shop",
+        "name": "frontend-7f57f584b7",
+        "uid": "8703ad70-862a-4633-b1f1-1bae1cd76b49"
+      },
+      "at": "2026-10-08T16:01:56.646059768Z",
+      "candidates": [
+        "mcp-467bf30608e0de85-79e574d72738e2f3",
+        "mcp-4a47b92d3439fec3-1d8b2b6745a30de8"
+      ],
+      "reason": "the Event falls in the windows of more than one action covering this object"
+    },
+    {
+      "label": "Pod shop/frontend-64584c7769-8dqbn terminated",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "frontend-64584c7769-8dqbn",
+        "uid": "ee485b1a-fcb1-4cae-9213-73d0d0a3c0f4"
+      },
+      "at": "2026-10-08T16:01:59.313386824Z",
+      "candidates": [
+        "mcp-467bf30608e0de85-79e574d72738e2f3",
+        "mcp-4a47b92d3439fec3-1d8b2b6745a30de8"
+      ],
+      "reason": "the change falls in the reconciliation windows of more than one action that changed an owner of this object"
+    },
+    {
+      "label": "Event SuccessfulDelete on ReplicaSet shop/frontend-64584c7769",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "namespace": "shop",
+        "name": "frontend-64584c7769",
+        "uid": "00afeb77-671d-45e7-895f-c2a379953ca4"
+      },
+      "at": "2026-10-08T16:01:59.317011752Z",
+      "candidates": [
+        "mcp-467bf30608e0de85-79e574d72738e2f3",
+        "mcp-4a47b92d3439fec3-1d8b2b6745a30de8"
+      ],
+      "reason": "the Event falls in the windows of more than one action covering this object"
+    },
+    {
+      "label": "Pod shop/frontend-7f57f584b7-vczh5 created",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "frontend-7f57f584b7-vczh5",
+        "uid": "dc8bf994-188d-4961-a876-b86912e4da42"
+      },
+      "at": "2026-10-08T16:01:59.321017639Z",
+      "candidates": [
+        "mcp-467bf30608e0de85-79e574d72738e2f3",
+        "mcp-4a47b92d3439fec3-1d8b2b6745a30de8"
+      ],
+      "reason": "the change falls in the reconciliation windows of more than one action that changed an owner of this object"
+    },
+    {
+      "label": "Event SuccessfulCreate on ReplicaSet shop/frontend-7f57f584b7",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "namespace": "shop",
+        "name": "frontend-7f57f584b7",
+        "uid": "8703ad70-862a-4633-b1f1-1bae1cd76b49"
+      },
+      "at": "2026-10-08T16:01:59.323513689Z",
+      "candidates": [
+        "mcp-467bf30608e0de85-79e574d72738e2f3",
+        "mcp-4a47b92d3439fec3-1d8b2b6745a30de8"
+      ],
+      "reason": "the Event falls in the windows of more than one action covering this object"
+    },
+    {
+      "label": "Pod shop/frontend-64584c7769-zfh7x terminated",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "frontend-64584c7769-zfh7x",
+        "uid": "6619e5ac-6412-4031-955d-934c0e81df86"
+      },
+      "at": "2026-10-08T16:02:02.325985814Z",
+      "candidates": [
+        "mcp-467bf30608e0de85-79e574d72738e2f3",
+        "mcp-4a47b92d3439fec3-1d8b2b6745a30de8"
+      ],
+      "reason": "the change falls in the reconciliation windows of more than one action that changed an owner of this object"
+    },
+    {
+      "label": "Event SuccessfulDelete on ReplicaSet shop/frontend-64584c7769",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "namespace": "shop",
+        "name": "frontend-64584c7769",
+        "uid": "00afeb77-671d-45e7-895f-c2a379953ca4"
+      },
+      "at": "2026-10-08T16:02:02.328633531Z",
+      "candidates": [
+        "mcp-467bf30608e0de85-79e574d72738e2f3",
+        "mcp-4a47b92d3439fec3-1d8b2b6745a30de8"
+      ],
+      "reason": "the Event falls in the windows of more than one action covering this object"
+    }
+  ],
+  "exclusions": [
+    {
+      "label": "http_p99_latency for checkout increased from 102ms to 299ms",
+      "object": {
+        "kind": "Workload",
+        "namespace": "shop",
+        "name": "checkout",
+        "uid": "89f16f9d-b639-4547-a33c-4de411884544"
+      },
+      "kind": "METRIC",
+      "at": "2026-10-08T16:01:53.412265Z",
+      "reason": "the signal changed during the window, but checkout is outside this action's structural scope"
+    },
+    {
+      "label": "http_p99_latency for inventory increased from 25ms to 99ms",
+      "object": {
+        "kind": "Workload",
+        "namespace": "shop",
+        "name": "inventory",
+        "uid": "49eff975-f5ff-46e6-992f-cc80d43d0fc9"
+      },
+      "kind": "METRIC",
+      "at": "2026-10-08T16:01:53.412265Z",
+      "reason": "the signal changed during the window, but inventory is outside this action's structural scope"
+    },
+    {
+      "label": "http_p99_latency for payments increased from 48ms to 99ms",
+      "object": {
+        "kind": "Workload",
+        "namespace": "shop",
+        "name": "payments",
+        "uid": "2c921419-8482-4905-88b6-e8d02d07b681"
+      },
+      "kind": "METRIC",
+      "at": "2026-10-08T16:01:53.412265Z",
+      "reason": "the signal changed during the window, but payments is outside this action's structural scope"
+    },
+    {
+      "label": "ReplicaSet shop/inventory-5d667bf95 created",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "namespace": "shop",
+        "name": "inventory-5d667bf95",
+        "uid": "8642b074-a3a0-46c9-9393-47de1f0341fa"
+      },
+      "kind": "CREATED",
+      "at": "2026-10-08T16:01:53.419775581Z",
+      "reason": "attributed to another action",
+      "claimedBy": "mcp-0f60c00989c02df6-1756844e9035e49b,mcp-98034448b7a19fef-9938d744100d0adc"
+    },
+    {
+      "label": "ReplicaSet shop/payments-fd5847f45 scaled 2 -\u003e 0",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "namespace": "shop",
+        "name": "payments-fd5847f45",
+        "uid": "3c64f171-73a1-4a4c-8e24-83344dee486f"
+      },
+      "kind": "SCALED",
+      "at": "2026-10-08T16:01:53.419777706Z",
+      "reason": "attributed to another action",
+      "claimedBy": "mcp-52089ab8822c03f7-e768dfce11004712,mcp-d27ae5bdf6d9c7cc-35b69eee07b02e41"
+    },
+    {
+      "label": "ReplicaSet shop/checkout-6c9c6487b8 scaled 3 -\u003e 0",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "namespace": "shop",
+        "name": "checkout-6c9c6487b8",
+        "uid": "ec5c52e5-77be-4b49-9952-c483c23f67b5"
+      },
+      "kind": "SCALED",
+      "at": "2026-10-08T16:01:53.419778664Z",
+      "reason": "attributed to another action",
+      "claimedBy": "mcp-0e3cb7b63805ea21-8f229d0bbcc3930e,mcp-25c700ec0d1a42bb-d2e1842c30565d66"
+    },
+    {
+      "label": "Pod shop/inventory-5d667bf95-nrt24 created",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "inventory-5d667bf95-nrt24",
+        "uid": "6b64b132-c09f-478b-ad8d-97d6de276925"
+      },
+      "kind": "CREATED",
+      "at": "2026-10-08T16:01:53.423322384Z",
+      "reason": "attributed to another action",
+      "claimedBy": "mcp-0f60c00989c02df6-1756844e9035e49b,mcp-98034448b7a19fef-9938d744100d0adc"
+    },
+    {
+      "label": "Pod shop/checkout-6c9c6487b8-tpfss created",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "checkout-6c9c6487b8-tpfss",
+        "uid": "c3755434-253a-424e-b515-495e55ed0584"
+      },
+      "kind": "CREATED",
+      "at": "2026-10-08T16:01:53.423324009Z",
+      "reason": "attributed to another action",
+      "claimedBy": "mcp-0e3cb7b63805ea21-8f229d0bbcc3930e,mcp-25c700ec0d1a42bb-d2e1842c30565d66"
+    },
+    {
+      "label": "Pod shop/payments-fd5847f45-gpztq created",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "payments-fd5847f45-gpztq",
+        "uid": "c08af560-62ac-4e39-857d-ca965bf1dd9b"
+      },
+      "kind": "CREATED",
+      "at": "2026-10-08T16:01:53.423324842Z",
+      "reason": "attributed to another action",
+      "claimedBy": "mcp-52089ab8822c03f7-e768dfce11004712,mcp-d27ae5bdf6d9c7cc-35b69eee07b02e41"
+    },
+    {
+      "label": "ReplicaSet shop/payments-7db6b9994c created",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "namespace": "shop",
+        "name": "payments-7db6b9994c",
+        "uid": "d71c6fdc-789e-4fcd-9d56-e53003ec0017"
+      },
+      "kind": "CREATED",
+      "at": "2026-10-08T16:01:53.425371057Z",
+      "reason": "attributed to another action",
+      "claimedBy": "mcp-52089ab8822c03f7-e768dfce11004712,mcp-d27ae5bdf6d9c7cc-35b69eee07b02e41"
+    },
+    {
+      "label": "ReplicaSet shop/checkout-7f79bb656d created",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "namespace": "shop",
+        "name": "checkout-7f79bb656d",
+        "uid": "47c88e1a-354a-42aa-9a45-d237586a8c7b"
+      },
+      "kind": "CREATED",
+      "at": "2026-10-08T16:01:53.42697302Z",
+      "reason": "attributed to another action",
+      "claimedBy": "mcp-0e3cb7b63805ea21-8f229d0bbcc3930e,mcp-25c700ec0d1a42bb-d2e1842c30565d66"
+    },
+    {
+      "label": "ReplicaSet shop/inventory-7888bdd784 scaled 2 -\u003e 0",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "namespace": "shop",
+        "name": "inventory-7888bdd784",
+        "uid": "d45f9010-9a58-459d-9b37-d5a658a9fd8a"
+      },
+      "kind": "SCALED",
+      "at": "2026-10-08T16:01:53.430061696Z",
+      "reason": "attributed to another action",
+      "claimedBy": "mcp-0f60c00989c02df6-1756844e9035e49b,mcp-98034448b7a19fef-9938d744100d0adc"
+    },
+    {
+      "label": "Pod shop/payments-7db6b9994c-qxrkb created",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "payments-7db6b9994c-qxrkb",
+        "uid": "2cc9063a-f680-49dd-8a2a-1ad7ea315226"
+      },
+      "kind": "CREATED",
+      "at": "2026-10-08T16:01:53.431606784Z",
+      "reason": "attributed to another action",
+      "claimedBy": "mcp-52089ab8822c03f7-e768dfce11004712,mcp-d27ae5bdf6d9c7cc-35b69eee07b02e41"
+    },
+    {
+      "label": "Pod shop/checkout-7f79bb656d-29x65 created",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "checkout-7f79bb656d-29x65",
+        "uid": "f7392397-cd9a-4af0-a712-7bded551ab03"
+      },
+      "kind": "CREATED",
+      "at": "2026-10-08T16:01:53.431607701Z",
+      "reason": "attributed to another action",
+      "claimedBy": "mcp-0e3cb7b63805ea21-8f229d0bbcc3930e,mcp-25c700ec0d1a42bb-d2e1842c30565d66"
+    },
+    {
+      "label": "Pod shop/inventory-7888bdd784-kkgl5 created",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "inventory-7888bdd784-kkgl5",
+        "uid": "dab7b103-50cb-4334-a3a1-298b9815931d"
+      },
+      "kind": "CREATED",
+      "at": "2026-10-08T16:01:53.43560738Z",
+      "reason": "attributed to another action",
+      "claimedBy": "mcp-0f60c00989c02df6-1756844e9035e49b,mcp-98034448b7a19fef-9938d744100d0adc"
+    },
+    {
+      "label": "Pod shop/inventory-7888bdd784-kkgl5 terminated",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "inventory-7888bdd784-kkgl5",
+        "uid": "dab7b103-50cb-4334-a3a1-298b9815931d"
+      },
+      "kind": "DELETED",
+      "at": "2026-10-08T16:01:56.315411337Z",
+      "reason": "attributed to another action",
+      "claimedBy": "mcp-0f60c00989c02df6-1756844e9035e49b,mcp-98034448b7a19fef-9938d744100d0adc"
+    },
+    {
+      "label": "Pod shop/inventory-5d667bf95-6srhr created",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "inventory-5d667bf95-6srhr",
+        "uid": "f7048246-6ce2-4895-8231-b23653992cfe"
+      },
+      "kind": "CREATED",
+      "at": "2026-10-08T16:01:56.319568183Z",
+      "reason": "attributed to another action",
+      "claimedBy": "mcp-0f60c00989c02df6-1756844e9035e49b,mcp-98034448b7a19fef-9938d744100d0adc"
+    },
+    {
+      "label": "Pod shop/checkout-6c9c6487b8-tpfss terminated",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "checkout-6c9c6487b8-tpfss",
+        "uid": "c3755434-253a-424e-b515-495e55ed0584"
+      },
+      "kind": "DELETED",
+      "at": "2026-10-08T16:01:56.324811616Z",
+      "reason": "attributed to another action",
+      "claimedBy": "mcp-0e3cb7b63805ea21-8f229d0bbcc3930e,mcp-25c700ec0d1a42bb-d2e1842c30565d66"
+    },
+    {
+      "label": "Pod shop/checkout-7f79bb656d-q7lc4 created",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "checkout-7f79bb656d-q7lc4",
+        "uid": "80fd02da-ca79-4c0e-b916-7997cd8e6171"
+      },
+      "kind": "CREATED",
+      "at": "2026-10-08T16:01:56.330966635Z",
+      "reason": "attributed to another action",
+      "claimedBy": "mcp-0e3cb7b63805ea21-8f229d0bbcc3930e,mcp-25c700ec0d1a42bb-d2e1842c30565d66"
+    },
+    {
+      "label": "Pod shop/payments-fd5847f45-gpztq terminated",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "payments-fd5847f45-gpztq",
+        "uid": "c08af560-62ac-4e39-857d-ca965bf1dd9b"
+      },
+      "kind": "DELETED",
+      "at": "2026-10-08T16:01:56.333976353Z",
+      "reason": "attributed to another action",
+      "claimedBy": "mcp-52089ab8822c03f7-e768dfce11004712,mcp-d27ae5bdf6d9c7cc-35b69eee07b02e41"
+    },
+    {
+      "label": "Pod shop/payments-7db6b9994c-44t7v created",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "payments-7db6b9994c-44t7v",
+        "uid": "bc930f02-7a44-49a3-9d45-e45c260c7d73"
+      },
+      "kind": "CREATED",
+      "at": "2026-10-08T16:01:56.340711582Z",
+      "reason": "attributed to another action",
+      "claimedBy": "mcp-52089ab8822c03f7-e768dfce11004712,mcp-d27ae5bdf6d9c7cc-35b69eee07b02e41"
+    },
+    {
+      "label": "Pod shop/inventory-7888bdd784-ct5bq terminated",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "inventory-7888bdd784-ct5bq",
+        "uid": "0f964080-5298-41c3-9c3b-0dac657a4181"
+      },
+      "kind": "DELETED",
+      "at": "2026-10-08T16:01:59.307338222Z",
+      "reason": "attributed to another action",
+      "claimedBy": "mcp-0f60c00989c02df6-1756844e9035e49b,mcp-98034448b7a19fef-9938d744100d0adc"
+    },
+    {
+      "label": "Pod shop/inventory-5d667bf95-z2jk6 created",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "inventory-5d667bf95-z2jk6",
+        "uid": "d2c53b18-5753-4238-b57f-ccc1b7e7a364"
+      },
+      "kind": "CREATED",
+      "at": "2026-10-08T16:01:59.313451408Z",
+      "reason": "attributed to another action",
+      "claimedBy": "mcp-0f60c00989c02df6-1756844e9035e49b,mcp-98034448b7a19fef-9938d744100d0adc"
+    },
+    {
+      "label": "Pod shop/checkout-6c9c6487b8-624bn terminated",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "checkout-6c9c6487b8-624bn",
+        "uid": "4aae8aa4-557d-4c3e-95c3-136c5deb11a0"
+      },
+      "kind": "DELETED",
+      "at": "2026-10-08T16:01:59.321016556Z",
+      "reason": "attributed to another action",
+      "claimedBy": "mcp-0e3cb7b63805ea21-8f229d0bbcc3930e,mcp-25c700ec0d1a42bb-d2e1842c30565d66"
+    },
+    {
+      "label": "Pod shop/checkout-7f79bb656d-4tjng created",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "checkout-7f79bb656d-4tjng",
+        "uid": "4286f80d-3a74-4dd1-9bce-3e87fb6550bb"
+      },
+      "kind": "CREATED",
+      "at": "2026-10-08T16:01:59.326197322Z",
+      "reason": "attributed to another action",
+      "claimedBy": "mcp-0e3cb7b63805ea21-8f229d0bbcc3930e,mcp-25c700ec0d1a42bb-d2e1842c30565d66"
+    },
+    {
+      "label": "Pod shop/payments-fd5847f45-tdcpq terminated",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "payments-fd5847f45-tdcpq",
+        "uid": "c2d73627-e94b-43e3-b8a6-18c4ea8fe6e4"
+      },
+      "kind": "DELETED",
+      "at": "2026-10-08T16:01:59.336440937Z",
+      "reason": "attributed to another action",
+      "claimedBy": "mcp-52089ab8822c03f7-e768dfce11004712,mcp-d27ae5bdf6d9c7cc-35b69eee07b02e41"
+    },
+    {
+      "label": "Pod shop/payments-7db6b9994c-z4925 created",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "payments-7db6b9994c-z4925",
+        "uid": "4acf219a-099f-48e6-8f6d-da81e407ff1a"
+      },
+      "kind": "CREATED",
+      "at": "2026-10-08T16:01:59.451333997Z",
+      "reason": "attributed to another action",
+      "claimedBy": "mcp-52089ab8822c03f7-e768dfce11004712,mcp-d27ae5bdf6d9c7cc-35b69eee07b02e41"
+    },
+    {
+      "label": "Pod shop/checkout-6c9c6487b8-p2k96 terminated",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "checkout-6c9c6487b8-p2k96",
+        "uid": "64bf76c8-d729-4abc-907c-99dc681f0f74"
+      },
+      "kind": "DELETED",
+      "at": "2026-10-08T16:02:02.317760123Z",
+      "reason": "attributed to another action",
+      "claimedBy": "mcp-0e3cb7b63805ea21-8f229d0bbcc3930e,mcp-25c700ec0d1a42bb-d2e1842c30565d66"
+    },
+    {
+      "label": "Pod shop/checkout-7f79bb656d-7b592 created",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "checkout-7f79bb656d-7b592",
+        "uid": "dccb586e-1cef-4ba0-ac2b-d350f5016960"
+      },
+      "kind": "CREATED",
+      "at": "2026-10-08T16:02:02.32601669Z",
+      "reason": "attributed to another action",
+      "claimedBy": "mcp-0e3cb7b63805ea21-8f229d0bbcc3930e,mcp-25c700ec0d1a42bb-d2e1842c30565d66"
+    },
+    {
+      "label": "Pod shop/payments-fd5847f45-kk5f5 terminated",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "payments-fd5847f45-kk5f5",
+        "uid": "d9438b5e-add3-47b8-9b4a-e96ce774da18"
+      },
+      "kind": "DELETED",
+      "at": "2026-10-08T16:02:02.347498422Z",
+      "reason": "attributed to another action",
+      "claimedBy": "mcp-52089ab8822c03f7-e768dfce11004712,mcp-d27ae5bdf6d9c7cc-35b69eee07b02e41"
+    },
+    {
+      "label": "Pod shop/inventory-7888bdd784-gv7cl terminated",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "inventory-7888bdd784-gv7cl",
+        "uid": "96bd7c8f-3aa9-4252-bfbc-fc32b9a641d0"
+      },
+      "kind": "DELETED",
+      "at": "2026-10-08T16:02:02.360429712Z",
+      "reason": "attributed to another action",
+      "claimedBy": "mcp-0f60c00989c02df6-1756844e9035e49b,mcp-98034448b7a19fef-9938d744100d0adc"
+    },
+    {
+      "label": "Pod shop/checkout-6c9c6487b8-b6nzd terminated",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "checkout-6c9c6487b8-b6nzd",
+        "uid": "f7735be0-6ba3-4ad7-8c95-b597f0772347"
+      },
+      "kind": "DELETED",
+      "at": "2026-10-08T16:02:05.344382114Z",
+      "reason": "attributed to another action",
+      "claimedBy": "mcp-0e3cb7b63805ea21-8f229d0bbcc3930e,mcp-25c700ec0d1a42bb-d2e1842c30565d66"
+    },
+    {
+      "label": "ReplicaSet shop/checkout-7687f5f94c terminated",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "namespace": "shop",
+        "name": "checkout-7687f5f94c",
+        "uid": "efe9cfad-023b-4582-92bd-851a581c5412"
+      },
+      "kind": "DELETED",
+      "at": "2026-10-08T16:02:05.359534202Z",
+      "reason": "attributed to another action",
+      "claimedBy": "mcp-0e3cb7b63805ea21-8f229d0bbcc3930e,mcp-25c700ec0d1a42bb-d2e1842c30565d66"
+    }
+  ],
+  "coverage": [
+    {
+      "source": "kubernetes-audit",
+      "available": true,
+      "detail": "1/1 request(s) confirmed by an audit event"
+    },
+    {
+      "source": "kubernetes-events",
+      "available": true,
+      "detail": "informers synced"
+    },
+    {
+      "source": "kubernetes-watch",
+      "available": true,
+      "detail": "watching since 2026-10-08T15:58:33Z"
+    },
+    {
+      "source": "otlp",
+      "available": true,
+      "detail": "tool span received"
+    },
+    {
+      "source": "prometheus",
+      "available": true,
+      "detail": "10 signal evaluation(s), 0 failed"
+    }
+  ],
+  "notes": [
+    "Some changes were not attributed because more than one action's window covered them; see ambiguities.",
+    "Temporal correlation does not prove causation."
+  ]
+}

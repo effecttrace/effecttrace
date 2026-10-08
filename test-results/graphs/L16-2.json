@@ -1,0 +1,540 @@
+{
+  "schemaVersion": "effecttrace.io/v1alpha1",
+  "id": "g-k8s-53e0000a-ab6e-49d5-854f-c8dac9dd324c",
+  "status": "COMPLETE",
+  "action": {
+    "id": "k8s-53e0000a-ab6e-49d5-854f-c8dac9dd324c",
+    "kind": "KUBERNETES_API_CALL",
+    "name": "patch deployments/scale shop/checkout",
+    "actor": "user:d8a722299a6f",
+    "service": "kubectl/v1.34.1",
+    "startedAt": "2026-10-08T15:45:44.636926Z",
+    "endedAt": "2026-10-08T15:45:44.639188Z",
+    "auditId": "53e0000a-ab6e-49d5-854f-c8dac9dd324c",
+    "outcome": "ok",
+    "targets": [
+      {
+        "kind": "Deployment",
+        "namespace": "shop",
+        "name": "checkout"
+      }
+    ]
+  },
+  "windows": [
+    {
+      "name": "reconcile Deployment shop/checkout",
+      "start": "2026-10-08T15:45:44.136926Z",
+      "end": "2026-10-08T15:45:59.775989124Z",
+      "reason": "closed 5s after Deployment reported a stable status"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "action:k8s-53e0000a-ab6e-49d5-854f-c8dac9dd324c",
+      "type": "ACTION",
+      "label": "patch deployments/scale shop/checkout",
+      "request": {
+        "verb": "patch",
+        "resource": "deployments",
+        "subresource": "scale",
+        "apiGroup": "apps",
+        "namespace": "shop",
+        "name": "checkout",
+        "auditId": "53e0000a-ab6e-49d5-854f-c8dac9dd324c",
+        "user": "user:d8a722299a6f",
+        "userAgent": "kubectl/v1.34.1",
+        "statusCode": 200,
+        "receivedAt": "2026-10-08T15:45:44.636926Z",
+        "sources": [
+          "kubernetes-audit"
+        ]
+      },
+      "observedAt": "2026-10-08T15:45:44.636926Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "k8s:89f16f9d-b639-4547-a33c-4de411884544",
+      "type": "KUBERNETES_OBJECT",
+      "label": "Deployment shop/checkout",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "namespace": "shop",
+        "name": "checkout",
+        "uid": "89f16f9d-b639-4547-a33c-4de411884544"
+      },
+      "change": {
+        "type": "MUTATED",
+        "generationFrom": 11,
+        "generationTo": 12,
+        "resourceVersion": "4129",
+        "replicasFrom": 3,
+        "replicasTo": 4,
+        "at": "2026-10-08T15:45:44.63962833Z"
+      },
+      "observedAt": "2026-10-08T15:45:44.636926Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "k8s:98c573ee-4165-41c1-ac2d-e446b5aecd19",
+      "type": "KUBERNETES_OBJECT",
+      "label": "ReplicaSet shop/checkout-689c6b6cfb",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "namespace": "shop",
+        "name": "checkout-689c6b6cfb",
+        "uid": "98c573ee-4165-41c1-ac2d-e446b5aecd19"
+      },
+      "observedAt": "2026-10-08T15:45:43.079502526Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "k8s:efe9cfad-023b-4582-92bd-851a581c5412",
+      "type": "KUBERNETES_OBJECT",
+      "label": "ReplicaSet shop/checkout-7687f5f94c",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "namespace": "shop",
+        "name": "checkout-7687f5f94c",
+        "uid": "efe9cfad-023b-4582-92bd-851a581c5412"
+      },
+      "observedAt": "2026-10-08T15:45:04.200227215Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "metric:http_error_ratio:89f16f9d-b639-4547-a33c-4de411884544",
+      "type": "METRIC_OBSERVATION",
+      "label": "http_error_ratio for checkout",
+      "metric": {
+        "signal": "http_error_ratio",
+        "unit": "ratio",
+        "workload": "checkout",
+        "baseline": 0,
+        "observed": 0,
+        "direction": "unchanged",
+        "changed": false,
+        "samples": 15
+      },
+      "observedAt": "2026-10-08T15:45:44.636926Z"
+    },
+    {
+      "id": "metric:http_p99_latency:89f16f9d-b639-4547-a33c-4de411884544",
+      "type": "METRIC_OBSERVATION",
+      "label": "http_p99_latency for checkout",
+      "metric": {
+        "signal": "http_p99_latency",
+        "unit": "seconds",
+        "workload": "checkout",
+        "baseline": 0.1180955041067813,
+        "observed": 0.1682323098394977,
+        "direction": "unchanged",
+        "changed": false,
+        "samples": 15
+      },
+      "observedAt": "2026-10-08T15:45:44.636926Z"
+    }
+  ],
+  "edges": [
+    {
+      "id": "e-ae3f220ddc5acea4",
+      "from": "action:k8s-53e0000a-ab6e-49d5-854f-c8dac9dd324c",
+      "to": "k8s:89f16f9d-b639-4547-a33c-4de411884544",
+      "relationship": "DIRECT_REQUEST",
+      "evidence": "DIRECT",
+      "reason": "PATCH deployments/scale shop/checkout changed Deployment shop/checkout (generation 11 -\u003e 12); the UID was resolved by name: it was the only Deployment with that name at request time.",
+      "observedAt": "2026-10-08T15:45:44.636926Z",
+      "source": "kubernetes-audit",
+      "facts": [
+        {
+          "key": "audit_id",
+          "value": "53e0000a-ab6e-49d5-854f-c8dac9dd324c"
+        },
+        {
+          "key": "object_uid",
+          "value": "89f16f9d-b639-4547-a33c-4de411884544"
+        },
+        {
+          "key": "resource_version",
+          "value": "4129"
+        },
+        {
+          "key": "uid_source",
+          "value": "name at request time"
+        }
+      ],
+      "rule": "uid-resolved-by-name-at-request-time"
+    },
+    {
+      "id": "e-5ca25548cb086346",
+      "from": "k8s:89f16f9d-b639-4547-a33c-4de411884544",
+      "to": "k8s:98c573ee-4165-41c1-ac2d-e446b5aecd19",
+      "relationship": "STRUCTURAL_OWNER",
+      "evidence": "STRUCTURAL",
+      "reason": "ReplicaSet shop/checkout-689c6b6cfb is controlled by Deployment shop/checkout (ownerReference uid 89f16f9d); it did not change itself but owns objects that did.",
+      "observedAt": "2026-10-08T15:45:43.079502526Z",
+      "source": "kubernetes-watch",
+      "facts": [
+        {
+          "key": "owner_uid",
+          "value": "89f16f9d-b639-4547-a33c-4de411884544"
+        }
+      ],
+      "rule": "controller-owner-of-directly-mutated-object"
+    },
+    {
+      "id": "e-2c7f710dcce7ba9e",
+      "from": "k8s:89f16f9d-b639-4547-a33c-4de411884544",
+      "to": "k8s:efe9cfad-023b-4582-92bd-851a581c5412",
+      "relationship": "STRUCTURAL_OWNER",
+      "evidence": "STRUCTURAL",
+      "reason": "ReplicaSet shop/checkout-7687f5f94c is controlled by Deployment shop/checkout (ownerReference uid 89f16f9d); it did not change itself but owns objects that did.",
+      "observedAt": "2026-10-08T15:45:04.200227215Z",
+      "source": "kubernetes-watch",
+      "facts": [
+        {
+          "key": "owner_uid",
+          "value": "89f16f9d-b639-4547-a33c-4de411884544"
+        }
+      ],
+      "rule": "controller-owner-of-directly-mutated-object"
+    }
+  ],
+  "ambiguities": [
+    {
+      "label": "ReplicaSet shop/checkout-7687f5f94c scaled 3 -\u003e 0",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "namespace": "shop",
+        "name": "checkout-7687f5f94c",
+        "uid": "efe9cfad-023b-4582-92bd-851a581c5412"
+      },
+      "at": "2026-10-08T15:45:44.642176046Z",
+      "candidates": [
+        "k8s-53e0000a-ab6e-49d5-854f-c8dac9dd324c",
+        "mcp-65d4f51cde0ca39f-50aae06ad07cb152"
+      ],
+      "reason": "the change falls in the reconciliation windows of more than one action that changed an owner of this object"
+    },
+    {
+      "label": "Pod shop/checkout-7687f5f94c-dn8lw created",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "checkout-7687f5f94c-dn8lw",
+        "uid": "8542b6e9-b1fa-4406-b0ca-5e0a925fc4b7"
+      },
+      "at": "2026-10-08T15:45:44.646409683Z",
+      "candidates": [
+        "k8s-53e0000a-ab6e-49d5-854f-c8dac9dd324c",
+        "mcp-65d4f51cde0ca39f-50aae06ad07cb152"
+      ],
+      "reason": "the change falls in the reconciliation windows of more than one action that changed an owner of this object"
+    },
+    {
+      "label": "Event ScalingReplicaSet on Deployment shop/checkout",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "namespace": "shop",
+        "name": "checkout",
+        "uid": "89f16f9d-b639-4547-a33c-4de411884544"
+      },
+      "at": "2026-10-08T15:45:44.646459808Z",
+      "candidates": [
+        "k8s-53e0000a-ab6e-49d5-854f-c8dac9dd324c",
+        "mcp-65d4f51cde0ca39f-50aae06ad07cb152"
+      ],
+      "reason": "the Event falls in the windows of more than one action covering this object"
+    },
+    {
+      "label": "Event SuccessfulCreate on ReplicaSet shop/checkout-7687f5f94c",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "namespace": "shop",
+        "name": "checkout-7687f5f94c",
+        "uid": "efe9cfad-023b-4582-92bd-851a581c5412"
+      },
+      "at": "2026-10-08T15:45:44.64710006Z",
+      "candidates": [
+        "k8s-53e0000a-ab6e-49d5-854f-c8dac9dd324c",
+        "mcp-65d4f51cde0ca39f-50aae06ad07cb152"
+      ],
+      "reason": "the Event falls in the windows of more than one action covering this object"
+    },
+    {
+      "label": "Pod shop/checkout-7687f5f94c-dn8lw terminated",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "checkout-7687f5f94c-dn8lw",
+        "uid": "8542b6e9-b1fa-4406-b0ca-5e0a925fc4b7"
+      },
+      "at": "2026-10-08T15:45:45.748778442Z",
+      "candidates": [
+        "k8s-53e0000a-ab6e-49d5-854f-c8dac9dd324c",
+        "mcp-65d4f51cde0ca39f-50aae06ad07cb152"
+      ],
+      "reason": "the change falls in the reconciliation windows of more than one action that changed an owner of this object"
+    },
+    {
+      "label": "Event SuccessfulDelete on ReplicaSet shop/checkout-7687f5f94c",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "namespace": "shop",
+        "name": "checkout-7687f5f94c",
+        "uid": "efe9cfad-023b-4582-92bd-851a581c5412"
+      },
+      "at": "2026-10-08T15:45:45.750476239Z",
+      "candidates": [
+        "k8s-53e0000a-ab6e-49d5-854f-c8dac9dd324c",
+        "mcp-65d4f51cde0ca39f-50aae06ad07cb152"
+      ],
+      "reason": "the Event falls in the windows of more than one action covering this object"
+    },
+    {
+      "label": "ReplicaSet shop/checkout-689c6b6cfb scaled 1 -\u003e 4",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "namespace": "shop",
+        "name": "checkout-689c6b6cfb",
+        "uid": "98c573ee-4165-41c1-ac2d-e446b5aecd19"
+      },
+      "at": "2026-10-08T15:45:45.752096452Z",
+      "candidates": [
+        "k8s-53e0000a-ab6e-49d5-854f-c8dac9dd324c",
+        "mcp-65d4f51cde0ca39f-50aae06ad07cb152"
+      ],
+      "reason": "the change falls in the reconciliation windows of more than one action that changed an owner of this object"
+    },
+    {
+      "label": "Pod shop/checkout-689c6b6cfb-7w6d8 created",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "checkout-689c6b6cfb-7w6d8",
+        "uid": "6a854d27-3baf-4380-be41-822b10df2183"
+      },
+      "at": "2026-10-08T15:45:45.753947249Z",
+      "candidates": [
+        "k8s-53e0000a-ab6e-49d5-854f-c8dac9dd324c",
+        "mcp-65d4f51cde0ca39f-50aae06ad07cb152"
+      ],
+      "reason": "the change falls in the reconciliation windows of more than one action that changed an owner of this object"
+    },
+    {
+      "label": "Event SuccessfulCreate on ReplicaSet shop/checkout-689c6b6cfb",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "namespace": "shop",
+        "name": "checkout-689c6b6cfb",
+        "uid": "98c573ee-4165-41c1-ac2d-e446b5aecd19"
+      },
+      "at": "2026-10-08T15:45:45.755581004Z",
+      "candidates": [
+        "k8s-53e0000a-ab6e-49d5-854f-c8dac9dd324c",
+        "mcp-65d4f51cde0ca39f-50aae06ad07cb152"
+      ],
+      "reason": "the Event falls in the windows of more than one action covering this object"
+    },
+    {
+      "label": "Pod shop/checkout-7687f5f94c-jmj5m terminated",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "checkout-7687f5f94c-jmj5m",
+        "uid": "b359daf9-aced-473d-9134-6f7291d4a5d6"
+      },
+      "at": "2026-10-08T15:45:48.755956386Z",
+      "candidates": [
+        "k8s-53e0000a-ab6e-49d5-854f-c8dac9dd324c",
+        "mcp-65d4f51cde0ca39f-50aae06ad07cb152"
+      ],
+      "reason": "the change falls in the reconciliation windows of more than one action that changed an owner of this object"
+    },
+    {
+      "label": "Event SuccessfulDelete on ReplicaSet shop/checkout-7687f5f94c",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "namespace": "shop",
+        "name": "checkout-7687f5f94c",
+        "uid": "efe9cfad-023b-4582-92bd-851a581c5412"
+      },
+      "at": "2026-10-08T15:45:48.759273021Z",
+      "candidates": [
+        "k8s-53e0000a-ab6e-49d5-854f-c8dac9dd324c",
+        "mcp-65d4f51cde0ca39f-50aae06ad07cb152"
+      ],
+      "reason": "the Event falls in the windows of more than one action covering this object"
+    },
+    {
+      "label": "Pod shop/checkout-689c6b6cfb-qgqd4 created",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "checkout-689c6b6cfb-qgqd4",
+        "uid": "e9105c9c-882b-4d03-9525-d5b266ea888e"
+      },
+      "at": "2026-10-08T15:45:48.763436658Z",
+      "candidates": [
+        "k8s-53e0000a-ab6e-49d5-854f-c8dac9dd324c",
+        "mcp-65d4f51cde0ca39f-50aae06ad07cb152"
+      ],
+      "reason": "the change falls in the reconciliation windows of more than one action that changed an owner of this object"
+    },
+    {
+      "label": "Event SuccessfulCreate on ReplicaSet shop/checkout-689c6b6cfb",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "namespace": "shop",
+        "name": "checkout-689c6b6cfb",
+        "uid": "98c573ee-4165-41c1-ac2d-e446b5aecd19"
+      },
+      "at": "2026-10-08T15:45:48.765679081Z",
+      "candidates": [
+        "k8s-53e0000a-ab6e-49d5-854f-c8dac9dd324c",
+        "mcp-65d4f51cde0ca39f-50aae06ad07cb152"
+      ],
+      "reason": "the Event falls in the windows of more than one action covering this object"
+    },
+    {
+      "label": "Pod shop/checkout-7687f5f94c-57wq2 terminated",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "checkout-7687f5f94c-57wq2",
+        "uid": "c01b7c91-0c2f-4546-a58a-ee52856c90cf"
+      },
+      "at": "2026-10-08T15:45:51.759709612Z",
+      "candidates": [
+        "k8s-53e0000a-ab6e-49d5-854f-c8dac9dd324c",
+        "mcp-65d4f51cde0ca39f-50aae06ad07cb152"
+      ],
+      "reason": "the change falls in the reconciliation windows of more than one action that changed an owner of this object"
+    },
+    {
+      "label": "Event SuccessfulDelete on ReplicaSet shop/checkout-7687f5f94c",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "namespace": "shop",
+        "name": "checkout-7687f5f94c",
+        "uid": "efe9cfad-023b-4582-92bd-851a581c5412"
+      },
+      "at": "2026-10-08T15:45:51.763827999Z",
+      "candidates": [
+        "k8s-53e0000a-ab6e-49d5-854f-c8dac9dd324c",
+        "mcp-65d4f51cde0ca39f-50aae06ad07cb152"
+      ],
+      "reason": "the Event falls in the windows of more than one action covering this object"
+    },
+    {
+      "label": "Pod shop/checkout-689c6b6cfb-9kfdl created",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "checkout-689c6b6cfb-9kfdl",
+        "uid": "ffa7159f-12fd-4e5f-bdf8-c16387ef54c6"
+      },
+      "at": "2026-10-08T15:45:51.765652212Z",
+      "candidates": [
+        "k8s-53e0000a-ab6e-49d5-854f-c8dac9dd324c",
+        "mcp-65d4f51cde0ca39f-50aae06ad07cb152"
+      ],
+      "reason": "the change falls in the reconciliation windows of more than one action that changed an owner of this object"
+    },
+    {
+      "label": "Event SuccessfulCreate on ReplicaSet shop/checkout-689c6b6cfb",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "namespace": "shop",
+        "name": "checkout-689c6b6cfb",
+        "uid": "98c573ee-4165-41c1-ac2d-e446b5aecd19"
+      },
+      "at": "2026-10-08T15:45:51.768793722Z",
+      "candidates": [
+        "k8s-53e0000a-ab6e-49d5-854f-c8dac9dd324c",
+        "mcp-65d4f51cde0ca39f-50aae06ad07cb152"
+      ],
+      "reason": "the Event falls in the windows of more than one action covering this object"
+    },
+    {
+      "label": "Pod shop/checkout-7687f5f94c-rkzc7 terminated",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "checkout-7687f5f94c-rkzc7",
+        "uid": "ca3369a3-0a7d-4bbe-b00e-aa7c8ab71dff"
+      },
+      "at": "2026-10-08T15:45:54.766990764Z",
+      "candidates": [
+        "k8s-53e0000a-ab6e-49d5-854f-c8dac9dd324c",
+        "mcp-65d4f51cde0ca39f-50aae06ad07cb152"
+      ],
+      "reason": "the change falls in the reconciliation windows of more than one action that changed an owner of this object"
+    },
+    {
+      "label": "Event SuccessfulDelete on ReplicaSet shop/checkout-7687f5f94c",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "namespace": "shop",
+        "name": "checkout-7687f5f94c",
+        "uid": "efe9cfad-023b-4582-92bd-851a581c5412"
+      },
+      "at": "2026-10-08T15:45:54.768981853Z",
+      "candidates": [
+        "k8s-53e0000a-ab6e-49d5-854f-c8dac9dd324c",
+        "mcp-65d4f51cde0ca39f-50aae06ad07cb152"
+      ],
+      "reason": "the Event falls in the windows of more than one action covering this object"
+    }
+  ],
+  "coverage": [
+    {
+      "source": "kubernetes-audit",
+      "available": true,
+      "detail": "1/1 request(s) confirmed by an audit event"
+    },
+    {
+      "source": "kubernetes-events",
+      "available": true,
+      "detail": "informers synced"
+    },
+    {
+      "source": "kubernetes-watch",
+      "available": true,
+      "detail": "watching since 2026-10-08T15:33:13Z"
+    },
+    {
+      "source": "otlp",
+      "available": true,
+      "detail": "no tool span; action observed in the audit log only"
+    },
+    {
+      "source": "prometheus",
+      "available": true,
+      "detail": "10 signal evaluation(s), 0 failed"
+    }
+  ],
+  "notes": [
+    "Some changes were not attributed because more than one action's window covered them; see ambiguities."
+  ]
+}

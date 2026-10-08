@@ -1,0 +1,5792 @@
+{
+  "schemaVersion": "effecttrace.io/results/v1",
+  "generatedAt": "2026-10-08T15:35:08.189668Z",
+  "commit": "274f1c105b94e06db5a274abd6c6bd0c812ab1c6",
+  "dirty": false,
+  "scenarios": [
+    {
+      "id": "L01",
+      "title": "MCP tool restarts a Deployment",
+      "category": "live",
+      "description": "The scripted agent calls restart_workload(shop/checkout). Expect a DIRECT edge to the Deployment confirmed by the audit event, the new ReplicaSet and Pods, and the old Pods terminating.",
+      "status": "pass",
+      "started": "2026-10-08T15:35:15.903153Z",
+      "durationSeconds": 31.078362792,
+      "actions": [
+        {
+          "label": "agent restart_workload checkout",
+          "actionId": "mcp-dafe52946d2b87d8-9c08233491f18700",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "dafe52946d2b87d8c2fa0d0eed5219f8",
+          "started": "2026-10-08T21:05:15.903221+05:30",
+          "returned": "2026-10-08T21:05:15.912695+05:30",
+          "truthEnd": "2026-10-08T21:05:32.937447+05:30",
+          "truth": {
+            "direct": [
+              "89f16f9d-b639-4547-a33c-4de411884544"
+            ],
+            "structural": [
+              "1a533c9b-537b-4ae2-86ce-e9ab434498c0",
+              "6b85b430-cac9-4755-b51f-07d081ec3049",
+              "76d9cfe2-0575-4b1b-b688-eb03497694b2",
+              "823d3db7-eac9-493d-8d5b-9cb4e6bd73b8",
+              "8b8d5a54-7b5f-4fa5-85e1-51ee7fe8c991",
+              "9fa3be8d-329e-445d-a40d-b0bd1dfa3c15",
+              "bdb6350b-d325-431e-b013-27295a423585",
+              "fa4df13c-0819-4253-83f1-6fc4dd47122b"
+            ],
+            "ambiguous": null,
+            "workloads": [
+              "checkout"
+            ]
+          },
+          "unrelatedChangedObjects": 0,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 8,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 33,
+              "STRUCTURAL": 8,
+              "TEMPORAL_CORRELATION": 1,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 0,
+            "exclusions": 2
+          },
+          "firstEffectSeconds": 17.04050725,
+          "completeSeconds": 31.078310958,
+          "queryMilliseconds": [
+            1.969,
+            2.165,
+            1.325,
+            3.443,
+            1.837,
+            1.114,
+            1.841,
+            1.746,
+            1.438,
+            2.067,
+            2.051,
+            1.19,
+            1.766,
+            2.093,
+            2.016
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "agent restart_workload checkout: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent restart_workload checkout: no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent restart_workload checkout: direct precision",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent restart_workload checkout: direct recall",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent restart_workload checkout: structural precision",
+          "pass": true,
+          "detail": "tp=8 fp=0 fn=0"
+        },
+        {
+          "name": "agent restart_workload checkout: structural recall",
+          "pass": true,
+          "detail": "tp=8 fp=0 fn=0"
+        },
+        {
+          "name": "agent restart_workload checkout: no unrelated telemetry attached",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "tool span links to the Kubernetes request",
+          "pass": true,
+          "detail": "TRACE_LINK edge to the PATCH request"
+        },
+        {
+          "name": "request confirmed by audit event",
+          "pass": true,
+          "detail": "1/1 request(s) confirmed by an audit event"
+        }
+      ],
+      "concurrent": false
+    },
+    {
+      "id": "L02",
+      "title": "MCP tool scales a Deployment up",
+      "category": "live",
+      "description": "scale_workload(shop/checkout, 5) through the scale subresource. Expect the existing ReplicaSet scaled and two new Pods; existing Pods untouched.",
+      "status": "pass",
+      "started": "2026-10-08T15:35:54.814856Z",
+      "durationSeconds": 25.0815545,
+      "actions": [
+        {
+          "label": "agent scale_workload checkout",
+          "actionId": "mcp-19cabdb94a6e04bc-404ef7482df90e1e",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "19cabdb94a6e04bc5f30834776a2179a",
+          "started": "2026-10-08T21:05:54.814903+05:30",
+          "returned": "2026-10-08T21:05:54.830079+05:30",
+          "truthEnd": "2026-10-08T21:06:05.850614+05:30",
+          "truth": {
+            "direct": [
+              "89f16f9d-b639-4547-a33c-4de411884544"
+            ],
+            "structural": [
+              "68a758cb-03c2-4802-9eb6-0028bbb1310d",
+              "8b8d5a54-7b5f-4fa5-85e1-51ee7fe8c991",
+              "8e1ac445-7d9c-425c-b26a-fb43e6843fd2"
+            ],
+            "ambiguous": null,
+            "workloads": [
+              "checkout"
+            ]
+          },
+          "unrelatedChangedObjects": 0,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 3,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 13,
+              "STRUCTURAL": 3,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 0,
+            "exclusions": 0
+          },
+          "firstEffectSeconds": 11.040093583,
+          "completeSeconds": 25.081523708,
+          "queryMilliseconds": [
+            1.176,
+            2.219,
+            2.151,
+            2.84,
+            1.918,
+            1.44,
+            1.837,
+            3.084,
+            1.219,
+            2.507,
+            2.889,
+            1.516,
+            1.485,
+            2.211,
+            1.485
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "agent scale_workload checkout: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent scale_workload checkout: no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent scale_workload checkout: direct precision",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload checkout: direct recall",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload checkout: structural precision",
+          "pass": true,
+          "detail": "tp=3 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload checkout: structural recall",
+          "pass": true,
+          "detail": "tp=3 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload checkout: no unrelated telemetry attached",
+          "pass": true,
+          "detail": "[]"
+        }
+      ],
+      "concurrent": false
+    },
+    {
+      "id": "L03",
+      "title": "MCP tool scales a Deployment down",
+      "category": "live",
+      "description": "scale_workload(shop/checkout, 1). Expect the ReplicaSet scaled down and two Pods terminated.",
+      "status": "pass",
+      "started": "2026-10-08T15:36:27.555447Z",
+      "durationSeconds": 22.051949333,
+      "actions": [
+        {
+          "label": "agent scale_workload checkout",
+          "actionId": "mcp-14463581d8272069-5751dd923ea8537f",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "14463581d8272069b921fc0de546d5ce",
+          "started": "2026-10-08T21:06:27.555498+05:30",
+          "returned": "2026-10-08T21:06:27.560862+05:30",
+          "truthEnd": "2026-10-08T21:06:35.564218+05:30",
+          "truth": {
+            "direct": [
+              "89f16f9d-b639-4547-a33c-4de411884544"
+            ],
+            "structural": [
+              "6b85b430-cac9-4755-b51f-07d081ec3049",
+              "8b8d5a54-7b5f-4fa5-85e1-51ee7fe8c991",
+              "9fa3be8d-329e-445d-a40d-b0bd1dfa3c15"
+            ],
+            "ambiguous": null,
+            "workloads": [
+              "checkout"
+            ]
+          },
+          "unrelatedChangedObjects": 0,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 3,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 7,
+              "STRUCTURAL": 3,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 0,
+            "exclusions": 0
+          },
+          "firstEffectSeconds": 8.012076334,
+          "completeSeconds": 22.051911792,
+          "queryMilliseconds": [
+            0.801,
+            2.697,
+            1.239,
+            2.24,
+            1.808,
+            2.138,
+            1.927,
+            1.952,
+            0.846,
+            2.783,
+            1.701,
+            1.257,
+            4.315,
+            3.011,
+            2.326
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "agent scale_workload checkout: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent scale_workload checkout: no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent scale_workload checkout: direct precision",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload checkout: direct recall",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload checkout: structural precision",
+          "pass": true,
+          "detail": "tp=3 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload checkout: structural recall",
+          "pass": true,
+          "detail": "tp=3 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload checkout: no unrelated telemetry attached",
+          "pass": true,
+          "detail": "[]"
+        }
+      ],
+      "concurrent": false
+    },
+    {
+      "id": "L04",
+      "title": "MCP tool changes an image",
+      "category": "live",
+      "description": "update_image(shop/payments, app, demo:v2). Expect a rollout: new ReplicaSet, new Pods, old Pods terminated.",
+      "status": "pass",
+      "started": "2026-10-08T15:37:00.330017Z",
+      "durationSeconds": 29.080121417,
+      "actions": [
+        {
+          "label": "agent update_image payments",
+          "actionId": "mcp-11fef90f1a66df03-649c33f5b862540b",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "11fef90f1a66df03a2798c9f594a7ccc",
+          "started": "2026-10-08T21:07:00.332726+05:30",
+          "returned": "2026-10-08T21:07:00.338804+05:30",
+          "truthEnd": "2026-10-08T21:07:14.354428+05:30",
+          "truth": {
+            "direct": [
+              "2c921419-8482-4905-88b6-e8d02d07b681"
+            ],
+            "structural": [
+              "3111034a-3593-4993-8586-89dacc7ac303",
+              "6326a62f-8f6d-4245-80a4-a70698ccd134",
+              "761b697f-7ab3-4c81-b27f-01bf53b04a4c",
+              "7c68ba6f-0270-465a-83af-47c7f6892a22",
+              "845687cb-e49c-4191-bd14-e812f302cfc3",
+              "9ea78892-ac95-4272-9787-62d56ee75831"
+            ],
+            "ambiguous": null,
+            "workloads": [
+              "payments"
+            ]
+          },
+          "unrelatedChangedObjects": 0,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 6,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 22,
+              "STRUCTURAL": 6,
+              "TEMPORAL_CORRELATION": 1,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 0,
+            "exclusions": 2
+          },
+          "firstEffectSeconds": 14.026604208,
+          "completeSeconds": 29.080085667,
+          "queryMilliseconds": [
+            1.16,
+            1.884,
+            3.586,
+            2.796,
+            2.552,
+            2.141,
+            2.026,
+            2.439,
+            2.559,
+            2.132,
+            1.925,
+            2.431,
+            6.141,
+            1.906,
+            1.961,
+            2.403
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "agent update_image payments: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent update_image payments: no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent update_image payments: direct precision",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent update_image payments: direct recall",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent update_image payments: structural precision",
+          "pass": true,
+          "detail": "tp=6 fp=0 fn=0"
+        },
+        {
+          "name": "agent update_image payments: structural recall",
+          "pass": true,
+          "detail": "tp=6 fp=0 fn=0"
+        },
+        {
+          "name": "agent update_image payments: no unrelated telemetry attached",
+          "pass": true,
+          "detail": "[]"
+        }
+      ],
+      "concurrent": false
+    },
+    {
+      "id": "L05",
+      "title": "MCP tool rolls an image back",
+      "category": "live",
+      "description": "After a human sets payments to demo:v2, the agent sets it back to demo:dev. The Deployment controller reuses the previous ReplicaSet; expect it attributed as SCALED, not CREATED.",
+      "status": "pass",
+      "started": "2026-10-08T15:37:43.254834Z",
+      "durationSeconds": 43.182580417,
+      "actions": [
+        {
+          "label": "agent update_image payments back to dev",
+          "actionId": "mcp-68f2f307cca7bd14-b37e7265d4e3355c",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "68f2f307cca7bd14f90b306a926de038",
+          "started": "2026-10-08T21:07:57.324167+05:30",
+          "returned": "2026-10-08T21:07:57.333801+05:30",
+          "truthEnd": "2026-10-08T21:08:11.353255+05:30",
+          "truth": {
+            "direct": [
+              "2c921419-8482-4905-88b6-e8d02d07b681"
+            ],
+            "structural": [
+              "5ecf73ca-23f9-4468-9ce0-aafa9619f1b5",
+              "62965ff3-58aa-47c6-9015-bcaedc1c0ca5",
+              "845687cb-e49c-4191-bd14-e812f302cfc3",
+              "9ea78892-ac95-4272-9787-62d56ee75831",
+              "ebf6db21-c009-4b64-88dc-f7368fe8a485",
+              "fbce0566-40d3-4f64-b8fc-48078d717b79"
+            ],
+            "ambiguous": null,
+            "workloads": [
+              "payments"
+            ]
+          },
+          "unrelatedChangedObjects": 0,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 6,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 22,
+              "STRUCTURAL": 6,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 0,
+            "exclusions": 0
+          },
+          "firstEffectSeconds": 14.03541025,
+          "completeSeconds": 29.117064917,
+          "queryMilliseconds": [
+            1.758,
+            4.061,
+            3.964,
+            2.695,
+            3.107,
+            6.236,
+            2.465,
+            2.403,
+            6.57,
+            3.593,
+            4.994,
+            5.07,
+            6.412,
+            3.031,
+            5.017,
+            4.518
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "agent update_image payments back to dev: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent update_image payments back to dev: no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent update_image payments back to dev: direct precision",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent update_image payments back to dev: direct recall",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent update_image payments back to dev: structural precision",
+          "pass": true,
+          "detail": "tp=6 fp=0 fn=0"
+        },
+        {
+          "name": "agent update_image payments back to dev: structural recall",
+          "pass": true,
+          "detail": "tp=6 fp=0 fn=0"
+        },
+        {
+          "name": "agent update_image payments back to dev: no unrelated telemetry attached",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "previous ReplicaSet reused and attributed as SCALED",
+          "pass": true,
+          "detail": "previous ReplicaSet 845687cb-e49c-4191-bd14-e812f302cfc3"
+        }
+      ],
+      "concurrent": false
+    },
+    {
+      "id": "L06",
+      "title": "MCP tool triggers a failed rollout",
+      "category": "live",
+      "description": "update_image(shop/checkout) to a tag that does not exist. The rollout never becomes stable; expect the window to be capped, the unavailable Pod attributed and never ready, and its failure Events attached.",
+      "status": "pass",
+      "started": "2026-10-08T15:38:34.106471Z",
+      "durationSeconds": 106.0549295,
+      "actions": [
+        {
+          "label": "agent update_image checkout to a missing tag",
+          "actionId": "mcp-7afb82b91dcd2ebc-7225e46d92557e47",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "7afb82b91dcd2ebc63217e133ac2e1ee",
+          "started": "2026-10-08T21:08:34.106531+05:30",
+          "returned": "2026-10-08T21:08:34.113076+05:30",
+          "truthEnd": "2026-10-08T21:10:12.113449+05:30",
+          "truth": {
+            "direct": [
+              "89f16f9d-b639-4547-a33c-4de411884544"
+            ],
+            "structural": [
+              "222f0112-893e-424d-bfd4-542434955306",
+              "4ce0f960-ab2a-4f55-a576-17f63c571c07"
+            ],
+            "ambiguous": null,
+            "workloads": [
+              "checkout"
+            ]
+          },
+          "unrelatedChangedObjects": 0,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 2,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 8,
+              "STRUCTURAL": 2,
+              "TEMPORAL_CORRELATION": 1,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 0,
+            "exclusions": 1
+          },
+          "firstEffectSeconds": 98.016532542,
+          "completeSeconds": 106.05488475,
+          "queryMilliseconds": [
+            5.157,
+            3.534,
+            3.304,
+            3.283,
+            2.972,
+            2.723,
+            2.98,
+            5.179,
+            3.197
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "agent update_image checkout to a missing tag: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent update_image checkout to a missing tag: no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent update_image checkout to a missing tag: direct precision",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent update_image checkout to a missing tag: direct recall",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent update_image checkout to a missing tag: structural precision",
+          "pass": true,
+          "detail": "tp=2 fp=0 fn=0"
+        },
+        {
+          "name": "agent update_image checkout to a missing tag: structural recall",
+          "pass": true,
+          "detail": "tp=2 fp=0 fn=0"
+        },
+        {
+          "name": "agent update_image checkout to a missing tag: no unrelated telemetry attached",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "window capped because the rollout never stabilized",
+          "pass": true,
+          "detail": "reconcile window reason"
+        },
+        {
+          "name": "new Pod attributed and never ready",
+          "pass": true,
+          "detail": "1 unready created Pod(s)"
+        },
+        {
+          "name": "image failure Events attached",
+          "pass": true,
+          "detail": "4 failure Event(s)"
+        }
+      ],
+      "concurrent": false
+    },
+    {
+      "id": "L07",
+      "title": "MCP tool deletes a Pod",
+      "category": "live",
+      "description": "delete_pod on one checkout Pod. Expect DIRECT on the deleted Pod and the ReplicaSet's replacement Pod attributed; sibling Pods untouched.",
+      "status": "pass",
+      "started": "2026-10-08T15:40:27.795286Z",
+      "durationSeconds": 25.138310208,
+      "actions": [
+        {
+          "label": "agent delete_pod checkout-86889c6f74-2cxdj",
+          "actionId": "mcp-ee07bae405961fc1-4342d57e3825d6d3",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "ee07bae405961fc1df45884b396f9a09",
+          "started": "2026-10-08T21:10:27.797596+05:30",
+          "returned": "2026-10-08T21:10:27.804349+05:30",
+          "truthEnd": "2026-10-08T21:10:34.807224+05:30",
+          "truth": {
+            "direct": [
+              "2e795d30-d46b-4bb7-af14-f79311ae7eac"
+            ],
+            "structural": [
+              "6a7d32ae-c606-43be-a969-437b215f216e"
+            ],
+            "ambiguous": null,
+            "workloads": [
+              "checkout"
+            ]
+          },
+          "unrelatedChangedObjects": 0,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 8,
+              "STRUCTURAL": 2,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 0,
+            "exclusions": 0
+          },
+          "firstEffectSeconds": 7.014998792,
+          "completeSeconds": 25.13597675,
+          "queryMilliseconds": [
+            1.605,
+            6.841,
+            3.172,
+            2.823,
+            3.962,
+            5.724,
+            3.457,
+            6.786,
+            5.646,
+            1.599,
+            6.242,
+            6.476,
+            3.579,
+            5.548,
+            6.462,
+            3.059,
+            6.699,
+            6.515,
+            6.112
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "agent delete_pod checkout-86889c6f74-2cxdj: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent delete_pod checkout-86889c6f74-2cxdj: no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent delete_pod checkout-86889c6f74-2cxdj: direct precision",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent delete_pod checkout-86889c6f74-2cxdj: direct recall",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent delete_pod checkout-86889c6f74-2cxdj: structural precision",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent delete_pod checkout-86889c6f74-2cxdj: structural recall",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent delete_pod checkout-86889c6f74-2cxdj: no unrelated telemetry attached",
+          "pass": true,
+          "detail": "[]"
+        }
+      ],
+      "concurrent": false
+    },
+    {
+      "id": "L08",
+      "title": "MCP tool modifies a ConfigMap",
+      "category": "live",
+      "description": "set_config on shop/shop-config with synthetic data. Kubernetes has no ownership from a ConfigMap to Pods, so expect a DIRECT edge only and no structural fan-out. EffectTrace never watches ConfigMaps; the UID comes from the instrumented client response.",
+      "status": "pass",
+      "started": "2026-10-08T15:41:00.604053Z",
+      "durationSeconds": 22.076859208,
+      "actions": [
+        {
+          "label": "agent set_config shop-config",
+          "actionId": "mcp-a7dbd74612e79274-10cb39fc86e350f5",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "a7dbd74612e792746b29fd0260295af8",
+          "started": "2026-10-08T21:11:00.60409+05:30",
+          "returned": "2026-10-08T21:11:00.608354+05:30",
+          "truthEnd": "2026-10-08T21:11:07.61052+05:30",
+          "truth": {
+            "direct": [
+              "8f9e0072-9d92-4172-9edc-7ab50c36a5d5"
+            ],
+            "structural": null,
+            "ambiguous": null,
+            "workloads": null
+          },
+          "unrelatedChangedObjects": 0,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 0,
+            "exclusions": 0
+          },
+          "completeSeconds": 22.076826792,
+          "queryMilliseconds": [
+            0.938,
+            4.31,
+            3.936,
+            2.168,
+            6.073,
+            5.918,
+            2.089,
+            4.001,
+            5.463,
+            1.396,
+            2.906,
+            2.814,
+            0.818,
+            3.274,
+            2.831,
+            3.044
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "agent set_config shop-config: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent set_config shop-config: no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent set_config shop-config: direct precision",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent set_config shop-config: direct recall",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent set_config shop-config: structural precision",
+          "pass": true,
+          "detail": "tp=0 fp=0 fn=0"
+        },
+        {
+          "name": "agent set_config shop-config: structural recall",
+          "pass": true,
+          "detail": "tp=0 fp=0 fn=0"
+        },
+        {
+          "name": "agent set_config shop-config: no unrelated telemetry attached",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "no structural fan-out claimed",
+          "pass": true,
+          "detail": "0 STRUCTURAL edges"
+        }
+      ],
+      "concurrent": false
+    },
+    {
+      "id": "L09",
+      "title": "MCP tool changes a Service selector",
+      "category": "live",
+      "description": "update_service_selector adds a label the inventory Pods do not have, removing all endpoints. This has real traffic effects, but Service-to-EndpointSlice is not a relationship EffectTrace follows in v0.1: expect DIRECT only, no structural claims and no attached telemetry.",
+      "status": "pass",
+      "started": "2026-10-08T15:41:30.327329Z",
+      "durationSeconds": 23.135705667,
+      "actions": [
+        {
+          "label": "agent update_service_selector inventory",
+          "actionId": "mcp-faebcb4c7351821b-5005dd0f08320335",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "faebcb4c7351821b5a527ec72eff870a",
+          "started": "2026-10-08T21:11:30.327372+05:30",
+          "returned": "2026-10-08T21:11:30.331911+05:30",
+          "truthEnd": "2026-10-08T21:11:40.3341+05:30",
+          "truth": {
+            "direct": [
+              "567af9f2-ffb7-4cf5-bee5-b334699d5b03"
+            ],
+            "structural": null,
+            "ambiguous": null,
+            "workloads": null
+          },
+          "unrelatedChangedObjects": 0,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 0,
+            "exclusions": 0
+          },
+          "completeSeconds": 23.090916916,
+          "queryMilliseconds": [
+            1.249,
+            5.998,
+            4.301,
+            5.42,
+            6.408,
+            5.411,
+            3.43,
+            3.663,
+            2.688,
+            6.504,
+            5.036,
+            3.701,
+            5.635,
+            3.834
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "agent update_service_selector inventory: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent update_service_selector inventory: no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent update_service_selector inventory: direct precision",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent update_service_selector inventory: direct recall",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent update_service_selector inventory: structural precision",
+          "pass": true,
+          "detail": "tp=0 fp=0 fn=0"
+        },
+        {
+          "name": "agent update_service_selector inventory: structural recall",
+          "pass": true,
+          "detail": "tp=0 fp=0 fn=0"
+        },
+        {
+          "name": "agent update_service_selector inventory: no unrelated telemetry attached",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "no telemetry attached to a non-workload object",
+          "pass": true,
+          "detail": "0 TEMPORAL edges"
+        }
+      ],
+      "notes": [
+        "Traffic to inventory failed while the selector matched no Pods; EffectTrace v0.1 does not follow Service selectors, so those effects appear at most as exclusions."
+      ],
+      "concurrent": false
+    },
+    {
+      "id": "L10",
+      "title": "MCP tool changes resource limits",
+      "category": "live",
+      "description": "set_resources(shop/inventory) changes the Pod template. Expect a rollout attributed to the tool call.",
+      "status": "pass",
+      "started": "2026-10-08T15:42:01.104977Z",
+      "durationSeconds": 28.118623667,
+      "actions": [
+        {
+          "label": "agent set_resources inventory",
+          "actionId": "mcp-6b51dbdb2c8c97eb-bed5ed5e3757c468",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "6b51dbdb2c8c97eb4be1f273837d3d90",
+          "started": "2026-10-08T21:12:01.10501+05:30",
+          "returned": "2026-10-08T21:12:01.110059+05:30",
+          "truthEnd": "2026-10-08T21:12:15.135423+05:30",
+          "truth": {
+            "direct": [
+              "49eff975-f5ff-46e6-992f-cc80d43d0fc9"
+            ],
+            "structural": [
+              "00d6c88f-fe58-431b-84df-39205ffa373f",
+              "0df81027-ecc3-4950-aa88-3b8b07a2573c",
+              "127da231-7ff9-403f-adb8-fc41dea7988f",
+              "9039a3f9-0930-4323-a995-34268864263c",
+              "a04eee49-1f5b-4353-9be8-270d5b878cca",
+              "d45f9010-9a58-459d-9b37-d5a658a9fd8a"
+            ],
+            "ambiguous": null,
+            "workloads": [
+              "inventory"
+            ]
+          },
+          "unrelatedChangedObjects": 0,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 6,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 23,
+              "STRUCTURAL": 6,
+              "TEMPORAL_CORRELATION": 1,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 0,
+            "exclusions": 2
+          },
+          "firstEffectSeconds": 14.037042375,
+          "completeSeconds": 28.118573333,
+          "queryMilliseconds": [
+            1.594,
+            3.456,
+            3.831,
+            3.873,
+            4.436,
+            4.305,
+            6.2,
+            5.098,
+            4.237,
+            4.51,
+            3.239,
+            4.222,
+            4.938,
+            2.653,
+            3.596
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "agent set_resources inventory: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent set_resources inventory: no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent set_resources inventory: direct precision",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent set_resources inventory: direct recall",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent set_resources inventory: structural precision",
+          "pass": true,
+          "detail": "tp=6 fp=0 fn=0"
+        },
+        {
+          "name": "agent set_resources inventory: structural recall",
+          "pass": true,
+          "detail": "tp=6 fp=0 fn=0"
+        },
+        {
+          "name": "agent set_resources inventory: no unrelated telemetry attached",
+          "pass": true,
+          "detail": "[]"
+        }
+      ],
+      "concurrent": false
+    },
+    {
+      "id": "L11",
+      "title": "Human kubectl scale",
+      "category": "live",
+      "description": "kubectl scale deployment/payments --replicas=3. No trace exists; the action comes from the audit log and the UID is resolved by name at request time.",
+      "status": "pass",
+      "started": "2026-10-08T15:42:42.929638Z",
+      "durationSeconds": 25.14291125,
+      "actions": [
+        {
+          "label": "kubectl scale payments",
+          "actionId": "k8s-c7e3ed6d-bb59-430c-af11-57a4cbb7db28",
+          "kind": "KUBERNETES_API_CALL",
+          "started": "2026-10-08T21:12:42.929682+05:30",
+          "returned": "2026-10-08T21:12:42.967172+05:30",
+          "truthEnd": "2026-10-08T21:12:53.996608+05:30",
+          "truth": {
+            "direct": [
+              "2c921419-8482-4905-88b6-e8d02d07b681"
+            ],
+            "structural": [
+              "5db7a313-a62c-4735-8c16-3a698d6faa91",
+              "845687cb-e49c-4191-bd14-e812f302cfc3"
+            ],
+            "ambiguous": null,
+            "workloads": [
+              "payments"
+            ]
+          },
+          "unrelatedChangedObjects": 0,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 2,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 7,
+              "STRUCTURAL": 2
+            },
+            "ambiguities": 0,
+            "exclusions": 2
+          },
+          "firstEffectSeconds": 11.071868125,
+          "completeSeconds": 25.14286725,
+          "queryMilliseconds": [
+            4.796,
+            4.351,
+            3.3,
+            5.587,
+            3.016,
+            2.818,
+            2.286,
+            2.517,
+            3.622,
+            3.388,
+            3.098,
+            3.268,
+            4.51,
+            3.691,
+            3.372
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "kubectl scale payments: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "kubectl scale payments: no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "kubectl scale payments: direct precision",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "kubectl scale payments: direct recall",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "kubectl scale payments: structural precision",
+          "pass": true,
+          "detail": "tp=2 fp=0 fn=0"
+        },
+        {
+          "name": "kubectl scale payments: structural recall",
+          "pass": true,
+          "detail": "tp=2 fp=0 fn=0"
+        },
+        {
+          "name": "kubectl scale payments: no unrelated telemetry attached",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "UID resolved by name at request time",
+          "pass": true,
+          "detail": "rule uid-resolved-by-name-at-request-time"
+        }
+      ],
+      "concurrent": false
+    },
+    {
+      "id": "L12",
+      "title": "Human kubectl rollout restart",
+      "category": "live",
+      "description": "kubectl rollout restart deployment/frontend, attributed from the audit log alone.",
+      "status": "pass",
+      "started": "2026-10-08T15:43:15.742319Z",
+      "durationSeconds": 28.182358,
+      "actions": [
+        {
+          "label": "kubectl rollout restart frontend",
+          "actionId": "k8s-4e694204-a540-417c-939e-597a575525a7",
+          "kind": "KUBERNETES_API_CALL",
+          "started": "2026-10-08T21:13:15.742352+05:30",
+          "returned": "2026-10-08T21:13:15.784526+05:30",
+          "truthEnd": "2026-10-08T21:13:28.817442+05:30",
+          "truth": {
+            "direct": [
+              "3328379e-4a5e-4947-8bb7-acc6d93b9a05"
+            ],
+            "structural": [
+              "0917b735-4385-4494-8c51-663afd0359b1",
+              "3429944d-fe7c-4a49-9fde-a1263775051d",
+              "417448bf-9109-4102-8b3a-b742b26dcb9e",
+              "5e10d379-642a-48e9-8a8b-6303386b0e59",
+              "efc37e77-28e0-4bdb-ad43-bed71cdc27cc",
+              "fd8e93c3-827f-42f6-af9a-34115f9c43d6"
+            ],
+            "ambiguous": null,
+            "workloads": [
+              "frontend"
+            ]
+          },
+          "unrelatedChangedObjects": 0,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 6,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 22,
+              "STRUCTURAL": 6
+            },
+            "ambiguities": 0,
+            "exclusions": 1
+          },
+          "firstEffectSeconds": 13.079635584,
+          "completeSeconds": 28.18225475,
+          "queryMilliseconds": [
+            4.391,
+            7.595,
+            4.433,
+            2.571,
+            7.951,
+            4.135,
+            2.446,
+            2.418,
+            7.942,
+            3.323,
+            4.081,
+            7.222,
+            3.818,
+            6.328,
+            9.443,
+            5.548
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "kubectl rollout restart frontend: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "kubectl rollout restart frontend: no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "kubectl rollout restart frontend: direct precision",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "kubectl rollout restart frontend: direct recall",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "kubectl rollout restart frontend: structural precision",
+          "pass": true,
+          "detail": "tp=6 fp=0 fn=0"
+        },
+        {
+          "name": "kubectl rollout restart frontend: structural recall",
+          "pass": true,
+          "detail": "tp=6 fp=0 fn=0"
+        },
+        {
+          "name": "kubectl rollout restart frontend: no unrelated telemetry attached",
+          "pass": true,
+          "detail": "[]"
+        }
+      ],
+      "concurrent": false
+    },
+    {
+      "id": "L13",
+      "title": "Human kubectl delete pod",
+      "category": "live",
+      "description": "kubectl delete pod on one payments Pod; expect the replacement Pod attributed.",
+      "status": "pass",
+      "started": "2026-10-08T15:43:51.57557Z",
+      "durationSeconds": 25.1344895,
+      "actions": [
+        {
+          "label": "kubectl delete pod payments-7776bf885b-gnd26",
+          "actionId": "k8s-e37ca274-3255-41bf-b60f-7d9d03f2a5ff",
+          "kind": "KUBERNETES_API_CALL",
+          "started": "2026-10-08T21:13:51.577552+05:30",
+          "returned": "2026-10-08T21:13:51.617048+05:30",
+          "truthEnd": "2026-10-08T21:14:01.637846+05:30",
+          "truth": {
+            "direct": [
+              "62965ff3-58aa-47c6-9015-bcaedc1c0ca5"
+            ],
+            "structural": [
+              "500b69bd-41c3-469f-812f-a1e0dd85d841"
+            ],
+            "ambiguous": null,
+            "workloads": [
+              "payments"
+            ]
+          },
+          "unrelatedChangedObjects": 0,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 8,
+              "STRUCTURAL": 2
+            },
+            "ambiguities": 0,
+            "exclusions": 0
+          },
+          "firstEffectSeconds": 10.062026541,
+          "completeSeconds": 25.132519875,
+          "queryMilliseconds": [
+            1.611,
+            5.385,
+            6.241,
+            2.456,
+            4.016,
+            2.162,
+            1.332,
+            3.049,
+            2.119,
+            1.256,
+            4.014,
+            3.004,
+            1.28,
+            2.984,
+            4.234,
+            2.963
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "kubectl delete pod payments-7776bf885b-gnd26: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "kubectl delete pod payments-7776bf885b-gnd26: no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "kubectl delete pod payments-7776bf885b-gnd26: direct precision",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "kubectl delete pod payments-7776bf885b-gnd26: direct recall",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "kubectl delete pod payments-7776bf885b-gnd26: structural precision",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "kubectl delete pod payments-7776bf885b-gnd26: structural recall",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "kubectl delete pod payments-7776bf885b-gnd26: no unrelated telemetry attached",
+          "pass": true,
+          "detail": "[]"
+        }
+      ],
+      "concurrent": false
+    },
+    {
+      "id": "L14",
+      "title": "Two agents change two workloads concurrently",
+      "category": "live",
+      "description": "Agent A restarts checkout while agent B scales payments 2 -\u003e 4 at the same moment. Each graph must contain only its own workload's effects.",
+      "status": "pass",
+      "started": "2026-10-08T15:44:24.346637Z",
+      "durationSeconds": 32.193215291,
+      "actions": [
+        {
+          "label": "agent A restart_workload checkout",
+          "actionId": "mcp-b873cec97658c20d-af38f868015dfd40",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "b873cec97658c20d60984da569ca0b18",
+          "started": "2026-10-08T21:14:24.346695+05:30",
+          "returned": "2026-10-08T21:14:24.354795+05:30",
+          "truthEnd": "2026-10-08T21:14:41.411199+05:30",
+          "truth": {
+            "direct": [
+              "89f16f9d-b639-4547-a33c-4de411884544"
+            ],
+            "structural": [
+              "06c654f9-f635-41e8-b399-b48e88323150",
+              "2493be7e-78e2-4c1a-999d-3033323955aa",
+              "6a7d32ae-c606-43be-a969-437b215f216e",
+              "8b8d5a54-7b5f-4fa5-85e1-51ee7fe8c991",
+              "aa3786c5-428d-40f5-912c-cdab9a4544e4",
+              "f20cc223-dda3-4fec-a4f4-d93cf3babb90",
+              "f4a8c8d7-7c1c-41a7-82a3-82f4cbff7462",
+              "fa4df13c-0819-4253-83f1-6fc4dd47122b"
+            ],
+            "ambiguous": null,
+            "workloads": [
+              "checkout"
+            ]
+          },
+          "unrelatedChangedObjects": 4,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 8,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 28,
+              "STRUCTURAL": 8,
+              "TEMPORAL_CORRELATION": 1,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 0,
+            "exclusions": 4
+          },
+          "firstEffectSeconds": 17.0759175,
+          "completeSeconds": 32.1921055,
+          "queryMilliseconds": [
+            2.474,
+            4.109,
+            4.895,
+            8.073,
+            3.237,
+            6.517,
+            6.121,
+            8.2,
+            5.661,
+            9.087,
+            6.317,
+            6.741,
+            8.597,
+            7.793,
+            5.794,
+            3.775
+          ]
+        },
+        {
+          "label": "agent B scale_workload payments",
+          "actionId": "mcp-898b6dd46d2b2fb2-1de9e60011a636a3",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "898b6dd46d2b2fb23e32788379c35311",
+          "started": "2026-10-08T21:14:24.346695+05:30",
+          "returned": "2026-10-08T21:14:24.354518+05:30",
+          "truthEnd": "2026-10-08T21:14:41.411199+05:30",
+          "truth": {
+            "direct": [
+              "2c921419-8482-4905-88b6-e8d02d07b681"
+            ],
+            "structural": [
+              "1224dbd6-46d7-4507-a2f2-95fa57bb8252",
+              "79b9f945-74f2-4d44-8253-c1d815ee8f1a",
+              "845687cb-e49c-4191-bd14-e812f302cfc3"
+            ],
+            "ambiguous": null,
+            "workloads": [
+              "payments"
+            ]
+          },
+          "unrelatedChangedObjects": 9,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 3,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 14,
+              "STRUCTURAL": 3,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 0,
+            "exclusions": 9
+          },
+          "firstEffectSeconds": 32.193133417,
+          "completeSeconds": 32.193133458,
+          "queryMilliseconds": [
+            0.835
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "agent A restart_workload checkout: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent A restart_workload checkout: no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent A restart_workload checkout: direct precision",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent A restart_workload checkout: direct recall",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent A restart_workload checkout: structural precision",
+          "pass": true,
+          "detail": "tp=8 fp=0 fn=0"
+        },
+        {
+          "name": "agent A restart_workload checkout: structural recall",
+          "pass": true,
+          "detail": "tp=8 fp=0 fn=0"
+        },
+        {
+          "name": "agent A restart_workload checkout: no unrelated telemetry attached",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent B scale_workload payments: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent B scale_workload payments: no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent B scale_workload payments: direct precision",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent B scale_workload payments: direct recall",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent B scale_workload payments: structural precision",
+          "pass": true,
+          "detail": "tp=3 fp=0 fn=0"
+        },
+        {
+          "name": "agent B scale_workload payments: structural recall",
+          "pass": true,
+          "detail": "tp=3 fp=0 fn=0"
+        },
+        {
+          "name": "agent B scale_workload payments: no unrelated telemetry attached",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "concurrent actions are separated",
+          "pass": true,
+          "detail": "no action claimed another action's expected objects"
+        }
+      ],
+      "concurrent": true,
+      "separated": true
+    },
+    {
+      "id": "L15",
+      "title": "Agent and human change two workloads concurrently",
+      "category": "live",
+      "description": "The agent restarts checkout while a human scales inventory with kubectl at the same moment.",
+      "status": "pass",
+      "started": "2026-10-08T15:45:04.195883Z",
+      "durationSeconds": 31.231222875,
+      "actions": [
+        {
+          "label": "agent restart_workload checkout",
+          "actionId": "mcp-603d21b14c9ce381-fd165f5799c162bc",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "603d21b14c9ce381dc6050b10631edfa",
+          "started": "2026-10-08T21:15:04.195944+05:30",
+          "returned": "2026-10-08T21:15:04.201878+05:30",
+          "truthEnd": "2026-10-08T21:15:21.292585+05:30",
+          "truth": {
+            "direct": [
+              "89f16f9d-b639-4547-a33c-4de411884544"
+            ],
+            "structural": [
+              "06c654f9-f635-41e8-b399-b48e88323150",
+              "2493be7e-78e2-4c1a-999d-3033323955aa",
+              "aa3786c5-428d-40f5-912c-cdab9a4544e4",
+              "b359daf9-aced-473d-9134-6f7291d4a5d6",
+              "c01b7c91-0c2f-4546-a58a-ee52856c90cf",
+              "ca3369a3-0a7d-4bbe-b00e-aa7c8ab71dff",
+              "efe9cfad-023b-4582-92bd-851a581c5412",
+              "f4a8c8d7-7c1c-41a7-82a3-82f4cbff7462"
+            ],
+            "ambiguous": null,
+            "workloads": [
+              "checkout"
+            ]
+          },
+          "unrelatedChangedObjects": 3,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 8,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 28,
+              "STRUCTURAL": 8,
+              "TEMPORAL_CORRELATION": 1,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 0,
+            "exclusions": 4
+          },
+          "firstEffectSeconds": 17.109174792,
+          "completeSeconds": 31.230329917,
+          "queryMilliseconds": [
+            3.104,
+            5.825,
+            7.929,
+            6.345,
+            6.659,
+            7.793,
+            7.352,
+            3.665,
+            7.854,
+            6.09,
+            8.288,
+            6.891,
+            7.811,
+            5.73,
+            6.098
+          ]
+        },
+        {
+          "label": "kubectl scale inventory",
+          "actionId": "k8s-37c91e37-b8ce-4ca4-a190-1806373fb65d",
+          "kind": "KUBERNETES_API_CALL",
+          "started": "2026-10-08T21:15:04.195939+05:30",
+          "returned": "2026-10-08T21:15:04.233979+05:30",
+          "truthEnd": "2026-10-08T21:15:21.292585+05:30",
+          "truth": {
+            "direct": [
+              "49eff975-f5ff-46e6-992f-cc80d43d0fc9"
+            ],
+            "structural": [
+              "d45f9010-9a58-459d-9b37-d5a658a9fd8a",
+              "f5cd3090-fece-4f51-9b1d-69d98fc7f6b7"
+            ],
+            "ambiguous": null,
+            "workloads": [
+              "inventory"
+            ]
+          },
+          "unrelatedChangedObjects": 9,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 2,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 7,
+              "STRUCTURAL": 2,
+              "TEMPORAL_CORRELATION": 1
+            },
+            "ambiguities": 0,
+            "exclusions": 9
+          },
+          "firstEffectSeconds": 31.231159833,
+          "completeSeconds": 31.231159875,
+          "queryMilliseconds": [
+            0.714
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "agent restart_workload checkout: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent restart_workload checkout: no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent restart_workload checkout: direct precision",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent restart_workload checkout: direct recall",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent restart_workload checkout: structural precision",
+          "pass": true,
+          "detail": "tp=8 fp=0 fn=0"
+        },
+        {
+          "name": "agent restart_workload checkout: structural recall",
+          "pass": true,
+          "detail": "tp=8 fp=0 fn=0"
+        },
+        {
+          "name": "agent restart_workload checkout: no unrelated telemetry attached",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "kubectl scale inventory: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "kubectl scale inventory: no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "kubectl scale inventory: direct precision",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "kubectl scale inventory: direct recall",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "kubectl scale inventory: structural precision",
+          "pass": true,
+          "detail": "tp=2 fp=0 fn=0"
+        },
+        {
+          "name": "kubectl scale inventory: structural recall",
+          "pass": true,
+          "detail": "tp=2 fp=0 fn=0"
+        },
+        {
+          "name": "kubectl scale inventory: no unrelated telemetry attached",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "concurrent actions are separated",
+          "pass": true,
+          "detail": "no action claimed another action's expected objects"
+        }
+      ],
+      "concurrent": true,
+      "separated": true
+    },
+    {
+      "id": "L16",
+      "title": "Agent and human change the same workload",
+      "category": "live",
+      "description": "The agent restarts checkout; 1.5 s later a human scales checkout 3 -\u003e 4 while the rollout is in progress. Changes after the second request are genuinely ambiguous: expect them reported as ambiguities and claimed by neither action.",
+      "status": "pass",
+      "started": "2026-10-08T15:45:43.076514Z",
+      "durationSeconds": 33.694128667,
+      "actions": [
+        {
+          "label": "agent restart_workload checkout",
+          "actionId": "mcp-65d4f51cde0ca39f-50aae06ad07cb152",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "65d4f51cde0ca39f2e8444e65c693149",
+          "started": "2026-10-08T21:15:43.076573+05:30",
+          "returned": "2026-10-08T21:15:43.081474+05:30",
+          "truthEnd": "2026-10-08T21:16:02.693518+05:30",
+          "truth": {
+            "direct": [
+              "89f16f9d-b639-4547-a33c-4de411884544"
+            ],
+            "structural": [
+              "1f57d7f6-7b1a-4cbe-bca3-d35e8f18fcc0",
+              "98c573ee-4165-41c1-ac2d-e446b5aecd19"
+            ],
+            "ambiguous": [
+              "6a854d27-3baf-4380-be41-822b10df2183",
+              "8542b6e9-b1fa-4406-b0ca-5e0a925fc4b7",
+              "b359daf9-aced-473d-9134-6f7291d4a5d6",
+              "c01b7c91-0c2f-4546-a58a-ee52856c90cf",
+              "ca3369a3-0a7d-4bbe-b00e-aa7c8ab71dff",
+              "e9105c9c-882b-4d03-9525-d5b266ea888e",
+              "efe9cfad-023b-4582-92bd-851a581c5412",
+              "ffa7159f-12fd-4e5f-bdf8-c16387ef54c6"
+            ],
+            "workloads": [
+              "checkout"
+            ]
+          },
+          "unrelatedChangedObjects": 0,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 2,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 7,
+              "STRUCTURAL": 3,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 17,
+            "exclusions": 0
+          },
+          "firstEffectSeconds": 19.6228155,
+          "completeSeconds": 33.69293375,
+          "queryMilliseconds": [
+            1.186,
+            4.374,
+            1.476,
+            3.926,
+            3.358,
+            1.641,
+            2.495,
+            4.873,
+            1.818,
+            5,
+            5.462,
+            1.728,
+            3.682,
+            5.888,
+            3.37
+          ]
+        },
+        {
+          "label": "kubectl scale checkout to 4",
+          "actionId": "k8s-53e0000a-ab6e-49d5-854f-c8dac9dd324c",
+          "kind": "KUBERNETES_API_CALL",
+          "started": "2026-10-08T21:15:44.583599+05:30",
+          "returned": "2026-10-08T21:15:44.644056+05:30",
+          "truthEnd": "2026-10-08T21:16:02.693518+05:30",
+          "truth": {
+            "direct": [
+              "89f16f9d-b639-4547-a33c-4de411884544"
+            ],
+            "structural": null,
+            "ambiguous": [
+              "6a854d27-3baf-4380-be41-822b10df2183",
+              "8542b6e9-b1fa-4406-b0ca-5e0a925fc4b7",
+              "b359daf9-aced-473d-9134-6f7291d4a5d6",
+              "c01b7c91-0c2f-4546-a58a-ee52856c90cf",
+              "ca3369a3-0a7d-4bbe-b00e-aa7c8ab71dff",
+              "e9105c9c-882b-4d03-9525-d5b266ea888e",
+              "efe9cfad-023b-4582-92bd-851a581c5412",
+              "ffa7159f-12fd-4e5f-bdf8-c16387ef54c6"
+            ],
+            "workloads": [
+              "checkout"
+            ]
+          },
+          "unrelatedChangedObjects": 2,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "STRUCTURAL": 2
+            },
+            "ambiguities": 19,
+            "exclusions": 0
+          },
+          "firstEffectSeconds": 32.186797666,
+          "completeSeconds": 32.186797708,
+          "queryMilliseconds": [
+            0.766
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "agent restart_workload checkout: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent restart_workload checkout: no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent restart_workload checkout: direct precision and recall",
+          "pass": true,
+          "detail": "{TP:1 FP:0 FN:0}"
+        },
+        {
+          "name": "agent restart_workload checkout: structural precision",
+          "pass": true,
+          "detail": "{TP:2 FP:0 FN:0}"
+        },
+        {
+          "name": "kubectl scale checkout to 4: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "kubectl scale checkout to 4: no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "kubectl scale checkout to 4: direct precision and recall",
+          "pass": true,
+          "detail": "{TP:1 FP:0 FN:0}"
+        },
+        {
+          "name": "kubectl scale checkout to 4: structural precision",
+          "pass": true,
+          "detail": "{TP:0 FP:0 FN:0}"
+        },
+        {
+          "name": "ambiguities reported",
+          "pass": true,
+          "detail": "first=17 second=19"
+        },
+        {
+          "name": "deletions after the second request not claimed by the first action",
+          "pass": true,
+          "detail": "0 of 0"
+        }
+      ],
+      "notes": [
+        "Structural recall for the first action counts only changes before the second request; later changes are expected to be ambiguous."
+      ],
+      "concurrent": true,
+      "separated": true
+    },
+    {
+      "id": "L17",
+      "title": "Two rapid restarts fan out over three ReplicaSets",
+      "category": "live",
+      "description": "The agent restarts checkout twice, 1.5 s apart. Three ReplicaSets take part; changes after the second restart are ambiguous between the two actions.",
+      "status": "pass",
+      "started": "2026-10-08T15:46:24.429297Z",
+      "durationSeconds": 31.647800667,
+      "actions": [
+        {
+          "label": "agent restart_workload checkout",
+          "actionId": "mcp-03c96aafdc3c7154-6ad512eaf987383d",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "03c96aafdc3c715443f14b36ed6d9065",
+          "started": "2026-10-08T21:16:24.429348+05:30",
+          "returned": "2026-10-08T21:16:24.43505+05:30",
+          "truthEnd": "2026-10-08T21:16:41.981675+05:30",
+          "truth": {
+            "direct": [
+              "89f16f9d-b639-4547-a33c-4de411884544"
+            ],
+            "structural": [
+              "94bf60e6-84db-43af-b95d-17b62d03faf7",
+              "afce0f74-e200-4a72-8f1a-1c053c1e0a9d"
+            ],
+            "ambiguous": [
+              "1a533c9b-537b-4ae2-86ce-e9ab434498c0",
+              "4ce0f960-ab2a-4f55-a576-17f63c571c07",
+              "6a854d27-3baf-4380-be41-822b10df2183",
+              "8b764b06-e629-467b-906c-b339d1a23a0e",
+              "98c573ee-4165-41c1-ac2d-e446b5aecd19",
+              "c11de9b4-fb06-4bbb-b296-6d94bad3e559",
+              "c9f0df35-0bee-41d2-b335-d72ac8171c20",
+              "e9105c9c-882b-4d03-9525-d5b266ea888e",
+              "f5cb1ace-f988-421a-84c8-337938d5d8f3",
+              "ffa7159f-12fd-4e5f-bdf8-c16387ef54c6"
+            ],
+            "workloads": [
+              "checkout"
+            ]
+          },
+          "unrelatedChangedObjects": 0,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 2,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 6,
+              "STRUCTURAL": 4,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 19,
+            "exclusions": 0
+          },
+          "firstEffectSeconds": 17.562970625,
+          "completeSeconds": 31.646604917,
+          "queryMilliseconds": [
+            0.826,
+            5.371,
+            1.821,
+            4.837,
+            4.939,
+            4.627,
+            4.866,
+            3.973,
+            4.494,
+            6.215,
+            5.829,
+            5.865,
+            3.683,
+            4.645,
+            4.844
+          ]
+        },
+        {
+          "label": "agent restart_workload checkout again",
+          "actionId": "mcp-f8ae62a796c7b555-224f31ba51e86d71",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "f8ae62a796c7b555f6a2b6e551dad9fe",
+          "started": "2026-10-08T21:16:25.936537+05:30",
+          "returned": "2026-10-08T21:16:25.958038+05:30",
+          "truthEnd": "2026-10-08T21:16:41.981675+05:30",
+          "truth": {
+            "direct": [
+              "89f16f9d-b639-4547-a33c-4de411884544"
+            ],
+            "structural": null,
+            "ambiguous": [
+              "1a533c9b-537b-4ae2-86ce-e9ab434498c0",
+              "4ce0f960-ab2a-4f55-a576-17f63c571c07",
+              "6a854d27-3baf-4380-be41-822b10df2183",
+              "8b764b06-e629-467b-906c-b339d1a23a0e",
+              "98c573ee-4165-41c1-ac2d-e446b5aecd19",
+              "c11de9b4-fb06-4bbb-b296-6d94bad3e559",
+              "c9f0df35-0bee-41d2-b335-d72ac8171c20",
+              "e9105c9c-882b-4d03-9525-d5b266ea888e",
+              "f5cb1ace-f988-421a-84c8-337938d5d8f3",
+              "ffa7159f-12fd-4e5f-bdf8-c16387ef54c6"
+            ],
+            "workloads": [
+              "checkout"
+            ]
+          },
+          "unrelatedChangedObjects": 2,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "STRUCTURAL": 3,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 19,
+            "exclusions": 0
+          },
+          "firstEffectSeconds": 30.140529291,
+          "completeSeconds": 30.140529333,
+          "queryMilliseconds": [
+            0.919
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "agent restart_workload checkout: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent restart_workload checkout: no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent restart_workload checkout: direct precision and recall",
+          "pass": true,
+          "detail": "{TP:1 FP:0 FN:0}"
+        },
+        {
+          "name": "agent restart_workload checkout: structural precision",
+          "pass": true,
+          "detail": "{TP:2 FP:0 FN:0}"
+        },
+        {
+          "name": "agent restart_workload checkout again: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent restart_workload checkout again: no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent restart_workload checkout again: direct precision and recall",
+          "pass": true,
+          "detail": "{TP:1 FP:0 FN:0}"
+        },
+        {
+          "name": "agent restart_workload checkout again: structural precision",
+          "pass": true,
+          "detail": "{TP:0 FP:0 FN:0}"
+        },
+        {
+          "name": "ambiguities reported",
+          "pass": true,
+          "detail": "first=19 second=19"
+        },
+        {
+          "name": "deletions after the second request not claimed by the first action",
+          "pass": true,
+          "detail": "0 of 1"
+        }
+      ],
+      "notes": [
+        "Structural recall for the first action counts only changes before the second request; later changes are expected to be ambiguous."
+      ],
+      "concurrent": true,
+      "separated": true
+    },
+    {
+      "id": "L18",
+      "title": "Unrelated latency spike in another service",
+      "category": "live",
+      "description": "The agent scales inventory 2 -\u003e 3 while a runtime fault (no Kubernetes change) adds 300 ms latency to payments. The payments signal must not be attached to the inventory action; it should appear as an exclusion.",
+      "status": "pass",
+      "started": "2026-10-08T15:47:03.73717Z",
+      "durationSeconds": 24.122147875,
+      "actions": [
+        {
+          "label": "agent scale_workload inventory",
+          "actionId": "mcp-ab94ea8c9a7fc88a-a9961d73b6d5c258",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "ab94ea8c9a7fc88a91767d591db9f3e5",
+          "started": "2026-10-08T21:18:13.740458+05:30",
+          "returned": "2026-10-08T21:18:13.747555+05:30",
+          "truthEnd": "2026-10-08T21:18:24.765281+05:30",
+          "truth": {
+            "direct": [
+              "49eff975-f5ff-46e6-992f-cc80d43d0fc9"
+            ],
+            "structural": [
+              "a129e2cd-24d5-4255-9981-54043d313c16",
+              "d45f9010-9a58-459d-9b37-d5a658a9fd8a"
+            ],
+            "ambiguous": null,
+            "workloads": [
+              "inventory"
+            ]
+          },
+          "unrelatedChangedObjects": 0,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 2,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 7,
+              "STRUCTURAL": 2,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 0,
+            "exclusions": 3
+          },
+          "firstEffectSeconds": 11.03229675,
+          "completeSeconds": 24.117488916,
+          "queryMilliseconds": [
+            1.296,
+            1.84,
+            6.852,
+            6.226,
+            1.967,
+            5.15,
+            6.581,
+            1.933,
+            6.078,
+            6.319,
+            1.489,
+            8.854,
+            5.982,
+            6.154
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "agent scale_workload inventory: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent scale_workload inventory: no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent scale_workload inventory: direct precision",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload inventory: direct recall",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload inventory: structural precision",
+          "pass": true,
+          "detail": "tp=2 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload inventory: structural recall",
+          "pass": true,
+          "detail": "tp=2 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload inventory: no unrelated telemetry attached",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "positive control: payments p99 rose during the window",
+          "pass": true,
+          "detail": "max 0.498 (threshold 0.200) \u003cnil\u003e"
+        },
+        {
+          "name": "payments latency reported as an exclusion",
+          "pass": true,
+          "detail": "exclusion list"
+        }
+      ],
+      "concurrent": false
+    },
+    {
+      "id": "L19",
+      "title": "Unrelated error spike in another service",
+      "category": "live",
+      "description": "The agent scales payments 2 -\u003e 3 while a runtime fault makes 30% of inventory requests fail. inventory, checkout and frontend error signals must not attach to the payments action.",
+      "status": "pass",
+      "started": "2026-10-08T15:48:45.533425Z",
+      "durationSeconds": 24.13559575,
+      "actions": [
+        {
+          "label": "agent scale_workload payments",
+          "actionId": "mcp-632ec2101869724b-ac111b628bee70a1",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "632ec2101869724bc398b578309437d3",
+          "started": "2026-10-08T21:19:55.541657+05:30",
+          "returned": "2026-10-08T21:19:55.556912+05:30",
+          "truthEnd": "2026-10-08T21:20:05.569327+05:30",
+          "truth": {
+            "direct": [
+              "2c921419-8482-4905-88b6-e8d02d07b681"
+            ],
+            "structural": [
+              "845687cb-e49c-4191-bd14-e812f302cfc3",
+              "e1403b95-0e01-4e7f-a83a-03ea0d4df4bd"
+            ],
+            "ambiguous": null,
+            "workloads": [
+              "payments"
+            ]
+          },
+          "unrelatedChangedObjects": 0,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 2,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 7,
+              "STRUCTURAL": 2,
+              "TEMPORAL_CORRELATION": 1,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 0,
+            "exclusions": 5
+          },
+          "firstEffectSeconds": 10.033872458,
+          "completeSeconds": 24.1277155,
+          "queryMilliseconds": [
+            0.882,
+            7.401,
+            0.917,
+            9.032,
+            7.987,
+            1.238,
+            8.313,
+            7.498,
+            1.425,
+            7.912,
+            4.572,
+            1.433,
+            5.093,
+            8.378,
+            3.989
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "agent scale_workload payments: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent scale_workload payments: no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent scale_workload payments: direct precision",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload payments: direct recall",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload payments: structural precision",
+          "pass": true,
+          "detail": "tp=2 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload payments: structural recall",
+          "pass": true,
+          "detail": "tp=2 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload payments: no unrelated telemetry attached",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "positive control: inventory error ratio rose during the window",
+          "pass": true,
+          "detail": "max 0.261 (threshold 0.100) \u003cnil\u003e"
+        },
+        {
+          "name": "inventory errors reported as an exclusion",
+          "pass": true,
+          "detail": "exclusion list"
+        }
+      ],
+      "concurrent": false
+    },
+    {
+      "id": "L20",
+      "title": "Unrelated fault inside the window of the same workload",
+      "category": "live",
+      "description": "The agent scales checkout 3 -\u003e 4; a runtime fault (not caused by the action, by construction) adds 250 ms latency to checkout inside the window. EffectTrace must attach it only as TEMPORAL_CORRELATION and state that correlation is not causation. This experiment shows why the evidence class matters.",
+      "status": "pass",
+      "started": "2026-10-08T15:50:27.305974Z",
+      "durationSeconds": 25.172248083,
+      "actions": [
+        {
+          "label": "agent scale_workload checkout",
+          "actionId": "mcp-0aeba62d911faa05-ca3290d44d59c737",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "0aeba62d911faa0500746c963afceab8",
+          "started": "2026-10-08T21:21:37.308964+05:30",
+          "returned": "2026-10-08T21:21:37.326255+05:30",
+          "truthEnd": "2026-10-08T21:21:48.351781+05:30",
+          "truth": {
+            "direct": [
+              "89f16f9d-b639-4547-a33c-4de411884544"
+            ],
+            "structural": [
+              "596770af-7284-48be-baad-151c50ab69a3",
+              "c9f0df35-0bee-41d2-b335-d72ac8171c20"
+            ],
+            "ambiguous": null,
+            "workloads": [
+              "checkout"
+            ]
+          },
+          "unrelatedChangedObjects": 0,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 2,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 7,
+              "STRUCTURAL": 2,
+              "TEMPORAL_CORRELATION": 1,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 0,
+            "exclusions": 1
+          },
+          "firstEffectSeconds": 11.049807542,
+          "completeSeconds": 25.168845167,
+          "queryMilliseconds": [
+            0.761,
+            6.4,
+            6.887,
+            4.384,
+            9.422,
+            5.168,
+            6.029,
+            6.221,
+            9.405,
+            6.49,
+            3.287,
+            8.233,
+            9.809,
+            8.042,
+            8.401
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "agent scale_workload checkout: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent scale_workload checkout: no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent scale_workload checkout: direct precision",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload checkout: direct recall",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload checkout: structural precision",
+          "pass": true,
+          "detail": "tp=2 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload checkout: structural recall",
+          "pass": true,
+          "detail": "tp=2 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload checkout: no unrelated telemetry attached",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "positive control: checkout p99 rose during the window",
+          "pass": true,
+          "detail": "max 0.299 (threshold 0.200) \u003cnil\u003e"
+        },
+        {
+          "name": "latency change attached as TEMPORAL_CORRELATION",
+          "pass": true,
+          "detail": "checkout p99 edge"
+        },
+        {
+          "name": "telemetry never carries stronger evidence",
+          "pass": true,
+          "detail": "metric edges"
+        },
+        {
+          "name": "graph states that correlation is not causation",
+          "pass": true,
+          "detail": "graph notes"
+        }
+      ],
+      "notes": [
+        "Ground truth: the latency was injected by the harness and is causally unrelated to the scale action. The TEMPORAL_CORRELATION label is the correct, honest description of what EffectTrace can know."
+      ],
+      "concurrent": false
+    },
+    {
+      "id": "L21",
+      "title": "Metric change after the window",
+      "category": "live",
+      "description": "After the inventory action's graph is complete, a fault adds 400 ms latency to inventory. The completed graph must not change.",
+      "status": "pass",
+      "started": "2026-10-08T15:52:10.140696Z",
+      "durationSeconds": 49.161822792,
+      "actions": [
+        {
+          "label": "agent scale_workload inventory",
+          "actionId": "mcp-515c992be1a952a9-315fa24ed00ba5d0",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "515c992be1a952a97caf6453a339db82",
+          "started": "2026-10-08T21:23:20.14349+05:30",
+          "returned": "2026-10-08T21:23:20.152299+05:30",
+          "truthEnd": "2026-10-08T21:23:30.165747+05:30",
+          "truth": {
+            "direct": [
+              "49eff975-f5ff-46e6-992f-cc80d43d0fc9"
+            ],
+            "structural": [
+              "240e0dac-8306-4500-9fc9-ec5abd254364",
+              "d45f9010-9a58-459d-9b37-d5a658a9fd8a"
+            ],
+            "ambiguous": null,
+            "workloads": [
+              "inventory"
+            ]
+          },
+          "unrelatedChangedObjects": 0,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 2,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 7,
+              "STRUCTURAL": 2,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 0,
+            "exclusions": 0
+          },
+          "firstEffectSeconds": 10.028155334,
+          "completeSeconds": 24.144734917,
+          "queryMilliseconds": [
+            0.691,
+            8.729,
+            9.543,
+            5.994,
+            5.44,
+            5.114,
+            6.708,
+            7.586,
+            4.767,
+            6.141,
+            6.016,
+            7.443,
+            8.018,
+            7.714,
+            6.12
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "agent scale_workload inventory: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent scale_workload inventory: no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent scale_workload inventory: direct precision",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload inventory: direct recall",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload inventory: structural precision",
+          "pass": true,
+          "detail": "tp=2 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload inventory: structural recall",
+          "pass": true,
+          "detail": "tp=2 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload inventory: no unrelated telemetry attached",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "positive control: inventory p99 rose after the window",
+          "pass": true,
+          "detail": "max 0.498 (threshold 0.300) \u003cnil\u003e"
+        },
+        {
+          "name": "completed graph unchanged by a later metric change",
+          "pass": true,
+          "detail": "canonical JSON compared"
+        }
+      ],
+      "concurrent": false
+    },
+    {
+      "id": "L22",
+      "title": "Same name deleted and recreated with a new UID",
+      "category": "live",
+      "description": "A human creates Deployment ephemeral, deletes it, and recreates it with the same name; then the agent restarts it. The restart graph must contain only the new UID, and the delete graph only the old objects.",
+      "status": "pass",
+      "started": "2026-10-08T15:54:16.970575Z",
+      "durationSeconds": 60.528880875,
+      "actions": [
+        {
+          "label": "agent restart_workload ephemeral (recreated)",
+          "actionId": "mcp-0020d29976345fc5-bf05e9643d1c881a",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "0020d29976345fc54809cd9957a683a7",
+          "started": "2026-10-08T21:24:49.258249+05:30",
+          "returned": "2026-10-08T21:24:49.267472+05:30",
+          "truthEnd": "2026-10-08T21:25:02.287799+05:30",
+          "truth": {
+            "direct": [
+              "5d45edcd-f789-4482-b727-f9b8bc92c69f"
+            ],
+            "structural": [
+              "0c08f0ad-fe6f-46af-aa77-b529abec74c6",
+              "42dd9374-6e90-4c94-bad3-c646c30910ad",
+              "8d21efee-a578-4973-9a17-eecf20314049",
+              "9749b47a-fac3-48db-ad7f-d0d84d5e26b8",
+              "a428f5c7-0c2f-4900-8bed-341f177ec6c7",
+              "f7ec5ffa-0feb-4659-a49c-7c74b1b91932"
+            ],
+            "ambiguous": null,
+            "workloads": [
+              "ephemeral"
+            ]
+          },
+          "unrelatedChangedObjects": 0,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 6,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 22,
+              "STRUCTURAL": 6,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 0,
+            "exclusions": 3
+          },
+          "firstEffectSeconds": 13.037862334,
+          "completeSeconds": 28.189576292,
+          "queryMilliseconds": [
+            1.377,
+            7.223,
+            7.726,
+            6.932,
+            9.523,
+            9.161,
+            9.003,
+            9.151,
+            6.663,
+            9.746,
+            6.248,
+            7.654,
+            8.481,
+            9.727,
+            7.722,
+            7.594
+          ]
+        },
+        {
+          "label": "kubectl delete deployment ephemeral",
+          "actionId": "k8s-eecb6d50-289f-4952-8615-4e414650df10",
+          "kind": "KUBERNETES_API_CALL",
+          "started": "2026-10-08T21:24:28.035226+05:30",
+          "returned": "2026-10-08T21:24:32.17751+05:30",
+          "truthEnd": "2026-10-08T21:24:39.185106+05:30",
+          "truth": {
+            "direct": [
+              "b5c5129b-8c01-458c-aed4-68d744885b30"
+            ],
+            "structural": [
+              "8593a317-bc5a-44a5-9c7b-997cf9d11d4b",
+              "b1216a15-c5e0-4ed9-ac81-dfa1ee5b432a",
+              "b91f59b4-1317-4a0e-8893-a654b2d71f4a"
+            ],
+            "ambiguous": null,
+            "workloads": null
+          },
+          "unrelatedChangedObjects": 0,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 3,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 6,
+              "STRUCTURAL": 3
+            },
+            "ambiguities": 0,
+            "exclusions": 3
+          },
+          "firstEffectSeconds": 49.41370575,
+          "completeSeconds": 49.413705792,
+          "queryMilliseconds": [
+            1.074
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "agent restart_workload ephemeral (recreated): no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent restart_workload ephemeral (recreated): no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent restart_workload ephemeral (recreated): direct precision",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent restart_workload ephemeral (recreated): direct recall",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent restart_workload ephemeral (recreated): structural precision",
+          "pass": true,
+          "detail": "tp=6 fp=0 fn=0"
+        },
+        {
+          "name": "agent restart_workload ephemeral (recreated): structural recall",
+          "pass": true,
+          "detail": "tp=6 fp=0 fn=0"
+        },
+        {
+          "name": "agent restart_workload ephemeral (recreated): no unrelated telemetry attached",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "kubectl delete deployment ephemeral: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "kubectl delete deployment ephemeral: no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "kubectl delete deployment ephemeral: direct precision",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "kubectl delete deployment ephemeral: direct recall",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "kubectl delete deployment ephemeral: structural precision",
+          "pass": true,
+          "detail": "tp=3 fp=0 fn=0"
+        },
+        {
+          "name": "kubectl delete deployment ephemeral: structural recall",
+          "pass": true,
+          "detail": "tp=3 fp=0 fn=0"
+        },
+        {
+          "name": "kubectl delete deployment ephemeral: no unrelated telemetry attached",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "restart graph does not contain the deleted UID",
+          "pass": true,
+          "detail": "old UID b5c5129b-8c01-458c-aed4-68d744885b30"
+        }
+      ],
+      "concurrent": false
+    },
+    {
+      "id": "L23",
+      "title": "Trace context missing between agent and tool server",
+      "category": "live",
+      "description": "The agent does not propagate traceparent. The tool span becomes a root span, but the Kubernetes client span still descends from it, so DIRECT evidence is unaffected; only the agent identity is lost.",
+      "status": "pass",
+      "started": "2026-10-08T15:55:25.139784Z",
+      "durationSeconds": 25.131345792,
+      "actions": [
+        {
+          "label": "agent (no trace context) scale_workload frontend",
+          "actionId": "mcp-1ce9d4f1109517b9-29ce977693dee14c",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "b38f44333b9aecb278be528ddd8310b7",
+          "started": "2026-10-08T21:25:25.14015+05:30",
+          "returned": "2026-10-08T21:25:25.145418+05:30",
+          "truthEnd": "2026-10-08T21:25:36.166843+05:30",
+          "truth": {
+            "direct": [
+              "3328379e-4a5e-4947-8bb7-acc6d93b9a05"
+            ],
+            "structural": [
+              "19c0a621-2d3c-4966-ad4d-e4f77e6b0b5c",
+              "efc37e77-28e0-4bdb-ad43-bed71cdc27cc"
+            ],
+            "ambiguous": null,
+            "workloads": [
+              "frontend"
+            ]
+          },
+          "unrelatedChangedObjects": 0,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 2,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 7,
+              "STRUCTURAL": 2,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 0,
+            "exclusions": 0
+          },
+          "firstEffectSeconds": 11.035676083,
+          "completeSeconds": 25.131276541,
+          "queryMilliseconds": [
+            8.114,
+            8.103,
+            4.633,
+            5.732,
+            5.406,
+            7.386,
+            8.246,
+            5.57,
+            4.079,
+            4.772,
+            3.66,
+            5.134,
+            4.198,
+            5.518,
+            5.431
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "agent (no trace context) scale_workload frontend: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent (no trace context) scale_workload frontend: no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent (no trace context) scale_workload frontend: direct precision",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent (no trace context) scale_workload frontend: direct recall",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent (no trace context) scale_workload frontend: structural precision",
+          "pass": true,
+          "detail": "tp=2 fp=0 fn=0"
+        },
+        {
+          "name": "agent (no trace context) scale_workload frontend: structural recall",
+          "pass": true,
+          "detail": "tp=2 fp=0 fn=0"
+        },
+        {
+          "name": "agent (no trace context) scale_workload frontend: no unrelated telemetry attached",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "calling agent unknown without context",
+          "pass": true,
+          "detail": "actor \"\""
+        }
+      ],
+      "concurrent": false
+    },
+    {
+      "id": "L24",
+      "title": "Trace context missing between tool and Kubernetes client",
+      "category": "live",
+      "description": "The tool server runs with an uninstrumented Kubernetes client. The tool call must not receive DIRECT evidence; it may only reach the request through TEMPORAL_CORRELATION, while the request itself remains an attributed audit-log action.",
+      "status": "pass",
+      "started": "2026-10-08T15:55:57.930655Z",
+      "durationSeconds": 34.559019,
+      "actions": [
+        {
+          "label": "agent scale_workload payments (uninstrumented client)",
+          "actionId": "mcp-2e62947af9ae516d-ebeb459d3fa437d8",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "2e62947af9ae516dddc86a130c20ca32",
+          "started": "2026-10-08T21:26:06.37508+05:30",
+          "returned": "2026-10-08T21:26:06.394216+05:30",
+          "truthEnd": "2026-10-08T21:26:16.419807+05:30",
+          "truth": {
+            "direct": null,
+            "structural": null,
+            "ambiguous": null,
+            "workloads": [
+              "payments"
+            ]
+          },
+          "unrelatedChangedObjects": 3,
+          "evaluation": {
+            "direct": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 3,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 7,
+              "STRUCTURAL": 2,
+              "TEMPORAL_CORRELATION": 1
+            },
+            "ambiguities": 0,
+            "exclusions": 0
+          },
+          "firstEffectSeconds": 10.055522958,
+          "completeSeconds": 25.244499375,
+          "queryMilliseconds": [
+            1.251,
+            11.298,
+            12.262,
+            13.479,
+            9.951,
+            10.338,
+            14.531,
+            13.643,
+            7.542,
+            12.421,
+            12.265,
+            10.233,
+            1.175,
+            12.765,
+            12.686,
+            5.16
+          ]
+        },
+        {
+          "label": "audit-log action of the uninstrumented request",
+          "actionId": "k8s-14a71f33-233e-4c05-a982-5177b3f7299d",
+          "kind": "KUBERNETES_API_CALL",
+          "started": "2026-10-08T21:26:06.37508+05:30",
+          "returned": "0001-01-01T00:00:00Z",
+          "truthEnd": "2026-10-08T21:26:16.419807+05:30",
+          "truth": {
+            "direct": [
+              "2c921419-8482-4905-88b6-e8d02d07b681"
+            ],
+            "structural": [
+              "845687cb-e49c-4191-bd14-e812f302cfc3",
+              "e2836331-ad7d-4fb4-aaa6-0d34a669ee4f"
+            ],
+            "ambiguous": null,
+            "workloads": [
+              "payments"
+            ]
+          },
+          "unrelatedChangedObjects": 0,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 2,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 7,
+              "STRUCTURAL": 2
+            },
+            "ambiguities": 0,
+            "exclusions": 0
+          },
+          "firstEffectSeconds": 25.245347291,
+          "completeSeconds": 25.245347333,
+          "queryMilliseconds": [
+            0.742
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "audit-log action of the uninstrumented request: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "audit-log action of the uninstrumented request: no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "audit-log action of the uninstrumented request: direct precision",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "audit-log action of the uninstrumented request: direct recall",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "audit-log action of the uninstrumented request: structural precision",
+          "pass": true,
+          "detail": "tp=2 fp=0 fn=0"
+        },
+        {
+          "name": "audit-log action of the uninstrumented request: structural recall",
+          "pass": true,
+          "detail": "tp=2 fp=0 fn=0"
+        },
+        {
+          "name": "audit-log action of the uninstrumented request: no unrelated telemetry attached",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "tool call carries no attributed DIRECT claim",
+          "pass": true,
+          "detail": "{TP:0 FP:0 FN:0}"
+        },
+        {
+          "name": "tool call reaches the request only through TEMPORAL_CORRELATION",
+          "pass": true,
+          "detail": "temporal edge"
+        },
+        {
+          "name": "effects visible from the tool call are graded CORRELATED",
+          "pass": true,
+          "detail": "3 correlated objects"
+        }
+      ],
+      "concurrent": false
+    },
+    {
+      "id": "L25",
+      "title": "EffectTrace collector restarts during a rollout",
+      "category": "live",
+      "description": "The collector Pod is deleted 1 s after the agent restarts checkout. In-memory state and spans are lost; after restart the collector re-reads the audit log and relists objects. Expect degraded but honest results: no false attachments and partial watch coverage reported.",
+      "status": "pass",
+      "started": "2026-10-08T15:56:40.12862Z",
+      "durationSeconds": 37.29407025,
+      "actions": [
+        {
+          "label": "action after collector restart",
+          "actionId": "k8s-4eaf01c4-63f1-4092-bdc7-05bc76976df4",
+          "kind": "recovered",
+          "started": "2026-10-08T21:26:40.128672+05:30",
+          "returned": "0001-01-01T00:00:00Z",
+          "truthEnd": "2026-10-08T21:27:17.422009+05:30",
+          "truth": {
+            "direct": [
+              "89f16f9d-b639-4547-a33c-4de411884544"
+            ],
+            "structural": [
+              "028923a4-13f0-4f8d-b966-772c3ee22d61",
+              "2b47a815-6c53-4107-a9a1-bba5b8b6ef7e",
+              "2e494751-56c6-4ab2-825b-d43cf8c933fa",
+              "66951a81-21e6-48a4-830f-edec61c97fe5",
+              "8b764b06-e629-467b-906c-b339d1a23a0e",
+              "8b8d5a54-7b5f-4fa5-85e1-51ee7fe8c991",
+              "c11de9b4-fb06-4bbb-b296-6d94bad3e559",
+              "c9f0df35-0bee-41d2-b335-d72ac8171c20",
+              "f5cb1ace-f988-421a-84c8-337938d5d8f3"
+            ],
+            "ambiguous": null,
+            "workloads": [
+              "checkout"
+            ]
+          },
+          "unrelatedChangedObjects": 0,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 9
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "TEMPORAL_CORRELATION": 1
+            },
+            "ambiguities": 0,
+            "exclusions": 5
+          },
+          "completeSeconds": 37.294016542,
+          "queryMilliseconds": [
+            0.859
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "no false attachments after restart",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "structural precision after restart",
+          "pass": true,
+          "detail": "{TP:0 FP:0 FN:9}"
+        },
+        {
+          "name": "direct claim recovered",
+          "pass": true,
+          "detail": "{TP:1 FP:0 FN:0}"
+        },
+        {
+          "name": "partial watch coverage reported",
+          "pass": true,
+          "detail": "watch started after the action; earlier changes are unknown"
+        }
+      ],
+      "notes": [
+        "The tool span was lost with the collector's memory; the request was recovered from the audit log as an API-call action.",
+        "Structural recall after restart: 0 of 9 expected changes (changes during the downtime were not observed)."
+      ],
+      "concurrent": false
+    },
+    {
+      "id": "L26",
+      "title": "OpenTelemetry Collector restarts",
+      "category": "live",
+      "description": "The OTel Collector Pod is deleted right before the agent scales frontend. Spans may be delayed or lost; EffectTrace must still attribute the change exactly once, either to the tool call or to the audit-log action.",
+      "status": "pass",
+      "started": "2026-10-08T15:57:25.130517Z",
+      "durationSeconds": 25.5656215,
+      "actions": [
+        {
+          "label": "agent scale_workload frontend",
+          "actionId": "mcp-45cb1ae3d5590b0d-b5fe70d30ba6e565",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "45cb1ae3d5590b0d26eb9c36e32eeea3",
+          "started": "2026-10-08T21:27:25.169916+05:30",
+          "returned": "2026-10-08T21:27:25.179501+05:30",
+          "truthEnd": "2026-10-08T21:27:42.656896+05:30",
+          "truth": {
+            "direct": [
+              "3328379e-4a5e-4947-8bb7-acc6d93b9a05"
+            ],
+            "structural": [
+              "e822dab1-a673-41be-b3f1-e7829942adb1",
+              "efc37e77-28e0-4bdb-ad43-bed71cdc27cc"
+            ],
+            "ambiguous": null,
+            "workloads": [
+              "frontend"
+            ]
+          },
+          "unrelatedChangedObjects": 0,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 2,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 7,
+              "STRUCTURAL": 2,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 0,
+            "exclusions": 0
+          },
+          "firstEffectSeconds": 17.488079041,
+          "completeSeconds": 25.526223291,
+          "queryMilliseconds": [
+            1.055,
+            3.756,
+            1.218,
+            5.29,
+            4.569,
+            4.393,
+            4.287,
+            4.678,
+            3.956
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "agent scale_workload frontend: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent scale_workload frontend: no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent scale_workload frontend: direct precision",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload frontend: direct recall",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload frontend: structural precision",
+          "pass": true,
+          "detail": "tp=2 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload frontend: structural recall",
+          "pass": true,
+          "detail": "tp=2 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload frontend: no unrelated telemetry attached",
+          "pass": true,
+          "detail": "[]"
+        }
+      ],
+      "notes": [
+        "Spans were delivered after the OTel Collector restarted; the change is attributed to the tool call."
+      ],
+      "concurrent": false
+    },
+    {
+      "id": "L27",
+      "title": "Audit log unavailable",
+      "category": "live",
+      "description": "The collector is reconfigured to a missing audit log path. DIRECT evidence then rests on the instrumented client response alone, and audit coverage is reported as missing.",
+      "status": "pass",
+      "started": "2026-10-08T15:57:58.320583Z",
+      "durationSeconds": 46.474251875,
+      "actions": [
+        {
+          "label": "agent scale_workload inventory without audit",
+          "actionId": "mcp-03f5bd550c4d0638-b1f35222d4fdbaf8",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "03f5bd550c4d06388a5ade3e76cd3d35",
+          "started": "2026-10-08T21:28:07.717824+05:30",
+          "returned": "2026-10-08T21:28:07.726522+05:30",
+          "truthEnd": "2026-10-08T21:28:18.738212+05:30",
+          "truth": {
+            "direct": [
+              "49eff975-f5ff-46e6-992f-cc80d43d0fc9"
+            ],
+            "structural": [
+              "d45f9010-9a58-459d-9b37-d5a658a9fd8a",
+              "ee955c90-9745-42c6-b695-cd2da37b30fa"
+            ],
+            "ambiguous": null,
+            "workloads": [
+              "inventory"
+            ]
+          },
+          "unrelatedChangedObjects": 0,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 2,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 7,
+              "STRUCTURAL": 2,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 0,
+            "exclusions": 0
+          },
+          "firstEffectSeconds": 11.02355725,
+          "completeSeconds": 25.0569115,
+          "queryMilliseconds": [
+            1.219,
+            1.78,
+            1.707,
+            1.813,
+            1.544,
+            2.078,
+            2.051,
+            1.179,
+            1.373,
+            1.51,
+            1.419,
+            1.478,
+            1.479,
+            1.66,
+            1.494
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "agent scale_workload inventory without audit: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent scale_workload inventory without audit: no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent scale_workload inventory without audit: direct precision",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload inventory without audit: direct recall",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload inventory without audit: structural precision",
+          "pass": true,
+          "detail": "tp=2 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload inventory without audit: structural recall",
+          "pass": true,
+          "detail": "tp=2 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload inventory without audit: no unrelated telemetry attached",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "audit coverage reported as missing",
+          "pass": true,
+          "detail": "0/1 request(s) confirmed by an audit event; source unhealthy: audit log unavailable"
+        },
+        {
+          "name": "DIRECT evidence from the client response",
+          "pass": true,
+          "detail": "rule uid-from-client-response"
+        }
+      ],
+      "concurrent": false
+    },
+    {
+      "id": "L28",
+      "title": "Metrics source unavailable",
+      "category": "live",
+      "description": "Prometheus is scaled to zero before the agent restarts payments. Structural attribution must be unaffected, no temporal edges may appear and Prometheus coverage must be reported as unavailable.",
+      "status": "pass",
+      "started": "2026-10-08T15:58:52.459979Z",
+      "durationSeconds": 40.515100125000004,
+      "actions": [
+        {
+          "label": "agent restart_workload payments without metrics",
+          "actionId": "mcp-7206edbd445ea104-b94658e193c4bfc3",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "7206edbd445ea104f623e4389ca57d6c",
+          "started": "2026-10-08T21:28:59.50092+05:30",
+          "returned": "2026-10-08T21:28:59.509956+05:30",
+          "truthEnd": "2026-10-08T21:29:13.538128+05:30",
+          "truth": {
+            "direct": [
+              "2c921419-8482-4905-88b6-e8d02d07b681"
+            ],
+            "structural": [
+              "00573722-f57e-4526-8c47-98445c56f5cc",
+              "32dd33fa-9037-46f5-9190-224c74644a47",
+              "500b69bd-41c3-469f-812f-a1e0dd85d841",
+              "845687cb-e49c-4191-bd14-e812f302cfc3",
+              "e76219ca-db06-452e-8ce9-103d0d959e2e",
+              "ebf6db21-c009-4b64-88dc-f7368fe8a485"
+            ],
+            "ambiguous": null,
+            "workloads": [
+              "payments"
+            ]
+          },
+          "unrelatedChangedObjects": 0,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 6,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 20,
+              "STRUCTURAL": 6,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 0,
+            "exclusions": 0
+          },
+          "firstEffectSeconds": 14.047497416,
+          "completeSeconds": 32.193906541,
+          "queryMilliseconds": [
+            1.994,
+            9.141,
+            4.93,
+            5.4,
+            3.33,
+            7.291,
+            9.767,
+            5.301,
+            9.755,
+            5.043,
+            7.149,
+            8.114,
+            9.612,
+            10.308,
+            6.854,
+            5.057,
+            5.398,
+            4.875,
+            6.157
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "agent restart_workload payments without metrics: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent restart_workload payments without metrics: no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent restart_workload payments without metrics: direct precision",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent restart_workload payments without metrics: direct recall",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent restart_workload payments without metrics: structural precision",
+          "pass": true,
+          "detail": "tp=6 fp=0 fn=0"
+        },
+        {
+          "name": "agent restart_workload payments without metrics: structural recall",
+          "pass": true,
+          "detail": "tp=6 fp=0 fn=0"
+        },
+        {
+          "name": "agent restart_workload payments without metrics: no unrelated telemetry attached",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "Prometheus coverage reported as unavailable",
+          "pass": true,
+          "detail": "all signal queries failed: prometheus unreachable: Get \"http://prometheus.observability.svc:9090/api/v1/query_range?end=1791475165.883\u0026query=%28sum%28rate%28shop_http_requests_total%7Bnamespace%3D%22shop%22%2Cservice%3D%22payme"
+        },
+        {
+          "name": "no temporal edges without metrics",
+          "pass": true,
+          "detail": "0"
+        }
+      ],
+      "concurrent": false
+    },
+    {
+      "id": "L29",
+      "title": "kube-controller-manager restarts during a rollout",
+      "category": "live",
+      "description": "The agent restarts frontend and the kube-controller-manager container is stopped immediately afterwards; kubelet restarts it and reconciliation resumes. Attribution must remain correct.",
+      "status": "pass",
+      "started": "2026-10-08T15:59:40.619405Z",
+      "durationSeconds": 44.420445459,
+      "actions": [
+        {
+          "label": "agent restart_workload frontend (controller restarts)",
+          "actionId": "mcp-c4979999916ae107-e9ecc8050ddd9299",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "c4979999916ae1073de880930cba0858",
+          "started": "2026-10-08T21:29:40.619449+05:30",
+          "returned": "2026-10-08T21:29:40.624928+05:30",
+          "truthEnd": "2026-10-08T21:30:11.937758+05:30",
+          "truth": {
+            "direct": [
+              "3328379e-4a5e-4947-8bb7-acc6d93b9a05"
+            ],
+            "structural": [
+              "0917b735-4385-4494-8c51-663afd0359b1",
+              "3429944d-fe7c-4a49-9fde-a1263775051d",
+              "6bc4ae35-2847-417d-a2be-589b9d0bbe15",
+              "b070700a-d492-468b-9fd8-226e7748ba5a",
+              "d0132db2-0d0e-4920-8253-d5c6803529ad",
+              "efc37e77-28e0-4bdb-ad43-bed71cdc27cc"
+            ],
+            "ambiguous": null,
+            "workloads": [
+              "frontend"
+            ]
+          },
+          "unrelatedChangedObjects": 0,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 6,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 22,
+              "STRUCTURAL": 6,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 0,
+            "exclusions": 1
+          },
+          "firstEffectSeconds": 31.326684833,
+          "completeSeconds": 44.420361166,
+          "queryMilliseconds": [
+            1.417,
+            3.715,
+            6.781,
+            7.698,
+            2.696,
+            9.578,
+            8.761,
+            1.277,
+            8.179,
+            4.943,
+            4.828,
+            5.761,
+            5.823,
+            6.92
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "agent restart_workload frontend (controller restarts): no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent restart_workload frontend (controller restarts): no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent restart_workload frontend (controller restarts): direct precision",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent restart_workload frontend (controller restarts): direct recall",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent restart_workload frontend (controller restarts): structural precision",
+          "pass": true,
+          "detail": "tp=6 fp=0 fn=0"
+        },
+        {
+          "name": "agent restart_workload frontend (controller restarts): structural recall",
+          "pass": true,
+          "detail": "tp=6 fp=0 fn=0"
+        },
+        {
+          "name": "agent restart_workload frontend (controller restarts): no unrelated telemetry attached",
+          "pass": true,
+          "detail": "[]"
+        }
+      ],
+      "notes": [
+        "kube-controller-manager container 454e371b5698 stopped 0 s after the request; kubelet restarted it."
+      ],
+      "concurrent": false
+    },
+    {
+      "id": "L30",
+      "title": "Hostile and forged telemetry",
+      "category": "live",
+      "description": "Spans with terminal escape sequences, zero trace IDs, oversized attributes, HTML tool names and a forged client span that names a real audit ID with the wrong verb are sent through the OTel Collector. EffectTrace must reject invalid spans, keep existing graphs unchanged, escape HTML in API output and refuse the mismatched audit confirmation.",
+      "status": "pass",
+      "started": "2026-10-08T16:00:32.736866Z",
+      "durationSeconds": 39.187078167,
+      "actions": [
+        {
+          "label": "agent restart_workload checkout (before hostile input)",
+          "actionId": "mcp-6759e5bb177468ba-8d189b6f79345d68",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "6759e5bb177468ba716d38efd3a38443",
+          "started": "2026-10-08T21:30:32.736912+05:30",
+          "returned": "2026-10-08T21:30:32.742609+05:30",
+          "truthEnd": "2026-10-08T21:30:49.773911+05:30",
+          "truth": {
+            "direct": [
+              "89f16f9d-b639-4547-a33c-4de411884544"
+            ],
+            "structural": [
+              "028923a4-13f0-4f8d-b966-772c3ee22d61",
+              "06c654f9-f635-41e8-b399-b48e88323150",
+              "2b47a815-6c53-4107-a9a1-bba5b8b6ef7e",
+              "2e494751-56c6-4ab2-825b-d43cf8c933fa",
+              "4aae8aa4-557d-4c3e-95c3-136c5deb11a0",
+              "64bf76c8-d729-4abc-907c-99dc681f0f74",
+              "66951a81-21e6-48a4-830f-edec61c97fe5",
+              "ec5c52e5-77be-4b49-9952-c483c23f67b5",
+              "f7735be0-6ba3-4ad7-8c95-b597f0772347"
+            ],
+            "ambiguous": null,
+            "workloads": [
+              "checkout"
+            ]
+          },
+          "unrelatedChangedObjects": 0,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 9,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 33,
+              "STRUCTURAL": 9,
+              "TEMPORAL_CORRELATION": 1,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 0,
+            "exclusions": 1
+          },
+          "firstEffectSeconds": 17.046362082999998,
+          "completeSeconds": 31.162531333,
+          "queryMilliseconds": [
+            1.608,
+            6.971,
+            3.543,
+            8.792,
+            9.532,
+            2.772,
+            11.398,
+            8.193,
+            3.427,
+            4.98,
+            10.313,
+            1.943,
+            7.124,
+            9.362,
+            7.318
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "agent restart_workload checkout (before hostile input): no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent restart_workload checkout (before hostile input): no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent restart_workload checkout (before hostile input): direct precision",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent restart_workload checkout (before hostile input): direct recall",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent restart_workload checkout (before hostile input): structural precision",
+          "pass": true,
+          "detail": "tp=9 fp=0 fn=0"
+        },
+        {
+          "name": "agent restart_workload checkout (before hostile input): structural recall",
+          "pass": true,
+          "detail": "tp=9 fp=0 fn=0"
+        },
+        {
+          "name": "agent restart_workload checkout (before hostile input): no unrelated telemetry attached",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "collector healthy after hostile input",
+          "pass": true
+        },
+        {
+          "name": "invalid spans rejected",
+          "pass": true,
+          "detail": "rejected counter +3"
+        },
+        {
+          "name": "existing graph unchanged",
+          "pass": true,
+          "detail": "graph of mcp-6759e5bb177468ba-8d189b6f79345d68 compared byte for byte"
+        },
+        {
+          "name": "HTML escaped in API output",
+          "pass": true,
+          "detail": "JSON encoder escapes \u003c and \u003e"
+        },
+        {
+          "name": "forged span not confirmed by the real audit event",
+          "pass": true,
+          "detail": "audit ID 36edbbde-f287-4c7d-9ed0-534a90880af8"
+        },
+        {
+          "name": "forged action has no DIRECT claim",
+          "pass": true,
+          "detail": "0 DIRECT edges"
+        }
+      ],
+      "notes": [
+        "A producer that forges a span with a correct audit ID AND matching verb and object would be accepted: EffectTrace trusts its telemetry producers (see docs/threat-model.md)."
+      ],
+      "concurrent": false
+    },
+    {
+      "id": "L31",
+      "title": "Burst of four concurrent tool calls",
+      "category": "live",
+      "description": "Four agents act on four different workloads at once.",
+      "status": "pass",
+      "started": "2026-10-08T16:01:19.583288Z",
+      "durationSeconds": 26.153443416,
+      "actions": [
+        {
+          "label": "agent restart_workload frontend",
+          "actionId": "mcp-394f9e8752d99375-b9cf613c1c1e44a1",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "394f9e8752d99375a9ea25a667fdc8b7",
+          "started": "2026-10-08T21:31:19.583366+05:30",
+          "returned": "2026-10-08T21:31:19.590154+05:30",
+          "truthEnd": "2026-10-08T21:31:32.62474+05:30",
+          "truth": {
+            "direct": [
+              "3328379e-4a5e-4947-8bb7-acc6d93b9a05"
+            ],
+            "structural": [
+              "00afeb77-671d-45e7-895f-c2a379953ca4",
+              "6619e5ac-6412-4031-955d-934c0e81df86",
+              "6bc4ae35-2847-417d-a2be-589b9d0bbe15",
+              "b070700a-d492-468b-9fd8-226e7748ba5a",
+              "d0132db2-0d0e-4920-8253-d5c6803529ad",
+              "ee485b1a-fcb1-4cae-9213-73d0d0a3c0f4"
+            ],
+            "ambiguous": null,
+            "workloads": [
+              "frontend"
+            ]
+          },
+          "unrelatedChangedObjects": 13,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 6,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 22,
+              "STRUCTURAL": 6,
+              "TEMPORAL_CORRELATION": 1,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 0,
+            "exclusions": 12
+          },
+          "firstEffectSeconds": 13.053234417,
+          "completeSeconds": 26.149217584,
+          "queryMilliseconds": [
+            1.475,
+            6.075,
+            10.449,
+            10.162,
+            2.018,
+            6.591,
+            5.848,
+            1.71,
+            3.978,
+            6.677,
+            5.958,
+            7.113,
+            6.64,
+            7.524
+          ]
+        },
+        {
+          "label": "agent scale_workload checkout",
+          "actionId": "mcp-60d4e32e3e044acc-ae2462d853b887b7",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "60d4e32e3e044acc3f33ef52e6208a2e",
+          "started": "2026-10-08T21:31:19.583369+05:30",
+          "returned": "2026-10-08T21:31:19.591438+05:30",
+          "truthEnd": "2026-10-08T21:31:32.62474+05:30",
+          "truth": {
+            "direct": [
+              "89f16f9d-b639-4547-a33c-4de411884544"
+            ],
+            "structural": [
+              "219c71cf-bb26-48a7-9195-4df3724253d0",
+              "ec5c52e5-77be-4b49-9952-c483c23f67b5"
+            ],
+            "ambiguous": null,
+            "workloads": [
+              "checkout"
+            ]
+          },
+          "unrelatedChangedObjects": 17,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 2,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 7,
+              "STRUCTURAL": 2,
+              "TEMPORAL_CORRELATION": 1,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 0,
+            "exclusions": 16
+          },
+          "firstEffectSeconds": 26.15047425,
+          "completeSeconds": 26.150474292,
+          "queryMilliseconds": [
+            1.034
+          ]
+        },
+        {
+          "label": "agent restart_workload payments",
+          "actionId": "mcp-72015cd9daac8445-9980bf0b08f152ac",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "72015cd9daac84450c59d296e0a1ec46",
+          "started": "2026-10-08T21:31:19.583378+05:30",
+          "returned": "2026-10-08T21:31:19.589821+05:30",
+          "truthEnd": "2026-10-08T21:31:32.62474+05:30",
+          "truth": {
+            "direct": [
+              "2c921419-8482-4905-88b6-e8d02d07b681"
+            ],
+            "structural": [
+              "00573722-f57e-4526-8c47-98445c56f5cc",
+              "32dd33fa-9037-46f5-9190-224c74644a47",
+              "3c64f171-73a1-4a4c-8e24-83344dee486f",
+              "c2d73627-e94b-43e3-b8a6-18c4ea8fe6e4",
+              "d9438b5e-add3-47b8-9b4a-e96ce774da18",
+              "e76219ca-db06-452e-8ce9-103d0d959e2e"
+            ],
+            "ambiguous": null,
+            "workloads": [
+              "payments"
+            ]
+          },
+          "unrelatedChangedObjects": 13,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 6,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 22,
+              "STRUCTURAL": 6,
+              "TEMPORAL_CORRELATION": 1,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 0,
+            "exclusions": 12
+          },
+          "firstEffectSeconds": 26.152317625,
+          "completeSeconds": 26.152317709,
+          "queryMilliseconds": [
+            1.497
+          ]
+        },
+        {
+          "label": "agent scale_workload inventory",
+          "actionId": "mcp-6ac2614b2f383086-710185059b5c4e2e",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "6ac2614b2f3830867ece7ec4c9dd1880",
+          "started": "2026-10-08T21:31:19.583368+05:30",
+          "returned": "2026-10-08T21:31:19.58936+05:30",
+          "truthEnd": "2026-10-08T21:31:32.62474+05:30",
+          "truth": {
+            "direct": [
+              "49eff975-f5ff-46e6-992f-cc80d43d0fc9"
+            ],
+            "structural": [
+              "96d3c17b-7b8f-422d-9298-ad2098515669",
+              "d45f9010-9a58-459d-9b37-d5a658a9fd8a"
+            ],
+            "ambiguous": null,
+            "workloads": [
+              "inventory"
+            ]
+          },
+          "unrelatedChangedObjects": 17,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 2,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 7,
+              "STRUCTURAL": 2,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 0,
+            "exclusions": 17
+          },
+          "firstEffectSeconds": 26.153272041,
+          "completeSeconds": 26.153272083,
+          "queryMilliseconds": [
+            0.774
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "agent restart_workload frontend: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent restart_workload frontend: no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent restart_workload frontend: direct precision",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent restart_workload frontend: direct recall",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent restart_workload frontend: structural precision",
+          "pass": true,
+          "detail": "tp=6 fp=0 fn=0"
+        },
+        {
+          "name": "agent restart_workload frontend: structural recall",
+          "pass": true,
+          "detail": "tp=6 fp=0 fn=0"
+        },
+        {
+          "name": "agent restart_workload frontend: no unrelated telemetry attached",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent scale_workload checkout: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent scale_workload checkout: no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent scale_workload checkout: direct precision",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload checkout: direct recall",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload checkout: structural precision",
+          "pass": true,
+          "detail": "tp=2 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload checkout: structural recall",
+          "pass": true,
+          "detail": "tp=2 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload checkout: no unrelated telemetry attached",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent restart_workload payments: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent restart_workload payments: no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent restart_workload payments: direct precision",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent restart_workload payments: direct recall",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent restart_workload payments: structural precision",
+          "pass": true,
+          "detail": "tp=6 fp=0 fn=0"
+        },
+        {
+          "name": "agent restart_workload payments: structural recall",
+          "pass": true,
+          "detail": "tp=6 fp=0 fn=0"
+        },
+        {
+          "name": "agent restart_workload payments: no unrelated telemetry attached",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent scale_workload inventory: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent scale_workload inventory: no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent scale_workload inventory: direct precision",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload inventory: direct recall",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload inventory: structural precision",
+          "pass": true,
+          "detail": "tp=2 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload inventory: structural recall",
+          "pass": true,
+          "detail": "tp=2 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale_workload inventory: no unrelated telemetry attached",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "concurrent actions are separated",
+          "pass": true,
+          "detail": "no action claimed another action's expected objects"
+        }
+      ],
+      "concurrent": true,
+      "separated": true
+    },
+    {
+      "id": "L32",
+      "title": "Burst of eight concurrent tool calls, two per workload",
+      "category": "live",
+      "description": "Eight agents act at once, two on each workload. Same-workload pairs are inherently ambiguous; cross-workload separation must be perfect and ambiguous changes must be claimed by no action.",
+      "status": "pass",
+      "started": "2026-10-08T16:01:53.412321Z",
+      "durationSeconds": 34.22161,
+      "actions": [
+        {
+          "label": "agent 1 restart frontend",
+          "actionId": "mcp-4a47b92d3439fec3-1d8b2b6745a30de8",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "4a47b92d3439fec3fc3f79e2151867ef",
+          "started": "2026-10-08T21:31:53.412397+05:30",
+          "returned": "2026-10-08T21:31:53.424557+05:30",
+          "truthEnd": "2026-10-08T21:32:12.465881+05:30",
+          "truth": {
+            "direct": [
+              "3328379e-4a5e-4947-8bb7-acc6d93b9a05"
+            ],
+            "structural": null,
+            "ambiguous": [
+              "00afeb77-671d-45e7-895f-c2a379953ca4",
+              "079d4ea0-bcd7-40bf-ad4e-02918920b586",
+              "6619e5ac-6412-4031-955d-934c0e81df86",
+              "8703ad70-862a-4633-b1f1-1bae1cd76b49",
+              "9bd28918-8e44-4403-83e1-85a5d940a72a",
+              "af18f41a-c4a3-45fc-9336-e65853e9e8d7",
+              "dc8bf994-188d-4961-a876-b86912e4da42",
+              "ee485b1a-fcb1-4cae-9213-73d0d0a3c0f4"
+            ],
+            "workloads": [
+              "frontend"
+            ]
+          },
+          "unrelatedChangedObjects": 30,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "STRUCTURAL": 2,
+              "TEMPORAL_CORRELATION": 1,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 19,
+            "exclusions": 33
+          },
+          "firstEffectSeconds": 19.060469166,
+          "completeSeconds": 31.174118333,
+          "queryMilliseconds": [
+            1.377,
+            8.33,
+            8.546,
+            2.129,
+            8.255,
+            11.498,
+            1.469,
+            12.065,
+            11.281,
+            3.343,
+            9.763,
+            9.635,
+            5.873
+          ]
+        },
+        {
+          "label": "agent 2 scale frontend",
+          "actionId": "mcp-467bf30608e0de85-79e574d72738e2f3",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "467bf30608e0de855200d476fae56fa2",
+          "started": "2026-10-08T21:31:53.412401+05:30",
+          "returned": "2026-10-08T21:31:53.419521+05:30",
+          "truthEnd": "2026-10-08T21:32:12.465881+05:30",
+          "truth": {
+            "direct": [
+              "3328379e-4a5e-4947-8bb7-acc6d93b9a05"
+            ],
+            "structural": null,
+            "ambiguous": [
+              "00afeb77-671d-45e7-895f-c2a379953ca4",
+              "079d4ea0-bcd7-40bf-ad4e-02918920b586",
+              "6619e5ac-6412-4031-955d-934c0e81df86",
+              "8703ad70-862a-4633-b1f1-1bae1cd76b49",
+              "9bd28918-8e44-4403-83e1-85a5d940a72a",
+              "af18f41a-c4a3-45fc-9336-e65853e9e8d7",
+              "dc8bf994-188d-4961-a876-b86912e4da42",
+              "ee485b1a-fcb1-4cae-9213-73d0d0a3c0f4"
+            ],
+            "workloads": [
+              "frontend"
+            ]
+          },
+          "unrelatedChangedObjects": 30,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "STRUCTURAL": 2,
+              "TEMPORAL_CORRELATION": 1,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 19,
+            "exclusions": 33
+          },
+          "firstEffectSeconds": 31.175355333,
+          "completeSeconds": 31.175355333,
+          "queryMilliseconds": [
+            1.019
+          ]
+        },
+        {
+          "label": "agent 3 restart checkout",
+          "actionId": "mcp-0e3cb7b63805ea21-8f229d0bbcc3930e",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "0e3cb7b63805ea21d37d5d3ac47629f4",
+          "started": "2026-10-08T21:31:53.41246+05:30",
+          "returned": "2026-10-08T21:31:53.424554+05:30",
+          "truthEnd": "2026-10-08T21:32:12.465881+05:30",
+          "truth": {
+            "direct": [
+              "89f16f9d-b639-4547-a33c-4de411884544"
+            ],
+            "structural": null,
+            "ambiguous": [
+              "4286f80d-3a74-4dd1-9bce-3e87fb6550bb",
+              "47c88e1a-354a-42aa-9a45-d237586a8c7b",
+              "4aae8aa4-557d-4c3e-95c3-136c5deb11a0",
+              "64bf76c8-d729-4abc-907c-99dc681f0f74",
+              "80fd02da-ca79-4c0e-b916-7997cd8e6171",
+              "c3755434-253a-424e-b515-495e55ed0584",
+              "dccb586e-1cef-4ba0-ac2b-d350f5016960",
+              "ec5c52e5-77be-4b49-9952-c483c23f67b5",
+              "efe9cfad-023b-4582-92bd-851a581c5412",
+              "f7392397-cd9a-4af0-a712-7bded551ab03",
+              "f7735be0-6ba3-4ad7-8c95-b597f0772347"
+            ],
+            "workloads": [
+              "checkout"
+            ]
+          },
+          "unrelatedChangedObjects": 27,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "STRUCTURAL": 2,
+              "TEMPORAL_CORRELATION": 1,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 25,
+            "exclusions": 30
+          },
+          "firstEffectSeconds": 31.176374041,
+          "completeSeconds": 34.214522291,
+          "queryMilliseconds": [
+            0.895,
+            9.982,
+            12.694,
+            8.47
+          ]
+        },
+        {
+          "label": "agent 4 scale checkout",
+          "actionId": "mcp-25c700ec0d1a42bb-d2e1842c30565d66",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "25c700ec0d1a42bb5f24d36e3e293223",
+          "started": "2026-10-08T21:31:53.41248+05:30",
+          "returned": "2026-10-08T21:31:53.421632+05:30",
+          "truthEnd": "2026-10-08T21:32:12.465881+05:30",
+          "truth": {
+            "direct": [
+              "89f16f9d-b639-4547-a33c-4de411884544"
+            ],
+            "structural": null,
+            "ambiguous": [
+              "4286f80d-3a74-4dd1-9bce-3e87fb6550bb",
+              "47c88e1a-354a-42aa-9a45-d237586a8c7b",
+              "4aae8aa4-557d-4c3e-95c3-136c5deb11a0",
+              "64bf76c8-d729-4abc-907c-99dc681f0f74",
+              "80fd02da-ca79-4c0e-b916-7997cd8e6171",
+              "c3755434-253a-424e-b515-495e55ed0584",
+              "dccb586e-1cef-4ba0-ac2b-d350f5016960",
+              "ec5c52e5-77be-4b49-9952-c483c23f67b5",
+              "efe9cfad-023b-4582-92bd-851a581c5412",
+              "f7392397-cd9a-4af0-a712-7bded551ab03",
+              "f7735be0-6ba3-4ad7-8c95-b597f0772347"
+            ],
+            "workloads": [
+              "checkout"
+            ]
+          },
+          "unrelatedChangedObjects": 27,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "STRUCTURAL": 2,
+              "TEMPORAL_CORRELATION": 1,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 25,
+            "exclusions": 30
+          },
+          "firstEffectSeconds": 34.215956875,
+          "completeSeconds": 34.215956959,
+          "queryMilliseconds": [
+            1.173
+          ]
+        },
+        {
+          "label": "agent 5 restart payments",
+          "actionId": "mcp-52089ab8822c03f7-e768dfce11004712",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "52089ab8822c03f7fe239e8325bc728b",
+          "started": "2026-10-08T21:31:53.412414+05:30",
+          "returned": "2026-10-08T21:31:53.425219+05:30",
+          "truthEnd": "2026-10-08T21:32:12.465881+05:30",
+          "truth": {
+            "direct": [
+              "2c921419-8482-4905-88b6-e8d02d07b681"
+            ],
+            "structural": null,
+            "ambiguous": [
+              "2cc9063a-f680-49dd-8a2a-1ad7ea315226",
+              "3c64f171-73a1-4a4c-8e24-83344dee486f",
+              "4acf219a-099f-48e6-8f6d-da81e407ff1a",
+              "bc930f02-7a44-49a3-9d45-e45c260c7d73",
+              "c08af560-62ac-4e39-857d-ca965bf1dd9b",
+              "c2d73627-e94b-43e3-b8a6-18c4ea8fe6e4",
+              "d71c6fdc-789e-4fcd-9d56-e53003ec0017",
+              "d9438b5e-add3-47b8-9b4a-e96ce774da18"
+            ],
+            "workloads": [
+              "payments"
+            ]
+          },
+          "unrelatedChangedObjects": 30,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "STRUCTURAL": 2,
+              "TEMPORAL_CORRELATION": 1,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 22,
+            "exclusions": 33
+          },
+          "firstEffectSeconds": 34.217436625,
+          "completeSeconds": 34.217436666,
+          "queryMilliseconds": [
+            1.172
+          ]
+        },
+        {
+          "label": "agent 6 scale payments",
+          "actionId": "mcp-d27ae5bdf6d9c7cc-35b69eee07b02e41",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "d27ae5bdf6d9c7cc704e30276c57d705",
+          "started": "2026-10-08T21:31:53.412436+05:30",
+          "returned": "2026-10-08T21:31:53.421958+05:30",
+          "truthEnd": "2026-10-08T21:32:12.465881+05:30",
+          "truth": {
+            "direct": [
+              "2c921419-8482-4905-88b6-e8d02d07b681"
+            ],
+            "structural": null,
+            "ambiguous": [
+              "2cc9063a-f680-49dd-8a2a-1ad7ea315226",
+              "3c64f171-73a1-4a4c-8e24-83344dee486f",
+              "4acf219a-099f-48e6-8f6d-da81e407ff1a",
+              "bc930f02-7a44-49a3-9d45-e45c260c7d73",
+              "c08af560-62ac-4e39-857d-ca965bf1dd9b",
+              "c2d73627-e94b-43e3-b8a6-18c4ea8fe6e4",
+              "d71c6fdc-789e-4fcd-9d56-e53003ec0017",
+              "d9438b5e-add3-47b8-9b4a-e96ce774da18"
+            ],
+            "workloads": [
+              "payments"
+            ]
+          },
+          "unrelatedChangedObjects": 30,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "STRUCTURAL": 2,
+              "TEMPORAL_CORRELATION": 1,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 22,
+            "exclusions": 33
+          },
+          "firstEffectSeconds": 34.21865475,
+          "completeSeconds": 34.218654833,
+          "queryMilliseconds": [
+            0.999
+          ]
+        },
+        {
+          "label": "agent 7 restart inventory",
+          "actionId": "mcp-98034448b7a19fef-9938d744100d0adc",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "98034448b7a19fefa88ee0184b20b0af",
+          "started": "2026-10-08T21:31:53.412504+05:30",
+          "returned": "2026-10-08T21:31:53.421961+05:30",
+          "truthEnd": "2026-10-08T21:32:12.465881+05:30",
+          "truth": {
+            "direct": [
+              "49eff975-f5ff-46e6-992f-cc80d43d0fc9"
+            ],
+            "structural": null,
+            "ambiguous": [
+              "0f964080-5298-41c3-9c3b-0dac657a4181",
+              "6b64b132-c09f-478b-ad8d-97d6de276925",
+              "8642b074-a3a0-46c9-9393-47de1f0341fa",
+              "96bd7c8f-3aa9-4252-bfbc-fc32b9a641d0",
+              "d2c53b18-5753-4238-b57f-ccc1b7e7a364",
+              "d45f9010-9a58-459d-9b37-d5a658a9fd8a",
+              "dab7b103-50cb-4334-a3a1-298b9815931d",
+              "f7048246-6ce2-4895-8231-b23653992cfe"
+            ],
+            "workloads": [
+              "inventory"
+            ]
+          },
+          "unrelatedChangedObjects": 30,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "STRUCTURAL": 2,
+              "TEMPORAL_CORRELATION": 1,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 23,
+            "exclusions": 33
+          },
+          "firstEffectSeconds": 34.219909875,
+          "completeSeconds": 34.219909916,
+          "queryMilliseconds": [
+            1.116
+          ]
+        },
+        {
+          "label": "agent 8 scale inventory",
+          "actionId": "mcp-0f60c00989c02df6-1756844e9035e49b",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "0f60c00989c02df68f278ac13ef9a99d",
+          "started": "2026-10-08T21:31:53.412409+05:30",
+          "returned": "2026-10-08T21:31:53.424213+05:30",
+          "truthEnd": "2026-10-08T21:32:12.465881+05:30",
+          "truth": {
+            "direct": [
+              "49eff975-f5ff-46e6-992f-cc80d43d0fc9"
+            ],
+            "structural": null,
+            "ambiguous": [
+              "0f964080-5298-41c3-9c3b-0dac657a4181",
+              "6b64b132-c09f-478b-ad8d-97d6de276925",
+              "8642b074-a3a0-46c9-9393-47de1f0341fa",
+              "96bd7c8f-3aa9-4252-bfbc-fc32b9a641d0",
+              "d2c53b18-5753-4238-b57f-ccc1b7e7a364",
+              "d45f9010-9a58-459d-9b37-d5a658a9fd8a",
+              "dab7b103-50cb-4334-a3a1-298b9815931d",
+              "f7048246-6ce2-4895-8231-b23653992cfe"
+            ],
+            "workloads": [
+              "inventory"
+            ]
+          },
+          "unrelatedChangedObjects": 30,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "STRUCTURAL": 2,
+              "TEMPORAL_CORRELATION": 1,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 23,
+            "exclusions": 33
+          },
+          "firstEffectSeconds": 34.221345125,
+          "completeSeconds": 34.221345167,
+          "queryMilliseconds": [
+            1.113
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "agent 1 restart frontend: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent 1 restart frontend: direct precision and recall",
+          "pass": true,
+          "detail": "{TP:1 FP:0 FN:0}"
+        },
+        {
+          "name": "agent 2 scale frontend: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent 2 scale frontend: direct precision and recall",
+          "pass": true,
+          "detail": "{TP:1 FP:0 FN:0}"
+        },
+        {
+          "name": "agent 3 restart checkout: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent 3 restart checkout: direct precision and recall",
+          "pass": true,
+          "detail": "{TP:1 FP:0 FN:0}"
+        },
+        {
+          "name": "agent 4 scale checkout: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent 4 scale checkout: direct precision and recall",
+          "pass": true,
+          "detail": "{TP:1 FP:0 FN:0}"
+        },
+        {
+          "name": "agent 5 restart payments: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent 5 restart payments: direct precision and recall",
+          "pass": true,
+          "detail": "{TP:1 FP:0 FN:0}"
+        },
+        {
+          "name": "agent 6 scale payments: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent 6 scale payments: direct precision and recall",
+          "pass": true,
+          "detail": "{TP:1 FP:0 FN:0}"
+        },
+        {
+          "name": "agent 7 restart inventory: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent 7 restart inventory: direct precision and recall",
+          "pass": true,
+          "detail": "{TP:1 FP:0 FN:0}"
+        },
+        {
+          "name": "agent 8 scale inventory: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent 8 scale inventory: direct precision and recall",
+          "pass": true,
+          "detail": "{TP:1 FP:0 FN:0}"
+        },
+        {
+          "name": "no cross-workload attribution",
+          "pass": true,
+          "detail": "0 cross-workload claims"
+        },
+        {
+          "name": "ambiguous same-workload changes claimed by no action",
+          "pass": true,
+          "detail": "0"
+        }
+      ],
+      "notes": [
+        "Same-workload pairs: 0 attributed claim(s) on changes that are ambiguous between the two actions of a pair."
+      ],
+      "concurrent": true,
+      "separated": true
+    },
+    {
+      "id": "L33",
+      "title": "Scale to zero, then back up",
+      "category": "live",
+      "description": "The agent scales inventory to 0 and, once stable, back to 2. Each action must own only its own Pods.",
+      "status": "pass",
+      "started": "2026-10-08T16:02:35.297948Z",
+      "durationSeconds": 46.288395459,
+      "actions": [
+        {
+          "label": "agent scale inventory to 0",
+          "actionId": "mcp-54dd067e960bf2a2-91a5aceaf867b6bb",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "54dd067e960bf2a2b594bee5dda4bc3c",
+          "started": "2026-10-08T21:32:35.298+05:30",
+          "returned": "2026-10-08T21:32:35.303043+05:30",
+          "truthEnd": "2026-10-08T21:32:43.30754+05:30",
+          "truth": {
+            "direct": [
+              "49eff975-f5ff-46e6-992f-cc80d43d0fc9"
+            ],
+            "structural": [
+              "8642b074-a3a0-46c9-9393-47de1f0341fa",
+              "d2c53b18-5753-4238-b57f-ccc1b7e7a364",
+              "f7048246-6ce2-4895-8231-b23653992cfe"
+            ],
+            "ambiguous": null,
+            "workloads": [
+              "inventory"
+            ]
+          },
+          "unrelatedChangedObjects": 0,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 3,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 7,
+              "STRUCTURAL": 3,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 0,
+            "exclusions": 4
+          },
+          "firstEffectSeconds": 8.023660042,
+          "completeSeconds": 22.139266042,
+          "queryMilliseconds": [
+            1.26,
+            7.459,
+            6.981,
+            4.263,
+            4.889,
+            4.457,
+            9.438,
+            6.988,
+            1.106,
+            9.081,
+            11.483,
+            1.143,
+            8.946,
+            11.4,
+            6.551
+          ]
+        },
+        {
+          "label": "agent scale inventory to 2",
+          "actionId": "mcp-0263937868086ba2-fdb907eca7bc22b9",
+          "kind": "MCP_TOOL_CALL",
+          "traceId": "0263937868086ba276eec057b2b567f7",
+          "started": "2026-10-08T21:32:57.437531+05:30",
+          "returned": "2026-10-08T21:32:57.445144+05:30",
+          "truthEnd": "2026-10-08T21:33:08.462971+05:30",
+          "truth": {
+            "direct": [
+              "49eff975-f5ff-46e6-992f-cc80d43d0fc9"
+            ],
+            "structural": [
+              "2ca6434d-9feb-4216-9fba-30b2c09c7b9f",
+              "7230300b-688d-4056-8a49-1a69fff40d51",
+              "8642b074-a3a0-46c9-9393-47de1f0341fa"
+            ],
+            "ambiguous": null,
+            "workloads": [
+              "inventory"
+            ]
+          },
+          "unrelatedChangedObjects": 0,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 3,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 14,
+              "STRUCTURAL": 3,
+              "TEMPORAL_CORRELATION": 1,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 0,
+            "exclusions": 4
+          },
+          "firstEffectSeconds": 11.036139084,
+          "completeSeconds": 24.148991459,
+          "queryMilliseconds": [
+            1.166,
+            1.7,
+            8.067,
+            11.495,
+            3.082,
+            10.551,
+            9.15,
+            2.391,
+            5.822,
+            12.416,
+            2.292,
+            10.777,
+            11.545,
+            7.715
+          ]
+        }
+      ],
+      "checks": [
+        {
+          "name": "agent scale inventory to 0: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent scale inventory to 0: no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent scale inventory to 0: direct precision",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale inventory to 0: direct recall",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale inventory to 0: structural precision",
+          "pass": true,
+          "detail": "tp=3 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale inventory to 0: structural recall",
+          "pass": true,
+          "detail": "tp=3 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale inventory to 0: no unrelated telemetry attached",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent scale inventory to 2: no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent scale inventory to 2: no attributed claim on an ambiguous change",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "agent scale inventory to 2: direct precision",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale inventory to 2: direct recall",
+          "pass": true,
+          "detail": "tp=1 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale inventory to 2: structural precision",
+          "pass": true,
+          "detail": "tp=3 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale inventory to 2: structural recall",
+          "pass": true,
+          "detail": "tp=3 fp=0 fn=0"
+        },
+        {
+          "name": "agent scale inventory to 2: no unrelated telemetry attached",
+          "pass": true,
+          "detail": "[]"
+        }
+      ],
+      "concurrent": false
+    },
+    {
+      "id": "R01",
+      "title": "Replay reproduces live graphs",
+      "category": "replay",
+      "description": "The collector's recording of the whole lab run is replayed offline. Every live graph (except those affected by a collector restart or a disabled source, where the recording legitimately contains more than the live collector saw) must have the same nodes and edges.",
+      "status": "pass",
+      "started": "2026-10-08T16:03:29.066871Z",
+      "durationSeconds": 0.101166792,
+      "actions": null,
+      "checks": [
+        {
+          "name": "replayed graphs match live graphs",
+          "pass": true,
+          "detail": "47 of 47 graphs identical; differing: []"
+        }
+      ],
+      "notes": [
+        "Recording: 23707 records, 0 unreadable."
+      ],
+      "concurrent": false
+    },
+    {
+      "id": "R02",
+      "title": "Out-of-order and duplicated input",
+      "category": "replay",
+      "description": "The recording is shuffled and a third of it is replayed twice. Ingest is idempotent and graphs are built from sorted state, so every graph must be byte-identical to the in-order replay.",
+      "status": "pass",
+      "started": "2026-10-08T16:03:29.168733Z",
+      "durationSeconds": 0.179428958,
+      "actions": null,
+      "checks": [
+        {
+          "name": "graphs identical under reordering and duplication",
+          "pass": true,
+          "detail": "290 graphs identical"
+        }
+      ],
+      "concurrent": false
+    },
+    {
+      "id": "R03",
+      "title": "Delayed audit stream",
+      "category": "replay",
+      "description": "Audit records are withheld and delivered last. Before they arrive, the L01 graph must still hold DIRECT evidence from the instrumented client and report audit coverage as missing; after they arrive it must equal the undelayed graph.",
+      "status": "pass",
+      "started": "2026-10-08T16:03:29.34879Z",
+      "durationSeconds": 0.112236542,
+      "actions": null,
+      "checks": [
+        {
+          "name": "DIRECT evidence present before audit arrives",
+          "pass": true,
+          "detail": "client response metadata"
+        },
+        {
+          "name": "audit coverage missing before audit arrives",
+          "pass": true,
+          "detail": "0/1 request(s) confirmed by an audit event"
+        },
+        {
+          "name": "graph converges once delayed records arrive",
+          "pass": true,
+          "detail": "canonical JSON compared"
+        }
+      ],
+      "concurrent": false
+    },
+    {
+      "id": "R04",
+      "title": "Delayed Kubernetes Events",
+      "category": "replay",
+      "description": "Event records are withheld and delivered last. Before they arrive the L01 graph has no EVENT_REFERENCE edges but the same structural edges; after they arrive it equals the undelayed graph.",
+      "status": "pass",
+      "started": "2026-10-08T16:03:29.461643Z",
+      "durationSeconds": 0.125927,
+      "actions": null,
+      "checks": [
+        {
+          "name": "no EVENT_REFERENCE edges before events arrive",
+          "pass": true,
+          "detail": "0"
+        },
+        {
+          "name": "structural edges present before events arrive",
+          "pass": true,
+          "detail": "ReplicaSet edge"
+        },
+        {
+          "name": "graph converges once delayed records arrive",
+          "pass": true,
+          "detail": "canonical JSON compared"
+        }
+      ],
+      "concurrent": false
+    },
+    {
+      "id": "R05",
+      "title": "Observation window too short",
+      "category": "replay",
+      "description": "L01 is replayed with a 1 s maximum window and no settle period. Effects after the window are missed (lower recall), but nothing unrelated may be attached.",
+      "status": "pass",
+      "started": "2026-10-08T16:03:29.588155Z",
+      "durationSeconds": 0.076727417,
+      "actions": [
+        {
+          "label": "L01 agent restart_workload checkout (replayed)",
+          "actionId": "mcp-dafe52946d2b87d8-9c08233491f18700",
+          "kind": "MCP_TOOL_CALL",
+          "started": "2026-10-08T21:05:15.903221+05:30",
+          "returned": "0001-01-01T00:00:00Z",
+          "truthEnd": "2026-10-08T21:05:32.937447+05:30",
+          "truth": {
+            "direct": [
+              "89f16f9d-b639-4547-a33c-4de411884544"
+            ],
+            "structural": [
+              "1a533c9b-537b-4ae2-86ce-e9ab434498c0",
+              "6b85b430-cac9-4755-b51f-07d081ec3049",
+              "76d9cfe2-0575-4b1b-b688-eb03497694b2",
+              "823d3db7-eac9-493d-8d5b-9cb4e6bd73b8",
+              "8b8d5a54-7b5f-4fa5-85e1-51ee7fe8c991",
+              "9fa3be8d-329e-445d-a40d-b0bd1dfa3c15",
+              "bdb6350b-d325-431e-b013-27295a423585",
+              "fa4df13c-0819-4253-83f1-6fc4dd47122b"
+            ],
+            "ambiguous": null,
+            "workloads": [
+              "checkout"
+            ]
+          },
+          "unrelatedChangedObjects": 0,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 2,
+              "fp": 0,
+              "fn": 6
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 7,
+              "STRUCTURAL": 2,
+              "TEMPORAL_CORRELATION": 1,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 0,
+            "exclusions": 2
+          }
+        }
+      ],
+      "checks": [
+        {
+          "name": "L01 agent restart_workload checkout (replayed): no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "L01 agent restart_workload checkout (replayed): structural precision",
+          "pass": true,
+          "detail": "{TP:2 FP:0 FN:6}"
+        },
+        {
+          "name": "L01 agent restart_workload checkout (replayed): direct precision",
+          "pass": true,
+          "detail": "{TP:1 FP:0 FN:0}"
+        },
+        {
+          "name": "L01 agent restart_workload checkout (replayed): shorter window lowers recall, not precision",
+          "pass": true,
+          "detail": "recall 0.25 vs 1.00"
+        }
+      ],
+      "notes": [
+        "L01 agent restart_workload checkout (replayed): structural recall 0.25 (live window 1.00), ambiguities 0 (live 0)."
+      ],
+      "concurrent": false
+    },
+    {
+      "id": "R06",
+      "title": "Observation window very long",
+      "category": "replay",
+      "description": "L01, L02 and L03 (consecutive actions on checkout) are replayed with a 20 min maximum and 10 min settle period, so windows overlap later actions. Overlaps must turn into ambiguities, never into false attachments.",
+      "status": "pass",
+      "started": "2026-10-08T16:03:29.665662Z",
+      "durationSeconds": 0.074963917,
+      "actions": [
+        {
+          "label": "L01 agent restart_workload checkout (replayed)",
+          "actionId": "mcp-dafe52946d2b87d8-9c08233491f18700",
+          "kind": "MCP_TOOL_CALL",
+          "started": "2026-10-08T21:05:15.903221+05:30",
+          "returned": "0001-01-01T00:00:00Z",
+          "truthEnd": "2026-10-08T21:05:32.937447+05:30",
+          "truth": {
+            "direct": [
+              "89f16f9d-b639-4547-a33c-4de411884544"
+            ],
+            "structural": [
+              "1a533c9b-537b-4ae2-86ce-e9ab434498c0",
+              "6b85b430-cac9-4755-b51f-07d081ec3049",
+              "76d9cfe2-0575-4b1b-b688-eb03497694b2",
+              "823d3db7-eac9-493d-8d5b-9cb4e6bd73b8",
+              "8b8d5a54-7b5f-4fa5-85e1-51ee7fe8c991",
+              "9fa3be8d-329e-445d-a40d-b0bd1dfa3c15",
+              "bdb6350b-d325-431e-b013-27295a423585",
+              "fa4df13c-0819-4253-83f1-6fc4dd47122b"
+            ],
+            "ambiguous": null,
+            "workloads": [
+              "checkout"
+            ]
+          },
+          "unrelatedChangedObjects": 0,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 8,
+              "fp": 0,
+              "fn": 0
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "EVENT_REFERENCE": 33,
+              "STRUCTURAL": 11,
+              "TEMPORAL_CORRELATION": 1,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 55,
+            "exclusions": 46
+          }
+        },
+        {
+          "label": "L02 agent scale_workload checkout (replayed)",
+          "actionId": "mcp-19cabdb94a6e04bc-404ef7482df90e1e",
+          "kind": "MCP_TOOL_CALL",
+          "started": "2026-10-08T21:05:54.814903+05:30",
+          "returned": "0001-01-01T00:00:00Z",
+          "truthEnd": "2026-10-08T21:06:05.850614+05:30",
+          "truth": {
+            "direct": [
+              "89f16f9d-b639-4547-a33c-4de411884544"
+            ],
+            "structural": [
+              "68a758cb-03c2-4802-9eb6-0028bbb1310d",
+              "8b8d5a54-7b5f-4fa5-85e1-51ee7fe8c991",
+              "8e1ac445-7d9c-425c-b26a-fb43e6843fd2"
+            ],
+            "ambiguous": null,
+            "workloads": [
+              "checkout"
+            ]
+          },
+          "unrelatedChangedObjects": 0,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 3
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "STRUCTURAL": 5,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 72,
+            "exclusions": 45
+          }
+        },
+        {
+          "label": "L03 agent scale_workload checkout (replayed)",
+          "actionId": "mcp-14463581d8272069-5751dd923ea8537f",
+          "kind": "MCP_TOOL_CALL",
+          "started": "2026-10-08T21:06:27.555498+05:30",
+          "returned": "0001-01-01T00:00:00Z",
+          "truthEnd": "2026-10-08T21:06:35.564218+05:30",
+          "truth": {
+            "direct": [
+              "89f16f9d-b639-4547-a33c-4de411884544"
+            ],
+            "structural": [
+              "6b85b430-cac9-4755-b51f-07d081ec3049",
+              "8b8d5a54-7b5f-4fa5-85e1-51ee7fe8c991",
+              "9fa3be8d-329e-445d-a40d-b0bd1dfa3c15"
+            ],
+            "ambiguous": null,
+            "workloads": [
+              "checkout"
+            ]
+          },
+          "unrelatedChangedObjects": 0,
+          "evaluation": {
+            "direct": {
+              "tp": 1,
+              "fp": 0,
+              "fn": 0
+            },
+            "structural": {
+              "tp": 0,
+              "fp": 0,
+              "fn": 3
+            },
+            "falseAttachments": [],
+            "ambiguousClaimed": [],
+            "unrelatedTelemetry": [],
+            "correlatedObjects": 0,
+            "edgeCounts": {
+              "DIRECT": 1,
+              "STRUCTURAL": 7,
+              "TRACE_LINK": 1
+            },
+            "ambiguities": 72,
+            "exclusions": 45
+          }
+        }
+      ],
+      "checks": [
+        {
+          "name": "L01 agent restart_workload checkout (replayed): no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "L01 agent restart_workload checkout (replayed): structural precision",
+          "pass": true,
+          "detail": "{TP:8 FP:0 FN:0}"
+        },
+        {
+          "name": "L01 agent restart_workload checkout (replayed): direct precision",
+          "pass": true,
+          "detail": "{TP:1 FP:0 FN:0}"
+        },
+        {
+          "name": "L02 agent scale_workload checkout (replayed): no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "L02 agent scale_workload checkout (replayed): structural precision",
+          "pass": true,
+          "detail": "{TP:0 FP:0 FN:3}"
+        },
+        {
+          "name": "L02 agent scale_workload checkout (replayed): direct precision",
+          "pass": true,
+          "detail": "{TP:1 FP:0 FN:0}"
+        },
+        {
+          "name": "L03 agent scale_workload checkout (replayed): no false attachments",
+          "pass": true,
+          "detail": "[]"
+        },
+        {
+          "name": "L03 agent scale_workload checkout (replayed): structural precision",
+          "pass": true,
+          "detail": "{TP:0 FP:0 FN:3}"
+        },
+        {
+          "name": "L03 agent scale_workload checkout (replayed): direct precision",
+          "pass": true,
+          "detail": "{TP:1 FP:0 FN:0}"
+        }
+      ],
+      "notes": [
+        "L01 agent restart_workload checkout (replayed): structural recall 1.00 (live window 1.00), ambiguities 55 (live 0).",
+        "L02 agent scale_workload checkout (replayed): structural recall 0.00 (live window 1.00), ambiguities 72 (live 0).",
+        "L03 agent scale_workload checkout (replayed): structural recall 0.00 (live window 1.00), ambiguities 72 (live 0)."
+      ],
+      "concurrent": false
+    },
+    {
+      "id": "R07",
+      "title": "Corrupt recording input",
+      "category": "replay",
+      "description": "Garbage lines, truncated JSON, invalid UTF-8 and records that fail validation are mixed into the recording. They must be skipped and every graph must be identical to the clean replay.",
+      "status": "pass",
+      "started": "2026-10-08T16:03:29.743288Z",
+      "durationSeconds": 0.214575583,
+      "actions": null,
+      "checks": [
+        {
+          "name": "corrupt lines skipped",
+          "pass": true,
+          "detail": "240 lines skipped"
+        },
+        {
+          "name": "graphs unaffected by corrupt input",
+          "pass": true,
+          "detail": "290 graphs identical"
+        }
+      ],
+      "concurrent": false
+    },
+    {
+      "id": "U01",
+      "title": "HorizontalPodAutoscaler changes replicas after load",
+      "category": "unsupported",
+      "description": "Requires metrics-server in the lab. EffectTrace treats the HPA controller's scale requests as actions (it is configured as an actor), but no lab experiment exercises it in v0.1.",
+      "status": "unsupported",
+      "started": "2026-10-08T16:03:29.958487Z",
+      "durationSeconds": 0,
+      "actions": null,
+      "checks": null,
+      "concurrent": false
+    },
+    {
+      "id": "U02",
+      "title": "GitOps-driven change",
+      "category": "unsupported",
+      "description": "No GitOps integration is implemented. A GitOps controller's requests would appear as KUBERNETES_API_CALL actions of its service account, without commit-level context.",
+      "status": "unsupported",
+      "started": "2026-10-08T16:03:29.959271Z",
+      "durationSeconds": 0,
+      "actions": null,
+      "checks": null,
+      "concurrent": false
+    }
+  ]
+}

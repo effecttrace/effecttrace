@@ -1,0 +1,1240 @@
+{
+  "schemaVersion": "effecttrace.io/v1alpha1",
+  "id": "g-mcp-c4979999916ae107-e9ecc8050ddd9299",
+  "status": "COMPLETE",
+  "action": {
+    "id": "mcp-c4979999916ae107-e9ecc8050ddd9299",
+    "kind": "MCP_TOOL_CALL",
+    "name": "tools/call restart_workload",
+    "tool": "restart_workload",
+    "actor": "mcp-client:demo-agent",
+    "service": "demo-tools",
+    "startedAt": "2026-10-08T15:59:40.618016466Z",
+    "endedAt": "2026-10-08T15:59:40.621142642Z",
+    "trace": {
+      "traceId": "c4979999916ae1073de880930cba0858",
+      "spanId": "e9ecc8050ddd9299"
+    },
+    "outcome": "ok",
+    "targets": [
+      {
+        "kind": "Deployment",
+        "namespace": "shop",
+        "name": "frontend",
+        "uid": "3328379e-4a5e-4947-8bb7-acc6d93b9a05"
+      }
+    ]
+  },
+  "windows": [
+    {
+      "name": "reconcile Deployment shop/frontend",
+      "start": "2026-10-08T15:59:40.118282Z",
+      "end": "2026-10-08T16:00:09.050759379Z",
+      "reason": "closed 5s after Deployment reported a stable status"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "action:mcp-c4979999916ae107-e9ecc8050ddd9299",
+      "type": "ACTION",
+      "label": "tools/call restart_workload",
+      "span": {
+        "traceId": "c4979999916ae1073de880930cba0858",
+        "spanId": "e9ecc8050ddd9299"
+      },
+      "observedAt": "2026-10-08T15:59:40.618016466Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "event:14fca3e3-7c75-4cce-8e58-baa9dd644d72",
+      "type": "KUBERNETES_EVENT",
+      "label": "Unhealthy",
+      "event": {
+        "reason": "Unhealthy",
+        "type": "Warning",
+        "note": "Readiness probe failed: HTTP probe failed with statuscode: 503",
+        "controller": "kubelet",
+        "count": 3
+      },
+      "observedAt": "2026-10-08T15:59:41.0396598Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "event:168bb600-744c-4452-8df6-ace02ab2dde3",
+      "type": "KUBERNETES_EVENT",
+      "label": "Unhealthy",
+      "event": {
+        "reason": "Unhealthy",
+        "type": "Warning",
+        "note": "Readiness probe failed: HTTP probe failed with statuscode: 503",
+        "controller": "kubelet",
+        "count": 3
+      },
+      "observedAt": "2026-10-08T16:00:01.275341075Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "event:173502a9-8240-4ef7-af6b-b2c7e1d9983f",
+      "type": "KUBERNETES_EVENT",
+      "label": "Killing",
+      "event": {
+        "reason": "Killing",
+        "type": "Normal",
+        "note": "Stopping container app",
+        "controller": "kubelet",
+        "count": 1
+      },
+      "observedAt": "2026-10-08T16:00:00.860663553Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "event:1807d66e-58a9-4dd5-b877-aff465b05da2",
+      "type": "KUBERNETES_EVENT",
+      "label": "Created",
+      "event": {
+        "reason": "Created",
+        "type": "Normal",
+        "note": "Container created",
+        "controller": "kubelet",
+        "count": 1
+      },
+      "observedAt": "2026-10-08T15:59:40.993323533Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "event:237ecbf7-8af3-4cf2-9e0c-7d981f5e196d",
+      "type": "KUBERNETES_EVENT",
+      "label": "Created",
+      "event": {
+        "reason": "Created",
+        "type": "Normal",
+        "note": "Container created",
+        "controller": "kubelet",
+        "count": 1
+      },
+      "observedAt": "2026-10-08T16:00:01.231801025Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "event:314c7f26-db87-4d3c-b1ac-69ad6be7a6ee",
+      "type": "KUBERNETES_EVENT",
+      "label": "Started",
+      "event": {
+        "reason": "Started",
+        "type": "Normal",
+        "note": "Container started",
+        "controller": "kubelet",
+        "count": 1
+      },
+      "observedAt": "2026-10-08T16:00:01.274311488Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "event:3dc72530-8aa4-499b-9add-e47d67031c97",
+      "type": "KUBERNETES_EVENT",
+      "label": "ScalingReplicaSet",
+      "event": {
+        "reason": "ScalingReplicaSet",
+        "type": "Normal",
+        "note": "Scaled up replica set frontend-6bf8f444d9 from 0 to 1",
+        "controller": "deployment-controller",
+        "count": 1
+      },
+      "observedAt": "2026-10-08T15:59:40.624478819Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "event:594e9486-f6b4-4cab-848c-e16abef4c944",
+      "type": "KUBERNETES_EVENT",
+      "label": "Pulled",
+      "event": {
+        "reason": "Pulled",
+        "type": "Normal",
+        "note": "Container image \"localhost/effecttrace/demo:dev\" already present on machine and can be accessed by the pod",
+        "controller": "kubelet",
+        "count": 1
+      },
+      "observedAt": "2026-10-08T16:00:01.226774759Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "event:60bf29be-01db-4426-b11f-d8e955e1ea62",
+      "type": "KUBERNETES_EVENT",
+      "label": "SuccessfulDelete",
+      "event": {
+        "reason": "SuccessfulDelete",
+        "type": "Normal",
+        "note": "Deleted pod: frontend-69bbdbfc9f-rdjgf",
+        "controller": "replicaset-controller",
+        "count": 1
+      },
+      "observedAt": "2026-10-08T16:00:04.046846326Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "event:76dbe8fd-bf8c-4cc4-9ed5-c86da27b1eb9",
+      "type": "KUBERNETES_EVENT",
+      "label": "Unhealthy",
+      "event": {
+        "reason": "Unhealthy",
+        "type": "Warning",
+        "note": "Readiness probe failed: HTTP probe failed with statuscode: 503",
+        "controller": "kubelet",
+        "count": 6
+      },
+      "observedAt": "2026-10-08T16:00:04.308747129Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "event:7721d3fa-53b9-4daa-b648-ad65c13a9b5e",
+      "type": "KUBERNETES_EVENT",
+      "label": "Unhealthy",
+      "event": {
+        "reason": "Unhealthy",
+        "type": "Warning",
+        "note": "Readiness probe failed: HTTP probe failed with statuscode: 503",
+        "controller": "kubelet",
+        "count": 6
+      },
+      "observedAt": "2026-10-08T16:00:01.315792491Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "event:779ad62e-cb46-45e7-bd62-1d87e2fa7928",
+      "type": "KUBERNETES_EVENT",
+      "label": "SuccessfulCreate",
+      "event": {
+        "reason": "SuccessfulCreate",
+        "type": "Normal",
+        "note": "Created pod: frontend-6bf8f444d9-s7x7t",
+        "controller": "replicaset-controller",
+        "count": 1
+      },
+      "observedAt": "2026-10-08T15:59:40.628025121Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "event:77a807bb-5e7f-48dd-847d-8424b71630ee",
+      "type": "KUBERNETES_EVENT",
+      "label": "ScalingReplicaSet",
+      "event": {
+        "reason": "ScalingReplicaSet",
+        "type": "Normal",
+        "note": "Scaled down replica set frontend-69bbdbfc9f from 1 to 0",
+        "controller": "deployment-controller",
+        "count": 1
+      },
+      "observedAt": "2026-10-08T16:00:04.041668101Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "event:79ca3b70-2b44-446a-b719-f1fc34a8707c",
+      "type": "KUBERNETES_EVENT",
+      "label": "Scheduled",
+      "event": {
+        "reason": "Scheduled",
+        "type": "Normal",
+        "note": "Successfully assigned shop/frontend-6bf8f444d9-frqth to effecttrace-lab-control-plane",
+        "controller": "default-scheduler",
+        "count": 1
+      },
+      "observedAt": "2026-10-08T16:00:00.868418035Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "event:869dada4-5029-4d1e-a8e1-d4142e3e3e26",
+      "type": "KUBERNETES_EVENT",
+      "label": "ScalingReplicaSet",
+      "event": {
+        "reason": "ScalingReplicaSet",
+        "type": "Normal",
+        "note": "Scaled up replica set frontend-6bf8f444d9 from 1 to 2",
+        "controller": "deployment-controller",
+        "count": 1
+      },
+      "observedAt": "2026-10-08T16:00:00.864752149Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "event:8a585fd3-ade8-478b-ad94-da3bbee7a4ae",
+      "type": "KUBERNETES_EVENT",
+      "label": "Pulled",
+      "event": {
+        "reason": "Pulled",
+        "type": "Normal",
+        "note": "Container image \"localhost/effecttrace/demo:dev\" already present on machine and can be accessed by the pod",
+        "controller": "kubelet",
+        "count": 1
+      },
+      "observedAt": "2026-10-08T15:59:40.984932299Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "event:a3171768-b1d8-43d4-b75d-50fa3e013634",
+      "type": "KUBERNETES_EVENT",
+      "label": "SuccessfulCreate",
+      "event": {
+        "reason": "SuccessfulCreate",
+        "type": "Normal",
+        "note": "Created pod: frontend-6bf8f444d9-frqth",
+        "controller": "replicaset-controller",
+        "count": 1
+      },
+      "observedAt": "2026-10-08T16:00:00.866473404Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "event:ae7f4f36-026a-4ec6-9999-f4370704b374",
+      "type": "KUBERNETES_EVENT",
+      "label": "Killing",
+      "event": {
+        "reason": "Killing",
+        "type": "Normal",
+        "note": "Stopping container app",
+        "controller": "kubelet",
+        "count": 1
+      },
+      "observedAt": "2026-10-08T16:00:04.04545778Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "event:bf2e9aca-ca52-4c3e-98ad-824184bf707e",
+      "type": "KUBERNETES_EVENT",
+      "label": "Started",
+      "event": {
+        "reason": "Started",
+        "type": "Normal",
+        "note": "Container started",
+        "controller": "kubelet",
+        "count": 1
+      },
+      "observedAt": "2026-10-08T15:59:41.038780839Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "event:d0b02c8b-fd4b-4906-a6e2-365eaf540a9e",
+      "type": "KUBERNETES_EVENT",
+      "label": "Scheduled",
+      "event": {
+        "reason": "Scheduled",
+        "type": "Normal",
+        "note": "Successfully assigned shop/frontend-6bf8f444d9-s7x7t to effecttrace-lab-control-plane",
+        "controller": "default-scheduler",
+        "count": 1
+      },
+      "observedAt": "2026-10-08T15:59:40.630013044Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "event:d9ff0fff-08e4-412c-bb5b-4923b21ba43d",
+      "type": "KUBERNETES_EVENT",
+      "label": "ScalingReplicaSet",
+      "event": {
+        "reason": "ScalingReplicaSet",
+        "type": "Normal",
+        "note": "Scaled down replica set frontend-69bbdbfc9f from 2 to 1",
+        "controller": "deployment-controller",
+        "count": 1
+      },
+      "observedAt": "2026-10-08T16:00:00.856209873Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "event:f9f868c0-0ce2-41f8-8e21-7790d2176242",
+      "type": "KUBERNETES_EVENT",
+      "label": "SuccessfulDelete",
+      "event": {
+        "reason": "SuccessfulDelete",
+        "type": "Normal",
+        "note": "Deleted pod: frontend-69bbdbfc9f-r8v65",
+        "controller": "replicaset-controller",
+        "count": 1
+      },
+      "observedAt": "2026-10-08T16:00:00.86199564Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "k8s:0917b735-4385-4494-8c51-663afd0359b1",
+      "type": "KUBERNETES_OBJECT",
+      "label": "Pod shop/frontend-69bbdbfc9f-r8v65",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "frontend-69bbdbfc9f-r8v65",
+        "uid": "0917b735-4385-4494-8c51-663afd0359b1"
+      },
+      "change": {
+        "type": "DELETED",
+        "at": "2026-10-08T16:00:00.858717672Z"
+      },
+      "observedAt": "2026-10-08T16:00:00.858717672Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "k8s:3328379e-4a5e-4947-8bb7-acc6d93b9a05",
+      "type": "KUBERNETES_OBJECT",
+      "label": "Deployment shop/frontend",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "namespace": "shop",
+        "name": "frontend",
+        "uid": "3328379e-4a5e-4947-8bb7-acc6d93b9a05"
+      },
+      "change": {
+        "type": "MUTATED",
+        "generationFrom": 6,
+        "generationTo": 7,
+        "resourceVersion": "7084",
+        "at": "2026-10-08T15:59:40.621165059Z"
+      },
+      "observedAt": "2026-10-08T15:59:40.618282Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "k8s:3429944d-fe7c-4a49-9fde-a1263775051d",
+      "type": "KUBERNETES_OBJECT",
+      "label": "Pod shop/frontend-69bbdbfc9f-rdjgf",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "frontend-69bbdbfc9f-rdjgf",
+        "uid": "3429944d-fe7c-4a49-9fde-a1263775051d"
+      },
+      "change": {
+        "type": "DELETED",
+        "at": "2026-10-08T16:00:04.042807938Z"
+      },
+      "observedAt": "2026-10-08T16:00:04.042807938Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "k8s:6bc4ae35-2847-417d-a2be-589b9d0bbe15",
+      "type": "KUBERNETES_OBJECT",
+      "label": "Pod shop/frontend-6bf8f444d9-frqth",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "frontend-6bf8f444d9-frqth",
+        "uid": "6bc4ae35-2847-417d-a2be-589b9d0bbe15"
+      },
+      "change": {
+        "type": "CREATED",
+        "at": "2026-10-08T16:00:00.865264234Z",
+        "readyAt": "2026-10-08T16:00:04.031899988Z"
+      },
+      "observedAt": "2026-10-08T16:00:00.865264234Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "k8s:b070700a-d492-468b-9fd8-226e7748ba5a",
+      "type": "KUBERNETES_OBJECT",
+      "label": "Pod shop/frontend-6bf8f444d9-s7x7t",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "frontend-6bf8f444d9-s7x7t",
+        "uid": "b070700a-d492-468b-9fd8-226e7748ba5a"
+      },
+      "change": {
+        "type": "CREATED",
+        "at": "2026-10-08T15:59:40.626847034Z",
+        "readyAt": "2026-10-08T15:59:43.993473235Z"
+      },
+      "observedAt": "2026-10-08T15:59:40.626847034Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "k8s:d0132db2-0d0e-4920-8253-d5c6803529ad",
+      "type": "KUBERNETES_OBJECT",
+      "label": "ReplicaSet shop/frontend-6bf8f444d9",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "namespace": "shop",
+        "name": "frontend-6bf8f444d9",
+        "uid": "d0132db2-0d0e-4920-8253-d5c6803529ad"
+      },
+      "change": {
+        "type": "CREATED",
+        "revision": "3",
+        "at": "2026-10-08T15:59:40.623046773Z"
+      },
+      "observedAt": "2026-10-08T15:59:40.623046773Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "k8s:efc37e77-28e0-4bdb-ad43-bed71cdc27cc",
+      "type": "KUBERNETES_OBJECT",
+      "label": "ReplicaSet shop/frontend-69bbdbfc9f",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "namespace": "shop",
+        "name": "frontend-69bbdbfc9f",
+        "uid": "efc37e77-28e0-4bdb-ad43-bed71cdc27cc"
+      },
+      "change": {
+        "type": "SCALED",
+        "replicasFrom": 2,
+        "replicasTo": 0,
+        "revision": "2",
+        "at": "2026-10-08T16:00:00.854494159Z"
+      },
+      "observedAt": "2026-10-08T16:00:00.854494159Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "metric:http_error_ratio:3328379e-4a5e-4947-8bb7-acc6d93b9a05",
+      "type": "METRIC_OBSERVATION",
+      "label": "http_error_ratio for frontend",
+      "metric": {
+        "signal": "http_error_ratio",
+        "unit": "ratio",
+        "workload": "frontend",
+        "baseline": 0,
+        "observed": 0,
+        "direction": "unchanged",
+        "changed": false,
+        "samples": 21
+      },
+      "observedAt": "2026-10-08T15:59:40.618282Z"
+    },
+    {
+      "id": "metric:http_p99_latency:3328379e-4a5e-4947-8bb7-acc6d93b9a05",
+      "type": "METRIC_OBSERVATION",
+      "label": "http_p99_latency for frontend",
+      "metric": {
+        "signal": "http_p99_latency",
+        "unit": "seconds",
+        "workload": "frontend",
+        "baseline": 0,
+        "observed": 0,
+        "direction": "unchanged",
+        "changed": false,
+        "samples": 21
+      },
+      "observedAt": "2026-10-08T15:59:40.618282Z"
+    },
+    {
+      "id": "request:aeee31e4-39be-4253-9dca-8019318462f7",
+      "type": "KUBERNETES_REQUEST",
+      "label": "PATCH deployments shop/frontend",
+      "request": {
+        "verb": "patch",
+        "resource": "deployments",
+        "apiGroup": "apps",
+        "namespace": "shop",
+        "name": "frontend",
+        "auditId": "aeee31e4-39be-4253-9dca-8019318462f7",
+        "user": "system:serviceaccount:effecttrace-demo:demo-actor",
+        "userAgent": "effecttrace-demo-tools/v0.1.0",
+        "statusCode": 200,
+        "receivedAt": "2026-10-08T15:59:40.618282Z",
+        "sources": [
+          "kubernetes-audit",
+          "otlp-client-span"
+        ]
+      },
+      "span": {
+        "traceId": "c4979999916ae1073de880930cba0858",
+        "spanId": "971bdee779aa44b5"
+      },
+      "observedAt": "2026-10-08T15:59:40.618282Z",
+      "grade": "ATTRIBUTED"
+    }
+  ],
+  "edges": [
+    {
+      "id": "e-7cc7d55af2b91f0b",
+      "from": "action:mcp-c4979999916ae107-e9ecc8050ddd9299",
+      "to": "request:aeee31e4-39be-4253-9dca-8019318462f7",
+      "relationship": "TRACE_PARENT",
+      "evidence": "TRACE_LINK",
+      "reason": "The Kubernetes client span \"patch deployments\" descends from the tool span (1 parent hop(s)) in trace c4979999.",
+      "observedAt": "2026-10-08T15:59:40.618282Z",
+      "source": "otlp",
+      "facts": [
+        {
+          "key": "client_span_id",
+          "value": "971bdee779aa44b5"
+        },
+        {
+          "key": "parent_hops",
+          "value": "1"
+        },
+        {
+          "key": "trace_id",
+          "value": "c4979999916ae1073de880930cba0858"
+        }
+      ],
+      "rule": "client-span-descends-from-tool-span"
+    },
+    {
+      "id": "e-b289e354d15e0dc4",
+      "from": "k8s:0917b735-4385-4494-8c51-663afd0359b1",
+      "to": "event:173502a9-8240-4ef7-af6b-b2c7e1d9983f",
+      "relationship": "EVENT_REFERENCE",
+      "evidence": "EVENT_REFERENCE",
+      "reason": "Kubernetes Event Killing references Pod shop/frontend-69bbdbfc9f-r8v65 by UID 0917b735.",
+      "observedAt": "2026-10-08T16:00:00.860663553Z",
+      "source": "kubernetes-events",
+      "facts": [
+        {
+          "key": "event_uid",
+          "value": "173502a9-8240-4ef7-af6b-b2c7e1d9983f"
+        },
+        {
+          "key": "regarding_uid",
+          "value": "0917b735-4385-4494-8c51-663afd0359b1"
+        }
+      ],
+      "rule": "event-references-object-in-window-single-claimant"
+    },
+    {
+      "id": "e-c29f595dfce611d9",
+      "from": "k8s:0917b735-4385-4494-8c51-663afd0359b1",
+      "to": "event:7721d3fa-53b9-4daa-b648-ad65c13a9b5e",
+      "relationship": "EVENT_REFERENCE",
+      "evidence": "EVENT_REFERENCE",
+      "reason": "Kubernetes Event Unhealthy references Pod shop/frontend-69bbdbfc9f-r8v65 by UID 0917b735.",
+      "observedAt": "2026-10-08T16:00:01.315792491Z",
+      "source": "kubernetes-events",
+      "facts": [
+        {
+          "key": "event_uid",
+          "value": "7721d3fa-53b9-4daa-b648-ad65c13a9b5e"
+        },
+        {
+          "key": "regarding_uid",
+          "value": "0917b735-4385-4494-8c51-663afd0359b1"
+        }
+      ],
+      "rule": "event-references-object-in-window-single-claimant"
+    },
+    {
+      "id": "e-e086a69798a73b98",
+      "from": "k8s:3328379e-4a5e-4947-8bb7-acc6d93b9a05",
+      "to": "event:3dc72530-8aa4-499b-9add-e47d67031c97",
+      "relationship": "EVENT_REFERENCE",
+      "evidence": "EVENT_REFERENCE",
+      "reason": "Kubernetes Event ScalingReplicaSet references Deployment shop/frontend by UID 3328379e.",
+      "observedAt": "2026-10-08T15:59:40.624478819Z",
+      "source": "kubernetes-events",
+      "facts": [
+        {
+          "key": "event_uid",
+          "value": "3dc72530-8aa4-499b-9add-e47d67031c97"
+        },
+        {
+          "key": "regarding_uid",
+          "value": "3328379e-4a5e-4947-8bb7-acc6d93b9a05"
+        }
+      ],
+      "rule": "event-references-object-in-window-single-claimant"
+    },
+    {
+      "id": "e-025897d2b018b2cb",
+      "from": "k8s:3328379e-4a5e-4947-8bb7-acc6d93b9a05",
+      "to": "event:77a807bb-5e7f-48dd-847d-8424b71630ee",
+      "relationship": "EVENT_REFERENCE",
+      "evidence": "EVENT_REFERENCE",
+      "reason": "Kubernetes Event ScalingReplicaSet references Deployment shop/frontend by UID 3328379e.",
+      "observedAt": "2026-10-08T16:00:04.041668101Z",
+      "source": "kubernetes-events",
+      "facts": [
+        {
+          "key": "event_uid",
+          "value": "77a807bb-5e7f-48dd-847d-8424b71630ee"
+        },
+        {
+          "key": "regarding_uid",
+          "value": "3328379e-4a5e-4947-8bb7-acc6d93b9a05"
+        }
+      ],
+      "rule": "event-references-object-in-window-single-claimant"
+    },
+    {
+      "id": "e-2c37a5abc0903e9b",
+      "from": "k8s:3328379e-4a5e-4947-8bb7-acc6d93b9a05",
+      "to": "event:869dada4-5029-4d1e-a8e1-d4142e3e3e26",
+      "relationship": "EVENT_REFERENCE",
+      "evidence": "EVENT_REFERENCE",
+      "reason": "Kubernetes Event ScalingReplicaSet references Deployment shop/frontend by UID 3328379e.",
+      "observedAt": "2026-10-08T16:00:00.864752149Z",
+      "source": "kubernetes-events",
+      "facts": [
+        {
+          "key": "event_uid",
+          "value": "869dada4-5029-4d1e-a8e1-d4142e3e3e26"
+        },
+        {
+          "key": "regarding_uid",
+          "value": "3328379e-4a5e-4947-8bb7-acc6d93b9a05"
+        }
+      ],
+      "rule": "event-references-object-in-window-single-claimant"
+    },
+    {
+      "id": "e-df7da14158ae0dc3",
+      "from": "k8s:3328379e-4a5e-4947-8bb7-acc6d93b9a05",
+      "to": "event:d9ff0fff-08e4-412c-bb5b-4923b21ba43d",
+      "relationship": "EVENT_REFERENCE",
+      "evidence": "EVENT_REFERENCE",
+      "reason": "Kubernetes Event ScalingReplicaSet references Deployment shop/frontend by UID 3328379e.",
+      "observedAt": "2026-10-08T16:00:00.856209873Z",
+      "source": "kubernetes-events",
+      "facts": [
+        {
+          "key": "event_uid",
+          "value": "d9ff0fff-08e4-412c-bb5b-4923b21ba43d"
+        },
+        {
+          "key": "regarding_uid",
+          "value": "3328379e-4a5e-4947-8bb7-acc6d93b9a05"
+        }
+      ],
+      "rule": "event-references-object-in-window-single-claimant"
+    },
+    {
+      "id": "e-6d393adbf198aebf",
+      "from": "k8s:3328379e-4a5e-4947-8bb7-acc6d93b9a05",
+      "to": "k8s:d0132db2-0d0e-4920-8253-d5c6803529ad",
+      "relationship": "STRUCTURAL_OWNER",
+      "evidence": "STRUCTURAL",
+      "reason": "ReplicaSet shop/frontend-6bf8f444d9 is controlled by Deployment shop/frontend (ownerReference uid 3328379e) and was created 5ms after the request, inside the reconciliation window; no other action's window covers it.",
+      "observedAt": "2026-10-08T15:59:40.623046773Z",
+      "source": "kubernetes-watch",
+      "facts": [
+        {
+          "key": "change",
+          "value": "CREATED"
+        },
+        {
+          "key": "owner_uid",
+          "value": "3328379e-4a5e-4947-8bb7-acc6d93b9a05"
+        }
+      ],
+      "rule": "controller-owned-change-in-window-single-claimant"
+    },
+    {
+      "id": "e-e9e5c73d6ff27f42",
+      "from": "k8s:3328379e-4a5e-4947-8bb7-acc6d93b9a05",
+      "to": "k8s:efc37e77-28e0-4bdb-ad43-bed71cdc27cc",
+      "relationship": "STRUCTURAL_OWNER",
+      "evidence": "STRUCTURAL",
+      "reason": "ReplicaSet shop/frontend-69bbdbfc9f is controlled by Deployment shop/frontend (ownerReference uid 3328379e) and was scaled 2 -\u003e 0 20.2s after the request, inside the reconciliation window; no other action's window covers it.",
+      "observedAt": "2026-10-08T16:00:00.854494159Z",
+      "source": "kubernetes-watch",
+      "facts": [
+        {
+          "key": "change",
+          "value": "SCALED"
+        },
+        {
+          "key": "owner_uid",
+          "value": "3328379e-4a5e-4947-8bb7-acc6d93b9a05"
+        }
+      ],
+      "rule": "controller-owned-change-in-window-single-claimant"
+    },
+    {
+      "id": "e-1ff676c238041bb1",
+      "from": "k8s:3429944d-fe7c-4a49-9fde-a1263775051d",
+      "to": "event:76dbe8fd-bf8c-4cc4-9ed5-c86da27b1eb9",
+      "relationship": "EVENT_REFERENCE",
+      "evidence": "EVENT_REFERENCE",
+      "reason": "Kubernetes Event Unhealthy references Pod shop/frontend-69bbdbfc9f-rdjgf by UID 3429944d.",
+      "observedAt": "2026-10-08T16:00:04.308747129Z",
+      "source": "kubernetes-events",
+      "facts": [
+        {
+          "key": "event_uid",
+          "value": "76dbe8fd-bf8c-4cc4-9ed5-c86da27b1eb9"
+        },
+        {
+          "key": "regarding_uid",
+          "value": "3429944d-fe7c-4a49-9fde-a1263775051d"
+        }
+      ],
+      "rule": "event-references-object-in-window-single-claimant"
+    },
+    {
+      "id": "e-fe45f7ac80c6d656",
+      "from": "k8s:3429944d-fe7c-4a49-9fde-a1263775051d",
+      "to": "event:ae7f4f36-026a-4ec6-9999-f4370704b374",
+      "relationship": "EVENT_REFERENCE",
+      "evidence": "EVENT_REFERENCE",
+      "reason": "Kubernetes Event Killing references Pod shop/frontend-69bbdbfc9f-rdjgf by UID 3429944d.",
+      "observedAt": "2026-10-08T16:00:04.04545778Z",
+      "source": "kubernetes-events",
+      "facts": [
+        {
+          "key": "event_uid",
+          "value": "ae7f4f36-026a-4ec6-9999-f4370704b374"
+        },
+        {
+          "key": "regarding_uid",
+          "value": "3429944d-fe7c-4a49-9fde-a1263775051d"
+        }
+      ],
+      "rule": "event-references-object-in-window-single-claimant"
+    },
+    {
+      "id": "e-31b9243a2525aaf2",
+      "from": "k8s:6bc4ae35-2847-417d-a2be-589b9d0bbe15",
+      "to": "event:168bb600-744c-4452-8df6-ace02ab2dde3",
+      "relationship": "EVENT_REFERENCE",
+      "evidence": "EVENT_REFERENCE",
+      "reason": "Kubernetes Event Unhealthy references Pod shop/frontend-6bf8f444d9-frqth by UID 6bc4ae35.",
+      "observedAt": "2026-10-08T16:00:01.275341075Z",
+      "source": "kubernetes-events",
+      "facts": [
+        {
+          "key": "event_uid",
+          "value": "168bb600-744c-4452-8df6-ace02ab2dde3"
+        },
+        {
+          "key": "regarding_uid",
+          "value": "6bc4ae35-2847-417d-a2be-589b9d0bbe15"
+        }
+      ],
+      "rule": "event-references-object-in-window-single-claimant"
+    },
+    {
+      "id": "e-6c3e7be6610cf04f",
+      "from": "k8s:6bc4ae35-2847-417d-a2be-589b9d0bbe15",
+      "to": "event:237ecbf7-8af3-4cf2-9e0c-7d981f5e196d",
+      "relationship": "EVENT_REFERENCE",
+      "evidence": "EVENT_REFERENCE",
+      "reason": "Kubernetes Event Created references Pod shop/frontend-6bf8f444d9-frqth by UID 6bc4ae35.",
+      "observedAt": "2026-10-08T16:00:01.231801025Z",
+      "source": "kubernetes-events",
+      "facts": [
+        {
+          "key": "event_uid",
+          "value": "237ecbf7-8af3-4cf2-9e0c-7d981f5e196d"
+        },
+        {
+          "key": "regarding_uid",
+          "value": "6bc4ae35-2847-417d-a2be-589b9d0bbe15"
+        }
+      ],
+      "rule": "event-references-object-in-window-single-claimant"
+    },
+    {
+      "id": "e-0fca5dd71833fb75",
+      "from": "k8s:6bc4ae35-2847-417d-a2be-589b9d0bbe15",
+      "to": "event:314c7f26-db87-4d3c-b1ac-69ad6be7a6ee",
+      "relationship": "EVENT_REFERENCE",
+      "evidence": "EVENT_REFERENCE",
+      "reason": "Kubernetes Event Started references Pod shop/frontend-6bf8f444d9-frqth by UID 6bc4ae35.",
+      "observedAt": "2026-10-08T16:00:01.274311488Z",
+      "source": "kubernetes-events",
+      "facts": [
+        {
+          "key": "event_uid",
+          "value": "314c7f26-db87-4d3c-b1ac-69ad6be7a6ee"
+        },
+        {
+          "key": "regarding_uid",
+          "value": "6bc4ae35-2847-417d-a2be-589b9d0bbe15"
+        }
+      ],
+      "rule": "event-references-object-in-window-single-claimant"
+    },
+    {
+      "id": "e-4af0f01e1db7704c",
+      "from": "k8s:6bc4ae35-2847-417d-a2be-589b9d0bbe15",
+      "to": "event:594e9486-f6b4-4cab-848c-e16abef4c944",
+      "relationship": "EVENT_REFERENCE",
+      "evidence": "EVENT_REFERENCE",
+      "reason": "Kubernetes Event Pulled references Pod shop/frontend-6bf8f444d9-frqth by UID 6bc4ae35.",
+      "observedAt": "2026-10-08T16:00:01.226774759Z",
+      "source": "kubernetes-events",
+      "facts": [
+        {
+          "key": "event_uid",
+          "value": "594e9486-f6b4-4cab-848c-e16abef4c944"
+        },
+        {
+          "key": "regarding_uid",
+          "value": "6bc4ae35-2847-417d-a2be-589b9d0bbe15"
+        }
+      ],
+      "rule": "event-references-object-in-window-single-claimant"
+    },
+    {
+      "id": "e-d05de12e0924ea4f",
+      "from": "k8s:6bc4ae35-2847-417d-a2be-589b9d0bbe15",
+      "to": "event:79ca3b70-2b44-446a-b719-f1fc34a8707c",
+      "relationship": "EVENT_REFERENCE",
+      "evidence": "EVENT_REFERENCE",
+      "reason": "Kubernetes Event Scheduled references Pod shop/frontend-6bf8f444d9-frqth by UID 6bc4ae35.",
+      "observedAt": "2026-10-08T16:00:00.868418035Z",
+      "source": "kubernetes-events",
+      "facts": [
+        {
+          "key": "event_uid",
+          "value": "79ca3b70-2b44-446a-b719-f1fc34a8707c"
+        },
+        {
+          "key": "regarding_uid",
+          "value": "6bc4ae35-2847-417d-a2be-589b9d0bbe15"
+        }
+      ],
+      "rule": "event-references-object-in-window-single-claimant"
+    },
+    {
+      "id": "e-31b00c90c1fc70ef",
+      "from": "k8s:b070700a-d492-468b-9fd8-226e7748ba5a",
+      "to": "event:14fca3e3-7c75-4cce-8e58-baa9dd644d72",
+      "relationship": "EVENT_REFERENCE",
+      "evidence": "EVENT_REFERENCE",
+      "reason": "Kubernetes Event Unhealthy references Pod shop/frontend-6bf8f444d9-s7x7t by UID b070700a.",
+      "observedAt": "2026-10-08T15:59:41.0396598Z",
+      "source": "kubernetes-events",
+      "facts": [
+        {
+          "key": "event_uid",
+          "value": "14fca3e3-7c75-4cce-8e58-baa9dd644d72"
+        },
+        {
+          "key": "regarding_uid",
+          "value": "b070700a-d492-468b-9fd8-226e7748ba5a"
+        }
+      ],
+      "rule": "event-references-object-in-window-single-claimant"
+    },
+    {
+      "id": "e-0304b4d385ebafe0",
+      "from": "k8s:b070700a-d492-468b-9fd8-226e7748ba5a",
+      "to": "event:1807d66e-58a9-4dd5-b877-aff465b05da2",
+      "relationship": "EVENT_REFERENCE",
+      "evidence": "EVENT_REFERENCE",
+      "reason": "Kubernetes Event Created references Pod shop/frontend-6bf8f444d9-s7x7t by UID b070700a.",
+      "observedAt": "2026-10-08T15:59:40.993323533Z",
+      "source": "kubernetes-events",
+      "facts": [
+        {
+          "key": "event_uid",
+          "value": "1807d66e-58a9-4dd5-b877-aff465b05da2"
+        },
+        {
+          "key": "regarding_uid",
+          "value": "b070700a-d492-468b-9fd8-226e7748ba5a"
+        }
+      ],
+      "rule": "event-references-object-in-window-single-claimant"
+    },
+    {
+      "id": "e-7368483836dc51c4",
+      "from": "k8s:b070700a-d492-468b-9fd8-226e7748ba5a",
+      "to": "event:8a585fd3-ade8-478b-ad94-da3bbee7a4ae",
+      "relationship": "EVENT_REFERENCE",
+      "evidence": "EVENT_REFERENCE",
+      "reason": "Kubernetes Event Pulled references Pod shop/frontend-6bf8f444d9-s7x7t by UID b070700a.",
+      "observedAt": "2026-10-08T15:59:40.984932299Z",
+      "source": "kubernetes-events",
+      "facts": [
+        {
+          "key": "event_uid",
+          "value": "8a585fd3-ade8-478b-ad94-da3bbee7a4ae"
+        },
+        {
+          "key": "regarding_uid",
+          "value": "b070700a-d492-468b-9fd8-226e7748ba5a"
+        }
+      ],
+      "rule": "event-references-object-in-window-single-claimant"
+    },
+    {
+      "id": "e-0c9c0918c4eb8a35",
+      "from": "k8s:b070700a-d492-468b-9fd8-226e7748ba5a",
+      "to": "event:bf2e9aca-ca52-4c3e-98ad-824184bf707e",
+      "relationship": "EVENT_REFERENCE",
+      "evidence": "EVENT_REFERENCE",
+      "reason": "Kubernetes Event Started references Pod shop/frontend-6bf8f444d9-s7x7t by UID b070700a.",
+      "observedAt": "2026-10-08T15:59:41.038780839Z",
+      "source": "kubernetes-events",
+      "facts": [
+        {
+          "key": "event_uid",
+          "value": "bf2e9aca-ca52-4c3e-98ad-824184bf707e"
+        },
+        {
+          "key": "regarding_uid",
+          "value": "b070700a-d492-468b-9fd8-226e7748ba5a"
+        }
+      ],
+      "rule": "event-references-object-in-window-single-claimant"
+    },
+    {
+      "id": "e-4b9e6ee0f7a8fc2f",
+      "from": "k8s:b070700a-d492-468b-9fd8-226e7748ba5a",
+      "to": "event:d0b02c8b-fd4b-4906-a6e2-365eaf540a9e",
+      "relationship": "EVENT_REFERENCE",
+      "evidence": "EVENT_REFERENCE",
+      "reason": "Kubernetes Event Scheduled references Pod shop/frontend-6bf8f444d9-s7x7t by UID b070700a.",
+      "observedAt": "2026-10-08T15:59:40.630013044Z",
+      "source": "kubernetes-events",
+      "facts": [
+        {
+          "key": "event_uid",
+          "value": "d0b02c8b-fd4b-4906-a6e2-365eaf540a9e"
+        },
+        {
+          "key": "regarding_uid",
+          "value": "b070700a-d492-468b-9fd8-226e7748ba5a"
+        }
+      ],
+      "rule": "event-references-object-in-window-single-claimant"
+    },
+    {
+      "id": "e-fd15a7f4306780e5",
+      "from": "k8s:d0132db2-0d0e-4920-8253-d5c6803529ad",
+      "to": "event:779ad62e-cb46-45e7-bd62-1d87e2fa7928",
+      "relationship": "EVENT_REFERENCE",
+      "evidence": "EVENT_REFERENCE",
+      "reason": "Kubernetes Event SuccessfulCreate references ReplicaSet shop/frontend-6bf8f444d9 by UID d0132db2.",
+      "observedAt": "2026-10-08T15:59:40.628025121Z",
+      "source": "kubernetes-events",
+      "facts": [
+        {
+          "key": "event_uid",
+          "value": "779ad62e-cb46-45e7-bd62-1d87e2fa7928"
+        },
+        {
+          "key": "regarding_uid",
+          "value": "d0132db2-0d0e-4920-8253-d5c6803529ad"
+        }
+      ],
+      "rule": "event-references-object-in-window-single-claimant"
+    },
+    {
+      "id": "e-18e08dfff03e74ac",
+      "from": "k8s:d0132db2-0d0e-4920-8253-d5c6803529ad",
+      "to": "event:a3171768-b1d8-43d4-b75d-50fa3e013634",
+      "relationship": "EVENT_REFERENCE",
+      "evidence": "EVENT_REFERENCE",
+      "reason": "Kubernetes Event SuccessfulCreate references ReplicaSet shop/frontend-6bf8f444d9 by UID d0132db2.",
+      "observedAt": "2026-10-08T16:00:00.866473404Z",
+      "source": "kubernetes-events",
+      "facts": [
+        {
+          "key": "event_uid",
+          "value": "a3171768-b1d8-43d4-b75d-50fa3e013634"
+        },
+        {
+          "key": "regarding_uid",
+          "value": "d0132db2-0d0e-4920-8253-d5c6803529ad"
+        }
+      ],
+      "rule": "event-references-object-in-window-single-claimant"
+    },
+    {
+      "id": "e-0e5227f8e79d1976",
+      "from": "k8s:d0132db2-0d0e-4920-8253-d5c6803529ad",
+      "to": "k8s:6bc4ae35-2847-417d-a2be-589b9d0bbe15",
+      "relationship": "STRUCTURAL_OWNER",
+      "evidence": "STRUCTURAL",
+      "reason": "Pod shop/frontend-6bf8f444d9-frqth is controlled by ReplicaSet shop/frontend-6bf8f444d9 (ownerReference uid d0132db2) and was created 20.2s after the request, inside the reconciliation window; no other action's window covers it.",
+      "observedAt": "2026-10-08T16:00:00.865264234Z",
+      "source": "kubernetes-watch",
+      "facts": [
+        {
+          "key": "change",
+          "value": "CREATED"
+        },
+        {
+          "key": "owner_uid",
+          "value": "d0132db2-0d0e-4920-8253-d5c6803529ad"
+        }
+      ],
+      "rule": "controller-owned-change-in-window-single-claimant"
+    },
+    {
+      "id": "e-4c15b56bb0d5dbe3",
+      "from": "k8s:d0132db2-0d0e-4920-8253-d5c6803529ad",
+      "to": "k8s:b070700a-d492-468b-9fd8-226e7748ba5a",
+      "relationship": "STRUCTURAL_OWNER",
+      "evidence": "STRUCTURAL",
+      "reason": "Pod shop/frontend-6bf8f444d9-s7x7t is controlled by ReplicaSet shop/frontend-6bf8f444d9 (ownerReference uid d0132db2) and was created 9ms after the request, inside the reconciliation window; no other action's window covers it.",
+      "observedAt": "2026-10-08T15:59:40.626847034Z",
+      "source": "kubernetes-watch",
+      "facts": [
+        {
+          "key": "change",
+          "value": "CREATED"
+        },
+        {
+          "key": "owner_uid",
+          "value": "d0132db2-0d0e-4920-8253-d5c6803529ad"
+        }
+      ],
+      "rule": "controller-owned-change-in-window-single-claimant"
+    },
+    {
+      "id": "e-cab51953eec52673",
+      "from": "k8s:efc37e77-28e0-4bdb-ad43-bed71cdc27cc",
+      "to": "event:60bf29be-01db-4426-b11f-d8e955e1ea62",
+      "relationship": "EVENT_REFERENCE",
+      "evidence": "EVENT_REFERENCE",
+      "reason": "Kubernetes Event SuccessfulDelete references ReplicaSet shop/frontend-69bbdbfc9f by UID efc37e77.",
+      "observedAt": "2026-10-08T16:00:04.046846326Z",
+      "source": "kubernetes-events",
+      "facts": [
+        {
+          "key": "event_uid",
+          "value": "60bf29be-01db-4426-b11f-d8e955e1ea62"
+        },
+        {
+          "key": "regarding_uid",
+          "value": "efc37e77-28e0-4bdb-ad43-bed71cdc27cc"
+        }
+      ],
+      "rule": "event-references-object-in-window-single-claimant"
+    },
+    {
+      "id": "e-6a713a5ac160a6f7",
+      "from": "k8s:efc37e77-28e0-4bdb-ad43-bed71cdc27cc",
+      "to": "event:f9f868c0-0ce2-41f8-8e21-7790d2176242",
+      "relationship": "EVENT_REFERENCE",
+      "evidence": "EVENT_REFERENCE",
+      "reason": "Kubernetes Event SuccessfulDelete references ReplicaSet shop/frontend-69bbdbfc9f by UID efc37e77.",
+      "observedAt": "2026-10-08T16:00:00.86199564Z",
+      "source": "kubernetes-events",
+      "facts": [
+        {
+          "key": "event_uid",
+          "value": "f9f868c0-0ce2-41f8-8e21-7790d2176242"
+        },
+        {
+          "key": "regarding_uid",
+          "value": "efc37e77-28e0-4bdb-ad43-bed71cdc27cc"
+        }
+      ],
+      "rule": "event-references-object-in-window-single-claimant"
+    },
+    {
+      "id": "e-9152e107803100fc",
+      "from": "k8s:efc37e77-28e0-4bdb-ad43-bed71cdc27cc",
+      "to": "k8s:0917b735-4385-4494-8c51-663afd0359b1",
+      "relationship": "STRUCTURAL_OWNER",
+      "evidence": "STRUCTURAL",
+      "reason": "Pod shop/frontend-69bbdbfc9f-r8v65 is controlled by ReplicaSet shop/frontend-69bbdbfc9f (ownerReference uid efc37e77) and was terminated 20.2s after the request, inside the reconciliation window; no other action's window covers it.",
+      "observedAt": "2026-10-08T16:00:00.858717672Z",
+      "source": "kubernetes-watch",
+      "facts": [
+        {
+          "key": "change",
+          "value": "DELETED"
+        },
+        {
+          "key": "owner_uid",
+          "value": "efc37e77-28e0-4bdb-ad43-bed71cdc27cc"
+        }
+      ],
+      "rule": "controller-owned-change-in-window-single-claimant"
+    },
+    {
+      "id": "e-1a2ef271d45a3ec4",
+      "from": "k8s:efc37e77-28e0-4bdb-ad43-bed71cdc27cc",
+      "to": "k8s:3429944d-fe7c-4a49-9fde-a1263775051d",
+      "relationship": "STRUCTURAL_OWNER",
+      "evidence": "STRUCTURAL",
+      "reason": "Pod shop/frontend-69bbdbfc9f-rdjgf is controlled by ReplicaSet shop/frontend-69bbdbfc9f (ownerReference uid efc37e77) and was terminated 23.4s after the request, inside the reconciliation window; no other action's window covers it.",
+      "observedAt": "2026-10-08T16:00:04.042807938Z",
+      "source": "kubernetes-watch",
+      "facts": [
+        {
+          "key": "change",
+          "value": "DELETED"
+        },
+        {
+          "key": "owner_uid",
+          "value": "efc37e77-28e0-4bdb-ad43-bed71cdc27cc"
+        }
+      ],
+      "rule": "controller-owned-change-in-window-single-claimant"
+    },
+    {
+      "id": "e-a0a4e67a468a4650",
+      "from": "request:aeee31e4-39be-4253-9dca-8019318462f7",
+      "to": "k8s:3328379e-4a5e-4947-8bb7-acc6d93b9a05",
+      "relationship": "DIRECT_REQUEST",
+      "evidence": "DIRECT",
+      "reason": "PATCH deployments shop/frontend changed Deployment shop/frontend (generation 6 -\u003e 7); the UID and resourceVersion were returned to the instrumented client; audit event aeee31e4 independently confirms the request; the watch observed the same resourceVersion.",
+      "observedAt": "2026-10-08T15:59:40.618282Z",
+      "source": "otlp",
+      "facts": [
+        {
+          "key": "audit_id",
+          "value": "aeee31e4-39be-4253-9dca-8019318462f7"
+        },
+        {
+          "key": "audit_id_match",
+          "value": "client span Audit-ID equals audit event auditID"
+        },
+        {
+          "key": "object_uid",
+          "value": "3328379e-4a5e-4947-8bb7-acc6d93b9a05"
+        },
+        {
+          "key": "resource_version",
+          "value": "7084"
+        },
+        {
+          "key": "uid_source",
+          "value": "client response metadata"
+        }
+      ],
+      "rule": "uid-from-client-response"
+    }
+  ],
+  "exclusions": [
+    {
+      "label": "http_p99_latency for payments increased from 25ms to 71ms",
+      "object": {
+        "kind": "Workload",
+        "namespace": "shop",
+        "name": "payments",
+        "uid": "2c921419-8482-4905-88b6-e8d02d07b681"
+      },
+      "kind": "METRIC",
+      "at": "2026-10-08T15:59:40.618282Z",
+      "reason": "the signal changed during the window, but payments is outside this action's structural scope"
+    }
+  ],
+  "coverage": [
+    {
+      "source": "kubernetes-audit",
+      "available": true,
+      "detail": "1/1 request(s) confirmed by an audit event"
+    },
+    {
+      "source": "kubernetes-events",
+      "available": true,
+      "detail": "informers synced"
+    },
+    {
+      "source": "kubernetes-watch",
+      "available": true,
+      "detail": "watching since 2026-10-08T15:58:33Z"
+    },
+    {
+      "source": "otlp",
+      "available": true,
+      "detail": "tool span received"
+    },
+    {
+      "source": "prometheus",
+      "available": true,
+      "detail": "10 signal evaluation(s), 0 failed"
+    }
+  ]
+}

@@ -1,0 +1,265 @@
+{
+  "schemaVersion": "effecttrace.io/v1alpha1",
+  "id": "g-k8s-4eaf01c4-63f1-4092-bdc7-05bc76976df4",
+  "status": "COMPLETE",
+  "action": {
+    "id": "k8s-4eaf01c4-63f1-4092-bdc7-05bc76976df4",
+    "kind": "KUBERNETES_API_CALL",
+    "name": "patch deployments shop/checkout",
+    "actor": "system:serviceaccount:effecttrace-demo:demo-actor",
+    "service": "effecttrace-demo-tools/v0.1.0",
+    "startedAt": "2026-10-08T15:56:40.130905Z",
+    "endedAt": "2026-10-08T15:56:40.133182Z",
+    "auditId": "4eaf01c4-63f1-4092-bdc7-05bc76976df4",
+    "outcome": "ok",
+    "targets": [
+      {
+        "kind": "Deployment",
+        "namespace": "shop",
+        "name": "checkout"
+      }
+    ]
+  },
+  "windows": [
+    {
+      "name": "reconcile Deployment shop/checkout",
+      "start": "2026-10-08T15:56:39.630905Z",
+      "end": "2026-10-08T15:56:45.130905Z",
+      "reason": "no resulting spec change, creation or deletion was observed for this request; no controller fan-out is attributed"
+    },
+    {
+      "name": "baseline",
+      "start": "2026-10-08T15:55:40.130905Z",
+      "end": "2026-10-08T15:56:40.130905Z",
+      "reason": "telemetry comparison baseline before the action"
+    },
+    {
+      "name": "telemetry",
+      "start": "2026-10-08T15:56:40.130905Z",
+      "end": "2026-10-08T15:57:00.130905Z",
+      "reason": "reconciliation window plus telemetry settle period"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "action:k8s-4eaf01c4-63f1-4092-bdc7-05bc76976df4",
+      "type": "ACTION",
+      "label": "patch deployments shop/checkout",
+      "request": {
+        "verb": "patch",
+        "resource": "deployments",
+        "apiGroup": "apps",
+        "namespace": "shop",
+        "name": "checkout",
+        "auditId": "4eaf01c4-63f1-4092-bdc7-05bc76976df4",
+        "user": "system:serviceaccount:effecttrace-demo:demo-actor",
+        "userAgent": "effecttrace-demo-tools/v0.1.0",
+        "statusCode": 200,
+        "receivedAt": "2026-10-08T15:56:40.130905Z",
+        "sources": [
+          "kubernetes-audit"
+        ]
+      },
+      "observedAt": "2026-10-08T15:56:40.130905Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "k8s:89f16f9d-b639-4547-a33c-4de411884544",
+      "type": "KUBERNETES_OBJECT",
+      "label": "Deployment shop/checkout",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "namespace": "shop",
+        "name": "checkout",
+        "uid": "89f16f9d-b639-4547-a33c-4de411884544"
+      },
+      "change": {
+        "type": "UNCHANGED"
+      },
+      "observedAt": "2026-10-08T15:56:40.130905Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "metric:http_error_ratio:89f16f9d-b639-4547-a33c-4de411884544",
+      "type": "METRIC_OBSERVATION",
+      "label": "http_error_ratio for checkout",
+      "metric": {
+        "signal": "http_error_ratio",
+        "unit": "ratio",
+        "workload": "checkout",
+        "baseline": 0,
+        "observed": 0,
+        "direction": "unchanged",
+        "changed": false,
+        "samples": 10
+      },
+      "observedAt": "2026-10-08T15:56:40.130905Z"
+    },
+    {
+      "id": "metric:http_p99_latency:89f16f9d-b639-4547-a33c-4de411884544",
+      "type": "METRIC_OBSERVATION",
+      "label": "http_p99_latency for checkout",
+      "metric": {
+        "signal": "http_p99_latency",
+        "unit": "seconds",
+        "workload": "checkout",
+        "baseline": 0.04981020080239908,
+        "observed": 0.14872163858507492,
+        "direction": "increased",
+        "changed": true,
+        "samples": 10
+      },
+      "observedAt": "2026-10-08T15:56:40.130905Z",
+      "grade": "CORRELATED"
+    }
+  ],
+  "edges": [
+    {
+      "id": "e-94f1e59dc668a596",
+      "from": "action:k8s-4eaf01c4-63f1-4092-bdc7-05bc76976df4",
+      "to": "k8s:89f16f9d-b639-4547-a33c-4de411884544",
+      "relationship": "DIRECT_REQUEST",
+      "evidence": "DIRECT",
+      "reason": "PATCH deployments shop/checkout changed Deployment shop/checkout; the UID was resolved by name: it was the only Deployment with that name at request time; no resulting spec change, creation or deletion was observed, so no controller fan-out is attributed.",
+      "observedAt": "2026-10-08T15:56:40.130905Z",
+      "source": "kubernetes-audit",
+      "facts": [
+        {
+          "key": "audit_id",
+          "value": "4eaf01c4-63f1-4092-bdc7-05bc76976df4"
+        },
+        {
+          "key": "object_uid",
+          "value": "89f16f9d-b639-4547-a33c-4de411884544"
+        },
+        {
+          "key": "uid_source",
+          "value": "name at request time"
+        }
+      ],
+      "rule": "uid-resolved-by-name-at-request-time"
+    },
+    {
+      "id": "e-221dfc52082c45e0",
+      "from": "k8s:89f16f9d-b639-4547-a33c-4de411884544",
+      "to": "metric:http_p99_latency:89f16f9d-b639-4547-a33c-4de411884544",
+      "relationship": "TEMPORAL_CORRELATION",
+      "evidence": "TEMPORAL_CORRELATION",
+      "reason": "http_p99_latency for checkout increased from 50ms (baseline) to 149ms during the observation window 15:56:40 - 15:57:00. Temporal correlation does not prove causation.",
+      "observedAt": "2026-10-08T15:56:40.130905Z",
+      "source": "prometheus",
+      "facts": [
+        {
+          "key": "baseline",
+          "value": "50ms"
+        },
+        {
+          "key": "observed",
+          "value": "149ms"
+        },
+        {
+          "key": "samples",
+          "value": "10"
+        }
+      ],
+      "rule": "signal-changed-in-observation-window"
+    }
+  ],
+  "exclusions": [
+    {
+      "label": "http_p99_latency for frontend increased from 75ms to 246ms",
+      "object": {
+        "kind": "Workload",
+        "namespace": "shop",
+        "name": "frontend",
+        "uid": "3328379e-4a5e-4947-8bb7-acc6d93b9a05"
+      },
+      "kind": "METRIC",
+      "at": "2026-10-08T15:56:40.130905Z",
+      "reason": "the signal changed during the window, but frontend is outside this action's structural scope"
+    },
+    {
+      "label": "ReplicaSet shop/checkout-5d5c5df9d5 scaled 3 -\u003e 2",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "namespace": "shop",
+        "name": "checkout-5d5c5df9d5",
+        "uid": "c9f0df35-0bee-41d2-b335-d72ac8171c20"
+      },
+      "kind": "SCALED",
+      "at": "2026-10-08T15:56:43.514802594Z",
+      "reason": "no ownership path to an object this action changed"
+    },
+    {
+      "label": "Pod shop/checkout-5d5c5df9d5-g697b terminated",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "checkout-5d5c5df9d5-g697b",
+        "uid": "8b764b06-e629-467b-906c-b339d1a23a0e"
+      },
+      "kind": "DELETED",
+      "at": "2026-10-08T15:56:43.518173563Z",
+      "reason": "no ownership path to an object this action changed"
+    },
+    {
+      "label": "ReplicaSet shop/checkout-74f675d8b7 scaled 1 -\u003e 2",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "namespace": "shop",
+        "name": "checkout-74f675d8b7",
+        "uid": "66951a81-21e6-48a4-830f-edec61c97fe5"
+      },
+      "kind": "SCALED",
+      "at": "2026-10-08T15:56:43.525595836Z",
+      "reason": "no ownership path to an object this action changed"
+    },
+    {
+      "label": "Pod shop/checkout-74f675d8b7-25v6w created",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "checkout-74f675d8b7-25v6w",
+        "uid": "2b47a815-6c53-4107-a9a1-bba5b8b6ef7e"
+      },
+      "kind": "CREATED",
+      "at": "2026-10-08T15:56:43.52847947Z",
+      "reason": "no ownership path to an object this action changed"
+    }
+  ],
+  "coverage": [
+    {
+      "source": "kubernetes-audit",
+      "available": true,
+      "detail": "1/1 request(s) confirmed by an audit event"
+    },
+    {
+      "source": "kubernetes-events",
+      "available": true,
+      "detail": "informers synced"
+    },
+    {
+      "source": "kubernetes-watch",
+      "available": false,
+      "detail": "watch started after the action; earlier changes are unknown"
+    },
+    {
+      "source": "otlp",
+      "available": true,
+      "detail": "no tool span; action observed in the audit log only"
+    },
+    {
+      "source": "prometheus",
+      "available": true,
+      "detail": "10 signal evaluation(s), 0 failed"
+    }
+  ],
+  "notes": [
+    "Temporal correlation does not prove causation."
+  ]
+}

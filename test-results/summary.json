@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "effecttrace.io/summary/v1",
+  "generatedAt": "2026-10-08T15:35:08.189668Z",
+  "commit": "274f1c105b94e06db5a274abd6c6bd0c812ab1c6",
+  "dirty": false,
+  "scenarios": {
+    "error": 0,
+    "fail": 0,
+    "pass": 40,
+    "total": 42,
+    "unsupported": 2
+  },
+  "byCategory": {
+    "live": {
+      "pass": 33
+    },
+    "replay": {
+      "pass": 7
+    },
+    "unsupported": {
+      "unsupported": 2
+    }
+  },
+  "attribution": {
+    "scope": "live kind experiments (L*); replay variants with altered windows (R05, R06) are excluded because they change the configuration on purpose",
+    "actions": 50,
+    "direct": {
+      "tp": 49,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1,
+      "recall": 1
+    },
+    "structural": {
+      "tp": 137,
+      "fp": 0,
+      "fn": 9,
+      "precision": 1,
+      "recall": 0.938
+    },
+    "falseAttachments": 0,
+    "unrelatedTelemetryAttachments": 0,
+    "ambiguousClaims": 0,
+    "ambiguitiesReported": 252,
+    "concurrentScenarios": 6,
+    "concurrentSeparated": 6,
+    "concurrentSeparationAccuracy": 1
+  },
+  "operational": {
+    "graphCompleteSeconds": {
+      "n": 50,
+      "p50": 28.19,
+      "p95": 44.42,
+      "max": 106.055
+    },
+    "graphQueryMilliseconds": {
+      "n": 512,
+      "p50": 4.393,
+      "p95": 10.233,
+      "max": 14.531
+    },
+    "note": "Measured on a single-node kind cluster on a laptop by polling the API once per second; 'complete' includes the configured settle and telemetry windows. Not a production-scale measurement."
+  },
+  "failed": []
+}

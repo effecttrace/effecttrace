@@ -1,0 +1,175 @@
+{
+  "schemaVersion": "effecttrace.io/v1alpha1",
+  "id": "g-mcp-a7dbd74612e79274-10cb39fc86e350f5",
+  "status": "COMPLETE",
+  "action": {
+    "id": "mcp-a7dbd74612e79274-10cb39fc86e350f5",
+    "kind": "MCP_TOOL_CALL",
+    "name": "tools/call set_config",
+    "tool": "set_config",
+    "actor": "mcp-client:demo-agent",
+    "service": "demo-tools",
+    "startedAt": "2026-10-08T15:41:00.604184524Z",
+    "endedAt": "2026-10-08T15:41:00.606475239Z",
+    "trace": {
+      "traceId": "a7dbd74612e792746b29fd0260295af8",
+      "spanId": "10cb39fc86e350f5"
+    },
+    "outcome": "ok",
+    "targets": [
+      {
+        "kind": "ConfigMap",
+        "namespace": "shop",
+        "name": "shop-config",
+        "uid": "8f9e0072-9d92-4172-9edc-7ab50c36a5d5"
+      }
+    ]
+  },
+  "windows": [
+    {
+      "name": "reconcile ConfigMap shop/shop-config",
+      "start": "2026-10-08T15:41:00.104542Z",
+      "end": "2026-10-08T15:41:05.604542Z",
+      "reason": "target object not observed; no structural fan-out followed"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "action:mcp-a7dbd74612e79274-10cb39fc86e350f5",
+      "type": "ACTION",
+      "label": "tools/call set_config",
+      "span": {
+        "traceId": "a7dbd74612e792746b29fd0260295af8",
+        "spanId": "10cb39fc86e350f5"
+      },
+      "observedAt": "2026-10-08T15:41:00.604184524Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "k8s:8f9e0072-9d92-4172-9edc-7ab50c36a5d5",
+      "type": "KUBERNETES_OBJECT",
+      "label": "ConfigMap shop/shop-config",
+      "object": {
+        "kind": "ConfigMap",
+        "namespace": "shop",
+        "name": "shop-config",
+        "uid": "8f9e0072-9d92-4172-9edc-7ab50c36a5d5"
+      },
+      "change": {
+        "type": "UNCHANGED",
+        "resourceVersion": "2731"
+      },
+      "observedAt": "2026-10-08T15:41:00.604542Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "request:2cd6063e-42b9-4d42-89d8-a366ab193697",
+      "type": "KUBERNETES_REQUEST",
+      "label": "PATCH configmaps shop/shop-config",
+      "request": {
+        "verb": "patch",
+        "resource": "configmaps",
+        "namespace": "shop",
+        "name": "shop-config",
+        "auditId": "2cd6063e-42b9-4d42-89d8-a366ab193697",
+        "user": "system:serviceaccount:effecttrace-demo:demo-actor",
+        "userAgent": "effecttrace-demo-tools/v0.1.0",
+        "statusCode": 200,
+        "receivedAt": "2026-10-08T15:41:00.604542Z",
+        "sources": [
+          "kubernetes-audit",
+          "otlp-client-span"
+        ]
+      },
+      "span": {
+        "traceId": "a7dbd74612e792746b29fd0260295af8",
+        "spanId": "a6e1ba3f798c591a"
+      },
+      "observedAt": "2026-10-08T15:41:00.604542Z",
+      "grade": "ATTRIBUTED"
+    }
+  ],
+  "edges": [
+    {
+      "id": "e-cf3c690ef31428d1",
+      "from": "action:mcp-a7dbd74612e79274-10cb39fc86e350f5",
+      "to": "request:2cd6063e-42b9-4d42-89d8-a366ab193697",
+      "relationship": "TRACE_PARENT",
+      "evidence": "TRACE_LINK",
+      "reason": "The Kubernetes client span \"patch configmaps\" descends from the tool span (1 parent hop(s)) in trace a7dbd746.",
+      "observedAt": "2026-10-08T15:41:00.604542Z",
+      "source": "otlp",
+      "facts": [
+        {
+          "key": "client_span_id",
+          "value": "a6e1ba3f798c591a"
+        },
+        {
+          "key": "parent_hops",
+          "value": "1"
+        },
+        {
+          "key": "trace_id",
+          "value": "a7dbd74612e792746b29fd0260295af8"
+        }
+      ],
+      "rule": "client-span-descends-from-tool-span"
+    },
+    {
+      "id": "e-8f5e7bbbc67cf4f4",
+      "from": "request:2cd6063e-42b9-4d42-89d8-a366ab193697",
+      "to": "k8s:8f9e0072-9d92-4172-9edc-7ab50c36a5d5",
+      "relationship": "DIRECT_REQUEST",
+      "evidence": "DIRECT",
+      "reason": "PATCH configmaps shop/shop-config changed ConfigMap shop/shop-config; the UID and resourceVersion were returned to the instrumented client; audit event 2cd6063e independently confirms the request; no resulting spec change, creation or deletion was observed, so no controller fan-out is attributed.",
+      "observedAt": "2026-10-08T15:41:00.604542Z",
+      "source": "otlp",
+      "facts": [
+        {
+          "key": "audit_id",
+          "value": "2cd6063e-42b9-4d42-89d8-a366ab193697"
+        },
+        {
+          "key": "audit_id_match",
+          "value": "client span Audit-ID equals audit event auditID"
+        },
+        {
+          "key": "object_uid",
+          "value": "8f9e0072-9d92-4172-9edc-7ab50c36a5d5"
+        },
+        {
+          "key": "uid_source",
+          "value": "client response metadata"
+        }
+      ],
+      "rule": "uid-from-client-response"
+    }
+  ],
+  "coverage": [
+    {
+      "source": "kubernetes-audit",
+      "available": true,
+      "detail": "1/1 request(s) confirmed by an audit event"
+    },
+    {
+      "source": "kubernetes-events",
+      "available": true,
+      "detail": "informers synced"
+    },
+    {
+      "source": "kubernetes-watch",
+      "available": true,
+      "detail": "watching since 2026-10-08T15:33:13Z"
+    },
+    {
+      "source": "otlp",
+      "available": true,
+      "detail": "tool span received"
+    },
+    {
+      "source": "prometheus",
+      "available": true,
+      "detail": "10 signal evaluation(s), 0 failed"
+    }
+  ]
+}

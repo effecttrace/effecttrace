@@ -1,0 +1,522 @@
+{
+  "schemaVersion": "effecttrace.io/v1alpha1",
+  "id": "g-k8s-c7e3ed6d-bb59-430c-af11-57a4cbb7db28",
+  "status": "COMPLETE",
+  "action": {
+    "id": "k8s-c7e3ed6d-bb59-430c-af11-57a4cbb7db28",
+    "kind": "KUBERNETES_API_CALL",
+    "name": "patch deployments/scale shop/payments",
+    "actor": "user:d8a722299a6f",
+    "service": "kubectl/v1.34.1",
+    "startedAt": "2026-10-08T15:42:42.962463Z",
+    "endedAt": "2026-10-08T15:42:42.963963Z",
+    "auditId": "c7e3ed6d-bb59-430c-af11-57a4cbb7db28",
+    "outcome": "ok",
+    "targets": [
+      {
+        "kind": "Deployment",
+        "namespace": "shop",
+        "name": "payments"
+      }
+    ]
+  },
+  "windows": [
+    {
+      "name": "reconcile Deployment shop/payments",
+      "start": "2026-10-08T15:42:42.462463Z",
+      "end": "2026-10-08T15:42:51.23480811Z",
+      "reason": "closed 5s after Deployment reported a stable status"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "action:k8s-c7e3ed6d-bb59-430c-af11-57a4cbb7db28",
+      "type": "ACTION",
+      "label": "patch deployments/scale shop/payments",
+      "request": {
+        "verb": "patch",
+        "resource": "deployments",
+        "subresource": "scale",
+        "apiGroup": "apps",
+        "namespace": "shop",
+        "name": "payments",
+        "auditId": "c7e3ed6d-bb59-430c-af11-57a4cbb7db28",
+        "user": "user:d8a722299a6f",
+        "userAgent": "kubectl/v1.34.1",
+        "statusCode": 200,
+        "receivedAt": "2026-10-08T15:42:42.962463Z",
+        "sources": [
+          "kubernetes-audit"
+        ]
+      },
+      "observedAt": "2026-10-08T15:42:42.962463Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "event:49e86bde-4516-4d95-ab86-931d2d0a69af",
+      "type": "KUBERNETES_EVENT",
+      "label": "SuccessfulCreate",
+      "event": {
+        "reason": "SuccessfulCreate",
+        "type": "Normal",
+        "note": "Created pod: payments-7776bf885b-qtvsr",
+        "controller": "replicaset-controller",
+        "count": 1
+      },
+      "observedAt": "2026-10-08T15:42:42.969578215Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "event:770d18fe-7eed-4569-8662-c58c20a59e20",
+      "type": "KUBERNETES_EVENT",
+      "label": "Started",
+      "event": {
+        "reason": "Started",
+        "type": "Normal",
+        "note": "Container started",
+        "controller": "kubelet",
+        "count": 1
+      },
+      "observedAt": "2026-10-08T15:42:43.375100829Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "event:8c067fd1-210a-4ff5-8ac0-c32a9a88c2bc",
+      "type": "KUBERNETES_EVENT",
+      "label": "Created",
+      "event": {
+        "reason": "Created",
+        "type": "Normal",
+        "note": "Container created",
+        "controller": "kubelet",
+        "count": 1
+      },
+      "observedAt": "2026-10-08T15:42:43.339393761Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "event:ad416b80-f65b-428e-bcd5-c4d3ce92d822",
+      "type": "KUBERNETES_EVENT",
+      "label": "Scheduled",
+      "event": {
+        "reason": "Scheduled",
+        "type": "Normal",
+        "note": "Successfully assigned shop/payments-7776bf885b-qtvsr to effecttrace-lab-control-plane",
+        "controller": "default-scheduler",
+        "count": 1
+      },
+      "observedAt": "2026-10-08T15:42:42.973282851Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "event:c14ddf74-1e8f-47fd-986f-800726fee343",
+      "type": "KUBERNETES_EVENT",
+      "label": "Unhealthy",
+      "event": {
+        "reason": "Unhealthy",
+        "type": "Warning",
+        "note": "Readiness probe failed: HTTP probe failed with statuscode: 503",
+        "controller": "kubelet",
+        "count": 3
+      },
+      "observedAt": "2026-10-08T15:42:43.376827709Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "event:db84d9bd-7082-409b-aadb-b5f8b2049f22",
+      "type": "KUBERNETES_EVENT",
+      "label": "Pulled",
+      "event": {
+        "reason": "Pulled",
+        "type": "Normal",
+        "note": "Container image \"localhost/effecttrace/demo:dev\" already present on machine and can be accessed by the pod",
+        "controller": "kubelet",
+        "count": 1
+      },
+      "observedAt": "2026-10-08T15:42:43.33360116Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "event:ede7bf7f-1652-4149-aaaa-4134d3fda9dd",
+      "type": "KUBERNETES_EVENT",
+      "label": "ScalingReplicaSet",
+      "event": {
+        "reason": "ScalingReplicaSet",
+        "type": "Normal",
+        "note": "(combined from similar events): Scaled up replica set payments-7776bf885b from 2 to 3",
+        "controller": "deployment-controller",
+        "count": 1
+      },
+      "observedAt": "2026-10-08T15:42:42.967573209Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "k8s:2c921419-8482-4905-88b6-e8d02d07b681",
+      "type": "KUBERNETES_OBJECT",
+      "label": "Deployment shop/payments",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "namespace": "shop",
+        "name": "payments",
+        "uid": "2c921419-8482-4905-88b6-e8d02d07b681"
+      },
+      "change": {
+        "type": "MUTATED",
+        "generationFrom": 5,
+        "generationTo": 6,
+        "resourceVersion": "3115",
+        "replicasFrom": 2,
+        "replicasTo": 3,
+        "at": "2026-10-08T15:42:42.96427499Z"
+      },
+      "observedAt": "2026-10-08T15:42:42.962463Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "k8s:5db7a313-a62c-4735-8c16-3a698d6faa91",
+      "type": "KUBERNETES_OBJECT",
+      "label": "Pod shop/payments-7776bf885b-qtvsr",
+      "object": {
+        "apiVersion": "v1",
+        "kind": "Pod",
+        "namespace": "shop",
+        "name": "payments-7776bf885b-qtvsr",
+        "uid": "5db7a313-a62c-4735-8c16-3a698d6faa91"
+      },
+      "change": {
+        "type": "CREATED",
+        "at": "2026-10-08T15:42:42.968290252Z",
+        "readyAt": "2026-10-08T15:42:46.229134342Z"
+      },
+      "observedAt": "2026-10-08T15:42:42.968290252Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "k8s:845687cb-e49c-4191-bd14-e812f302cfc3",
+      "type": "KUBERNETES_OBJECT",
+      "label": "ReplicaSet shop/payments-7776bf885b",
+      "object": {
+        "apiVersion": "apps/v1",
+        "kind": "ReplicaSet",
+        "namespace": "shop",
+        "name": "payments-7776bf885b",
+        "uid": "845687cb-e49c-4191-bd14-e812f302cfc3"
+      },
+      "change": {
+        "type": "SCALED",
+        "replicasFrom": 2,
+        "replicasTo": 3,
+        "revision": "5",
+        "at": "2026-10-08T15:42:42.966378913Z"
+      },
+      "observedAt": "2026-10-08T15:42:42.966378913Z",
+      "grade": "ATTRIBUTED"
+    },
+    {
+      "id": "metric:http_error_ratio:2c921419-8482-4905-88b6-e8d02d07b681",
+      "type": "METRIC_OBSERVATION",
+      "label": "http_error_ratio for payments",
+      "metric": {
+        "signal": "http_error_ratio",
+        "unit": "ratio",
+        "workload": "payments",
+        "baseline": 0,
+        "observed": 0,
+        "direction": "unchanged",
+        "changed": false,
+        "samples": 11
+      },
+      "observedAt": "2026-10-08T15:42:42.962463Z"
+    },
+    {
+      "id": "metric:http_p99_latency:2c921419-8482-4905-88b6-e8d02d07b681",
+      "type": "METRIC_OBSERVATION",
+      "label": "http_p99_latency for payments",
+      "metric": {
+        "signal": "http_p99_latency",
+        "unit": "seconds",
+        "workload": "payments",
+        "baseline": 0.024822285072752415,
+        "observed": 0.024830508474576272,
+        "direction": "unchanged",
+        "changed": false,
+        "samples": 11
+      },
+      "observedAt": "2026-10-08T15:42:42.962463Z"
+    }
+  ],
+  "edges": [
+    {
+      "id": "e-6c1a8f4969864940",
+      "from": "action:k8s-c7e3ed6d-bb59-430c-af11-57a4cbb7db28",
+      "to": "k8s:2c921419-8482-4905-88b6-e8d02d07b681",
+      "relationship": "DIRECT_REQUEST",
+      "evidence": "DIRECT",
+      "reason": "PATCH deployments/scale shop/payments changed Deployment shop/payments (generation 5 -\u003e 6); the UID was resolved by name: it was the only Deployment with that name at request time.",
+      "observedAt": "2026-10-08T15:42:42.962463Z",
+      "source": "kubernetes-audit",
+      "facts": [
+        {
+          "key": "audit_id",
+          "value": "c7e3ed6d-bb59-430c-af11-57a4cbb7db28"
+        },
+        {
+          "key": "object_uid",
+          "value": "2c921419-8482-4905-88b6-e8d02d07b681"
+        },
+        {
+          "key": "resource_version",
+          "value": "3115"
+        },
+        {
+          "key": "uid_source",
+          "value": "name at request time"
+        }
+      ],
+      "rule": "uid-resolved-by-name-at-request-time"
+    },
+    {
+      "id": "e-3d458821569a3e80",
+      "from": "k8s:2c921419-8482-4905-88b6-e8d02d07b681",
+      "to": "event:ede7bf7f-1652-4149-aaaa-4134d3fda9dd",
+      "relationship": "EVENT_REFERENCE",
+      "evidence": "EVENT_REFERENCE",
+      "reason": "Kubernetes Event ScalingReplicaSet references Deployment shop/payments by UID 2c921419.",
+      "observedAt": "2026-10-08T15:42:42.967573209Z",
+      "source": "kubernetes-events",
+      "facts": [
+        {
+          "key": "event_uid",
+          "value": "ede7bf7f-1652-4149-aaaa-4134d3fda9dd"
+        },
+        {
+          "key": "regarding_uid",
+          "value": "2c921419-8482-4905-88b6-e8d02d07b681"
+        }
+      ],
+      "rule": "event-references-object-in-window-single-claimant"
+    },
+    {
+      "id": "e-50f19839f19511b9",
+      "from": "k8s:2c921419-8482-4905-88b6-e8d02d07b681",
+      "to": "k8s:845687cb-e49c-4191-bd14-e812f302cfc3",
+      "relationship": "STRUCTURAL_OWNER",
+      "evidence": "STRUCTURAL",
+      "reason": "ReplicaSet shop/payments-7776bf885b is controlled by Deployment shop/payments (ownerReference uid 2c921419) and was scaled 2 -\u003e 3 4ms after the request, inside the reconciliation window; no other action's window covers it.",
+      "observedAt": "2026-10-08T15:42:42.966378913Z",
+      "source": "kubernetes-watch",
+      "facts": [
+        {
+          "key": "change",
+          "value": "SCALED"
+        },
+        {
+          "key": "owner_uid",
+          "value": "2c921419-8482-4905-88b6-e8d02d07b681"
+        }
+      ],
+      "rule": "controller-owned-change-in-window-single-claimant"
+    },
+    {
+      "id": "e-172e198b8c66ebc9",
+      "from": "k8s:5db7a313-a62c-4735-8c16-3a698d6faa91",
+      "to": "event:770d18fe-7eed-4569-8662-c58c20a59e20",
+      "relationship": "EVENT_REFERENCE",
+      "evidence": "EVENT_REFERENCE",
+      "reason": "Kubernetes Event Started references Pod shop/payments-7776bf885b-qtvsr by UID 5db7a313.",
+      "observedAt": "2026-10-08T15:42:43.375100829Z",
+      "source": "kubernetes-events",
+      "facts": [
+        {
+          "key": "event_uid",
+          "value": "770d18fe-7eed-4569-8662-c58c20a59e20"
+        },
+        {
+          "key": "regarding_uid",
+          "value": "5db7a313-a62c-4735-8c16-3a698d6faa91"
+        }
+      ],
+      "rule": "event-references-object-in-window-single-claimant"
+    },
+    {
+      "id": "e-157e23cafb27271a",
+      "from": "k8s:5db7a313-a62c-4735-8c16-3a698d6faa91",
+      "to": "event:8c067fd1-210a-4ff5-8ac0-c32a9a88c2bc",
+      "relationship": "EVENT_REFERENCE",
+      "evidence": "EVENT_REFERENCE",
+      "reason": "Kubernetes Event Created references Pod shop/payments-7776bf885b-qtvsr by UID 5db7a313.",
+      "observedAt": "2026-10-08T15:42:43.339393761Z",
+      "source": "kubernetes-events",
+      "facts": [
+        {
+          "key": "event_uid",
+          "value": "8c067fd1-210a-4ff5-8ac0-c32a9a88c2bc"
+        },
+        {
+          "key": "regarding_uid",
+          "value": "5db7a313-a62c-4735-8c16-3a698d6faa91"
+        }
+      ],
+      "rule": "event-references-object-in-window-single-claimant"
+    },
+    {
+      "id": "e-05a99f5afa9f66d4",
+      "from": "k8s:5db7a313-a62c-4735-8c16-3a698d6faa91",
+      "to": "event:ad416b80-f65b-428e-bcd5-c4d3ce92d822",
+      "relationship": "EVENT_REFERENCE",
+      "evidence": "EVENT_REFERENCE",
+      "reason": "Kubernetes Event Scheduled references Pod shop/payments-7776bf885b-qtvsr by UID 5db7a313.",
+      "observedAt": "2026-10-08T15:42:42.973282851Z",
+      "source": "kubernetes-events",
+      "facts": [
+        {
+          "key": "event_uid",
+          "value": "ad416b80-f65b-428e-bcd5-c4d3ce92d822"
+        },
+        {
+          "key": "regarding_uid",
+          "value": "5db7a313-a62c-4735-8c16-3a698d6faa91"
+        }
+      ],
+      "rule": "event-references-object-in-window-single-claimant"
+    },
+    {
+      "id": "e-c8489b71bfc2fd6e",
+      "from": "k8s:5db7a313-a62c-4735-8c16-3a698d6faa91",
+      "to": "event:c14ddf74-1e8f-47fd-986f-800726fee343",
+      "relationship": "EVENT_REFERENCE",
+      "evidence": "EVENT_REFERENCE",
+      "reason": "Kubernetes Event Unhealthy references Pod shop/payments-7776bf885b-qtvsr by UID 5db7a313.",
+      "observedAt": "2026-10-08T15:42:43.376827709Z",
+      "source": "kubernetes-events",
+      "facts": [
+        {
+          "key": "event_uid",
+          "value": "c14ddf74-1e8f-47fd-986f-800726fee343"
+        },
+        {
+          "key": "regarding_uid",
+          "value": "5db7a313-a62c-4735-8c16-3a698d6faa91"
+        }
+      ],
+      "rule": "event-references-object-in-window-single-claimant"
+    },
+    {
+      "id": "e-9026cdd879cd044c",
+      "from": "k8s:5db7a313-a62c-4735-8c16-3a698d6faa91",
+      "to": "event:db84d9bd-7082-409b-aadb-b5f8b2049f22",
+      "relationship": "EVENT_REFERENCE",
+      "evidence": "EVENT_REFERENCE",
+      "reason": "Kubernetes Event Pulled references Pod shop/payments-7776bf885b-qtvsr by UID 5db7a313.",
+      "observedAt": "2026-10-08T15:42:43.33360116Z",
+      "source": "kubernetes-events",
+      "facts": [
+        {
+          "key": "event_uid",
+          "value": "db84d9bd-7082-409b-aadb-b5f8b2049f22"
+        },
+        {
+          "key": "regarding_uid",
+          "value": "5db7a313-a62c-4735-8c16-3a698d6faa91"
+        }
+      ],
+      "rule": "event-references-object-in-window-single-claimant"
+    },
+    {
+      "id": "e-a251e300da6faf75",
+      "from": "k8s:845687cb-e49c-4191-bd14-e812f302cfc3",
+      "to": "event:49e86bde-4516-4d95-ab86-931d2d0a69af",
+      "relationship": "EVENT_REFERENCE",
+      "evidence": "EVENT_REFERENCE",
+      "reason": "Kubernetes Event SuccessfulCreate references ReplicaSet shop/payments-7776bf885b by UID 845687cb.",
+      "observedAt": "2026-10-08T15:42:42.969578215Z",
+      "source": "kubernetes-events",
+      "facts": [
+        {
+          "key": "event_uid",
+          "value": "49e86bde-4516-4d95-ab86-931d2d0a69af"
+        },
+        {
+          "key": "regarding_uid",
+          "value": "845687cb-e49c-4191-bd14-e812f302cfc3"
+        }
+      ],
+      "rule": "event-references-object-in-window-single-claimant"
+    },
+    {
+      "id": "e-dfac45042f9058d6",
+      "from": "k8s:845687cb-e49c-4191-bd14-e812f302cfc3",
+      "to": "k8s:5db7a313-a62c-4735-8c16-3a698d6faa91",
+      "relationship": "STRUCTURAL_OWNER",
+      "evidence": "STRUCTURAL",
+      "reason": "Pod shop/payments-7776bf885b-qtvsr is controlled by ReplicaSet shop/payments-7776bf885b (ownerReference uid 845687cb) and was created 6ms after the request, inside the reconciliation window; no other action's window covers it.",
+      "observedAt": "2026-10-08T15:42:42.968290252Z",
+      "source": "kubernetes-watch",
+      "facts": [
+        {
+          "key": "change",
+          "value": "CREATED"
+        },
+        {
+          "key": "owner_uid",
+          "value": "845687cb-e49c-4191-bd14-e812f302cfc3"
+        }
+      ],
+      "rule": "controller-owned-change-in-window-single-claimant"
+    }
+  ],
+  "exclusions": [
+    {
+      "label": "http_p99_latency for checkout increased from 90ms to 149ms",
+      "object": {
+        "kind": "Workload",
+        "namespace": "shop",
+        "name": "checkout",
+        "uid": "89f16f9d-b639-4547-a33c-4de411884544"
+      },
+      "kind": "METRIC",
+      "at": "2026-10-08T15:42:42.962463Z",
+      "reason": "the signal changed during the window, but checkout is outside this action's structural scope"
+    },
+    {
+      "label": "http_p99_latency for inventory increased from 51ms to 99ms",
+      "object": {
+        "kind": "Workload",
+        "namespace": "shop",
+        "name": "inventory",
+        "uid": "49eff975-f5ff-46e6-992f-cc80d43d0fc9"
+      },
+      "kind": "METRIC",
+      "at": "2026-10-08T15:42:42.962463Z",
+      "reason": "the signal changed during the window, but inventory is outside this action's structural scope"
+    }
+  ],
+  "coverage": [
+    {
+      "source": "kubernetes-audit",
+      "available": true,
+      "detail": "1/1 request(s) confirmed by an audit event"
+    },
+    {
+      "source": "kubernetes-events",
+      "available": true,
+      "detail": "informers synced"
+    },
+    {
+      "source": "kubernetes-watch",
+      "available": true,
+      "detail": "watching since 2026-10-08T15:33:13Z"
+    },
+    {
+      "source": "otlp",
+      "available": true,
+      "detail": "no tool span; action observed in the audit log only"
+    },
+    {
+      "source": "prometheus",
+      "available": true,
+      "detail": "10 signal evaluation(s), 0 failed"
+    }
+  ]
+}

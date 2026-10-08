@@ -1,0 +1,145 @@
+{
+  "schemaVersion": "effecttrace.io/benchmarks/v1",
+  "kind": "synthetic-in-process",
+  "description": "Correlation engine only, fed with generated observation streams (one Deployment with 3 Pods per concurrent agent restart). No cluster, network or collector I/O is involved. Not an end-to-end or production-scale measurement.",
+  "generatedAt": "2026-10-08T16:03:52.96803Z",
+  "commit": "9e539742502cd421e5c054c85bd90f4dd901a2f1",
+  "host": {
+    "arch": "arm64",
+    "cpus": "14",
+    "go": "go1.27.1",
+    "os": "darwin"
+  },
+  "benchmarks": [
+    {
+      "name": "ingest",
+      "concurrentActions": 1,
+      "records": 45,
+      "iterations": 33129,
+      "nsPerOp": 35000,
+      "msPerOp": 0.035,
+      "bytesPerOp": 33496,
+      "allocsPerOp": 136,
+      "recordsPerSecond": 1285700.934334657
+    },
+    {
+      "name": "index_and_graph",
+      "concurrentActions": 1,
+      "records": 45,
+      "iterations": 23185,
+      "nsPerOp": 52322,
+      "msPerOp": 0.052322,
+      "bytesPerOp": 124831,
+      "allocsPerOp": 967
+    },
+    {
+      "name": "graph_query",
+      "concurrentActions": 1,
+      "records": 45,
+      "iterations": 46718,
+      "nsPerOp": 25385,
+      "msPerOp": 0.025385,
+      "bytesPerOp": 60648,
+      "allocsPerOp": 467
+    },
+    {
+      "name": "ingest",
+      "concurrentActions": 10,
+      "records": 414,
+      "iterations": 3354,
+      "nsPerOp": 353617,
+      "msPerOp": 0.353617,
+      "bytesPerOp": 324412,
+      "allocsPerOp": 950,
+      "recordsPerSecond": 1170755.6859008586
+    },
+    {
+      "name": "index_and_graph",
+      "concurrentActions": 10,
+      "records": 414,
+      "iterations": 1921,
+      "nsPerOp": 612902,
+      "msPerOp": 0.612902,
+      "bytesPerOp": 1018841,
+      "allocsPerOp": 9132
+    },
+    {
+      "name": "graph_query",
+      "concurrentActions": 10,
+      "records": 414,
+      "iterations": 19945,
+      "nsPerOp": 59707,
+      "msPerOp": 0.059707,
+      "bytesPerOp": 97006,
+      "allocsPerOp": 863
+    },
+    {
+      "name": "ingest",
+      "concurrentActions": 50,
+      "records": 2054,
+      "iterations": 610,
+      "nsPerOp": 1942755,
+      "msPerOp": 1.942755,
+      "bytesPerOp": 1670020,
+      "allocsPerOp": 4287,
+      "recordsPerSecond": 1057261.3619390011
+    },
+    {
+      "name": "index_and_graph",
+      "concurrentActions": 50,
+      "records": 2054,
+      "iterations": 129,
+      "nsPerOp": 9190116,
+      "msPerOp": 9.190116,
+      "bytesPerOp": 8479482,
+      "allocsPerOp": 107162
+    },
+    {
+      "name": "graph_query",
+      "concurrentActions": 50,
+      "records": 2054,
+      "iterations": 6651,
+      "nsPerOp": 182270,
+      "msPerOp": 0.18227,
+      "bytesPerOp": 170908,
+      "allocsPerOp": 2165
+    },
+    {
+      "name": "ingest",
+      "concurrentActions": 100,
+      "records": 4104,
+      "iterations": 312,
+      "nsPerOp": 3861288,
+      "msPerOp": 3.861288,
+      "bytesPerOp": 3343812,
+      "allocsPerOp": 8419,
+      "recordsPerSecond": 1062857.7292354994
+    },
+    {
+      "name": "index_and_graph",
+      "concurrentActions": 100,
+      "records": 4104,
+      "iterations": 42,
+      "nsPerOp": 28570107,
+      "msPerOp": 28.570107,
+      "bytesPerOp": 20879452,
+      "allocsPerOp": 289399
+    },
+    {
+      "name": "graph_query",
+      "concurrentActions": 100,
+      "records": 4104,
+      "iterations": 4204,
+      "nsPerOp": 292598,
+      "msPerOp": 0.292598,
+      "bytesPerOp": 200979,
+      "allocsPerOp": 3169
+    }
+  ],
+  "retainedHeapBytesPerAction": {
+    "1": 2648,
+    "10": 2728,
+    "100": 4077,
+    "50": 4640
+  }
+}
