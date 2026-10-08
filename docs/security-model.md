@@ -147,8 +147,8 @@ carry `X-Content-Type-Options: nosniff`, `Cache-Control: no-store` and
 
 ## Supply chain
 
-- Go modules are pinned in `go.mod`/`go.sum`; Dependabot proposes weekly
-  updates, grouped for Kubernetes and OpenTelemetry.
+- Go modules are pinned in `go.mod`/`go.sum` and updated by the maintainer;
+  `govulncheck` runs in CI on every change.
 - GitHub Actions are pinned by commit SHA.
 - CI runs `golangci-lint` (including `gosec`), `go vet`, unit tests with the
   race detector, integration tests, fuzzing, `govulncheck`, CodeQL and OpenSSF

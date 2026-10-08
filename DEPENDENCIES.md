@@ -39,9 +39,8 @@ go list -m all
 To produce an inventory with licenses or an SBOM, run your preferred tool
 against the module graph (for example `go version -m bin/effecttrace-collector`
 for the modules linked into a binary). Published releases will attach SBOMs
-once release automation exists ([roadmap](ROADMAP.md)). Dependabot proposes
-weekly updates for Go modules (grouped for Kubernetes and OpenTelemetry) and
-GitHub Actions.
+once release automation exists ([roadmap](ROADMAP.md)). Dependency updates are
+made by the maintainer; `make vuln` (govulncheck) runs in CI on every change.
 
 ## Lab runtime images
 
