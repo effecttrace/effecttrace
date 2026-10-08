@@ -28,12 +28,17 @@ fmt: ## Check formatting (gofmt)
 	@out="$$(gofmt -l $$(git ls-files '*.go' 2>/dev/null || find . -name '*.go' -not -path './.lab/*'))"; \
 	if [[ -n "$$out" ]]; then echo "gofmt needed:"; echo "$$out"; exit 1; fi
 
+# Use golangci-lint from PATH when present (CI installs the official
+# binary); otherwise build the pinned version into .bin/.
+GOLANGCI_LINT ?= $(shell command -v golangci-lint 2>/dev/null || echo $(BIN)/golangci-lint)
+
 $(BIN)/golangci-lint:
 	GOBIN=$(BIN) $(GO) install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@$(GOLANGCI_LINT_VERSION)
 
 .PHONY: lint
-lint: $(BIN)/golangci-lint ## Run golangci-lint
-	$(BIN)/golangci-lint run ./...
+lint: ## Run golangci-lint
+	@if [[ ! -x "$(GOLANGCI_LINT)" ]]; then $(MAKE) $(BIN)/golangci-lint; fi
+	$(GOLANGCI_LINT) run ./...
 
 .PHONY: vet
 vet: ## Run go vet

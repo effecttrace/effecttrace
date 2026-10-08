@@ -53,10 +53,16 @@ guard() {
 }
 
 arch() {
-  case "$("$(engine)" info --format '{{.Host.Arch}}' 2>/dev/null || uname -m)" in
+  local raw=""
+  case "$(engine)" in
+    podman) raw="$(podman info --format '{{.Host.Arch}}' 2>/dev/null || true)" ;;
+    docker) raw="$(docker info --format '{{.Architecture}}' 2>/dev/null || true)" ;;
+  esac
+  [[ -n "${raw}" ]] || raw="$(uname -m)"
+  case "${raw}" in
     arm64|aarch64) echo arm64 ;;
     amd64|x86_64) echo amd64 ;;
-    *) uname -m ;;
+    *) die "unsupported architecture ${raw}" ;;
   esac
 }
 
