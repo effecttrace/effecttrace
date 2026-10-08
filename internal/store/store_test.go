@@ -70,17 +70,18 @@ func TestBoundsEvictOldest(t *testing.T) {
 
 func TestValidateRejectsHostileInput(t *testing.T) {
 	cases := map[string]obs.Record{
-		"two payloads":  {Kind: obs.KindAudit, Audit: &obs.AuditRequest{}, Span: &obs.Span{}},
-		"zero trace":    {Kind: obs.KindSpan, Span: &obs.Span{TraceID: strings.Repeat("0", 32), SpanID: "0123456789abcdef", Start: t0}},
-		"upper hex":     {Kind: obs.KindSpan, Span: &obs.Span{TraceID: strings.Repeat("A", 32), SpanID: "0123456789abcdef", Start: t0}},
-		"ansi name":     {Kind: obs.KindSpan, Span: &obs.Span{TraceID: strings.Repeat("a", 32), SpanID: "0123456789abcdef", Start: t0, Name: "x\x1b[2J"}},
-		"huge attr":     {Kind: obs.KindSpan, Span: &obs.Span{TraceID: strings.Repeat("a", 32), SpanID: "0123456789abcdef", Start: t0, Attributes: map[string]string{"k": strings.Repeat("v", MaxAttrValueLen+1)}}},
-		"end before":    {Kind: obs.KindSpan, Span: &obs.Span{TraceID: strings.Repeat("a", 32), SpanID: "0123456789abcdef", Start: t0, End: t0.Add(-time.Second)}},
-		"missing uid":   {Kind: obs.KindObject, Object: &obs.ObjectObservation{At: t0, Type: obs.WatchAdded, ResourceVersion: "1", Ref: model.ObjectRef{Kind: "Pod", Name: "p"}}},
-		"self owner":    {Kind: obs.KindObject, Object: &obs.ObjectObservation{At: t0, Type: obs.WatchAdded, ResourceVersion: "1", Ref: model.ObjectRef{Kind: "Pod", Name: "p", UID: "u"}, Owners: []obs.OwnerRef{{UID: "u", Kind: "Pod", Name: "p"}}}},
-		"html name ok?": {Kind: obs.KindObject, Object: &obs.ObjectObservation{At: t0, Type: "EVIL", ResourceVersion: "1", Ref: model.ObjectRef{Kind: "Pod", Name: "<script>", UID: "u"}}},
-		"year 1":        {Kind: obs.KindAudit, Audit: &obs.AuditRequest{AuditID: "x", Verb: "patch", Resource: "r"}},
-		"unknown kind":  {Kind: "bogus", Source: &obs.SourceStatus{Source: "s"}},
+		"two payloads":   {Kind: obs.KindAudit, Audit: &obs.AuditRequest{}, Span: &obs.Span{}},
+		"zero trace":     {Kind: obs.KindSpan, Span: &obs.Span{TraceID: strings.Repeat("0", 32), SpanID: "0123456789abcdef", Start: t0}},
+		"upper hex":      {Kind: obs.KindSpan, Span: &obs.Span{TraceID: strings.Repeat("A", 32), SpanID: "0123456789abcdef", Start: t0}},
+		"ansi name":      {Kind: obs.KindSpan, Span: &obs.Span{TraceID: strings.Repeat("a", 32), SpanID: "0123456789abcdef", Start: t0, Name: "x\x1b[2J"}},
+		"huge attr":      {Kind: obs.KindSpan, Span: &obs.Span{TraceID: strings.Repeat("a", 32), SpanID: "0123456789abcdef", Start: t0, Attributes: map[string]string{"k": strings.Repeat("v", MaxAttrValueLen+1)}}},
+		"end before":     {Kind: obs.KindSpan, Span: &obs.Span{TraceID: strings.Repeat("a", 32), SpanID: "0123456789abcdef", Start: t0, End: t0.Add(-time.Second)}},
+		"missing uid":    {Kind: obs.KindObject, Object: &obs.ObjectObservation{At: t0, Type: obs.WatchAdded, ResourceVersion: "1", Ref: model.ObjectRef{Kind: "Pod", Name: "p"}}},
+		"self owner":     {Kind: obs.KindObject, Object: &obs.ObjectObservation{At: t0, Type: obs.WatchAdded, ResourceVersion: "1", Ref: model.ObjectRef{Kind: "Pod", Name: "p", UID: "u"}, Owners: []obs.OwnerRef{{UID: "u", Kind: "Pod", Name: "p"}}}},
+		"bad watch type": {Kind: obs.KindObject, Object: &obs.ObjectObservation{At: t0, Type: "EVIL", ResourceVersion: "1", Ref: model.ObjectRef{Kind: "Pod", Name: "<script>", UID: "u"}}},
+		"year 1":         {Kind: obs.KindAudit, Audit: &obs.AuditRequest{AuditID: "x", Verb: "patch", Resource: "r"}},
+		"unknown kind":   {Kind: "bogus", Source: &obs.SourceStatus{Source: "s"}},
+		"bidi override":  {Kind: obs.KindSpan, Span: &obs.Span{TraceID: strings.Repeat("a", 32), SpanID: "0123456789abcdef", Start: t0, Name: "tools/call \u202eevil"}},
 	}
 	for name, r := range cases {
 		if err := Validate(r); !errors.Is(err, ErrInvalid) {

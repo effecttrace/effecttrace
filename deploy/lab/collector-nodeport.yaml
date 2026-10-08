@@ -1,0 +1,13 @@
+# Lab only: exposes the EffectTrace API on the kind node so that the
+# experiment harness on the host can reach it. kind maps this port to
+# 127.0.0.1:18080 only (deploy/kind/kind-config.yaml.tmpl).
+apiVersion: v1
+kind: Service
+metadata:
+  name: effecttrace-lab-api
+  namespace: effecttrace-system
+spec:
+  type: NodePort
+  selector: { app.kubernetes.io/name: effecttrace-collector }
+  ports:
+    - { name: api, port: 8080, targetPort: api, nodePort: 30080 }

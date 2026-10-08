@@ -100,3 +100,15 @@ func TestRenderersEscapeHostileLabels(t *testing.T) {
 		t.Error("mermaid output contains raw HTML")
 	}
 }
+
+func TestExplainStripsBidiOverrides(t *testing.T) {
+	g := restartGraph(t)
+	g.Nodes[0].Label = "safe\u202eevil\u2066x\u200d"
+	var buf bytes.Buffer
+	render.Explain(&buf, g, render.Options{})
+	for _, r := range []string{"\u202e", "\u2066", "\u200d"} {
+		if strings.Contains(buf.String(), r) {
+			t.Errorf("format character %q survived rendering", r)
+		}
+	}
+}

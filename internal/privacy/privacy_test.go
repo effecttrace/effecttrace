@@ -52,3 +52,14 @@ func FuzzText(f *testing.F) {
 		}
 	})
 }
+
+func TestRandomKey(t *testing.T) {
+	a, err := RandomKey()
+	if err != nil || len(a) != 32 {
+		t.Fatal(err)
+	}
+	b, _ := RandomKey()
+	if string(a) == string(b) {
+		t.Fatal("keys repeat")
+	}
+}

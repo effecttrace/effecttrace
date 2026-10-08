@@ -5,6 +5,7 @@ package privacy
 
 import (
 	"crypto/hmac"
+	"crypto/rand"
 	"crypto/sha256"
 	"encoding/hex"
 	"strings"
@@ -26,9 +27,18 @@ const (
 type Policy struct {
 	Mode IdentityMode
 	// Key keys the pseudonymization HMAC so that pseudonyms cannot be
-	// reversed by hashing candidate usernames. An empty key still produces
-	// stable pseudonyms but offers only weak protection.
+	// reversed by hashing candidate usernames. The collector refuses to run
+	// with an empty key and generates a random one when none is configured.
 	Key []byte
+}
+
+// RandomKey returns a 32-byte random pseudonymization key.
+func RandomKey() ([]byte, error) {
+	k := make([]byte, 32)
+	if _, err := rand.Read(k); err != nil {
+		return nil, err
+	}
+	return k, nil
 }
 
 // Actor returns the stored form of a username.
@@ -61,7 +71,7 @@ func Text(s string, max int) string {
 	var b strings.Builder
 	space := false
 	for _, r := range s {
-		if r == unicode.ReplacementChar || unicode.IsControl(r) || unicode.IsSpace(r) {
+		if r == unicode.ReplacementChar || unicode.IsControl(r) || unicode.Is(unicode.Cf, r) || unicode.IsSpace(r) {
 			if !space && b.Len() > 0 {
 				b.WriteByte(' ')
 			}

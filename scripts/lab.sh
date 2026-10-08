@@ -102,6 +102,7 @@ up() {
   kc apply -f "${REPO}/deploy/lab/shop.yaml" >/dev/null
   kc apply -f "${REPO}/deploy/lab/observability.yaml" >/dev/null
   kc apply -f "${REPO}/deploy/collector/collector.yaml" >/dev/null
+  kc apply -f "${REPO}/deploy/lab/collector-nodeport.yaml" >/dev/null
   kc apply -f "${REPO}/deploy/lab/demo-actor.yaml" >/dev/null
   # Restart our own components so freshly loaded images are used.
   kc -n effecttrace-system rollout restart deployment/effecttrace-collector >/dev/null

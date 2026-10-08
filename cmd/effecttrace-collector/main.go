@@ -221,6 +221,19 @@ func run(ctx context.Context, c config, logger *slog.Logger) error {
 	if policy.Mode != privacy.IdentityKeep && policy.Mode != privacy.IdentityPseudonymize {
 		return fmt.Errorf("invalid --identity-mode %q", c.identityMode)
 	}
+	if policy.Mode == privacy.IdentityPseudonymize && len(policy.Key) == 0 {
+		// Without a key, pseudonyms would be plain hashes that anyone could
+		// reverse by hashing candidate usernames. Use a random per-process
+		// key instead; pseudonyms are then stable only until restart.
+		key, err := privacy.RandomKey()
+		if err != nil {
+			return err
+		}
+		policy.Key = key
+		logger.Warn("no pseudonymization key configured; using a random key, so pseudonyms change when the collector restarts", "env", c.identityKeyEnv)
+	} else if policy.Mode == privacy.IdentityPseudonymize && len(policy.Key) < 16 {
+		return fmt.Errorf("%s must hold at least 16 bytes", c.identityKeyEnv)
+	}
 
 	var exporter *otelexport.Exporter
 	if c.exportEndpoint != "" {

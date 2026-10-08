@@ -3,6 +3,7 @@ package store
 import (
 	"fmt"
 	"time"
+	"unicode"
 	"unicode/utf8"
 
 	"github.com/effecttrace/effecttrace/internal/obs"
@@ -35,7 +36,7 @@ func cleanString(s string, max int) bool {
 		return false
 	}
 	for _, r := range s {
-		if r < 0x20 || r == 0x7f || (r >= 0x80 && r < 0xa0) {
+		if r < 0x20 || r == 0x7f || (r >= 0x80 && r < 0xa0) || unicode.Is(unicode.Cf, r) {
 			return false
 		}
 	}

@@ -36,16 +36,16 @@ if ((${#files[@]})); then
     while IFS= read -r hit; do
       [[ -z "$hit" ]] && continue
       loc="${hit%%:*}:$(cut -d: -f2 <<<"$hit")"
-      match="$(grep -oE "$re" <<<"${hit#*:*:}" | head -1)"
+      match="$(grep -oE -e "$re" <<<"${hit#*:*:}" | head -1)"
       report "$loc" "$label" "$match"
-    done < <(grep -nE "$re" -- "${files[@]}" 2>/dev/null || true)
+    done < <(grep -nE -e "$re" -- "${files[@]}" 2>/dev/null || true)
   done
   while IFS= read -r hit; do
     [[ -z "$hit" ]] && continue
     loc="${hit%%:*}:$(cut -d: -f2 <<<"$hit")"
-    match="$(grep -oE "$attribution" <<<"${hit#*:*:}" | head -1)"
+    match="$(grep -oE -e "$attribution" <<<"${hit#*:*:}" | head -1)"
     report "$loc" "attribution" "$match"
-  done < <(grep -nE "$attribution" -- "${files[@]}" 2>/dev/null || true)
+  done < <(grep -nE -e "$attribution" -- "${files[@]}" 2>/dev/null || true)
 fi
 
 echo "checking that no private context files are tracked"
@@ -57,13 +57,13 @@ fi
 if git rev-parse --verify HEAD >/dev/null 2>&1; then
   echo "scanning commit messages and tags"
   msgs="$(git log --format='%H %B' --all)"
-  if grep -nE "$attribution" <<<"$msgs" >/dev/null; then
-    grep -nE "$attribution" <<<"$msgs" | while read -r hit; do report "commit-msg:${hit%%:*}" "attribution" "$(grep -oE "$attribution" <<<"$hit" | head -1)"; done
+  if grep -nE -e "$attribution" <<<"$msgs" >/dev/null; then
+    grep -nE -e "$attribution" <<<"$msgs" | while read -r hit; do report "commit-msg:${hit%%:*}" "attribution" "$(grep -oE -e "$attribution" <<<"$hit" | head -1)"; done
     fail=1
   fi
   for p in "${patterns[@]}"; do
     re="${p#*|}"
-    if grep -nE "$re" <<<"$msgs" >/dev/null; then report "commit-msg" "${p%%|*}" "$(grep -oE "$re" <<<"$msgs" | head -1)"; fi
+    if grep -nE -e "$re" <<<"$msgs" >/dev/null; then report "commit-msg" "${p%%|*}" "$(grep -oE -e "$re" <<<"$msgs" | head -1)"; fi
   done
   authors="$(git log --all --format='%an <%ae>|%cn <%ce>' | tr '|' '\n' | sort -u)"
   while read -r a; do
@@ -72,7 +72,7 @@ if git rev-parse --verify HEAD >/dev/null 2>&1; then
       report "commit-identity" "identity" "$a"
     fi
   done <<<"$authors"
-  if git tag -l | grep -qE "$attribution"; then report "tags" "attribution" "$(git tag -l | grep -oE "$attribution" | head -1)"; fi
+  if git tag -l | grep -qE -e "$attribution"; then report "tags" "attribution" "$(git tag -l | grep -oE -e "$attribution" | head -1)"; fi
 fi
 
 if ((fail)); then

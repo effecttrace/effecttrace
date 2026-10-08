@@ -155,14 +155,38 @@ spec:
         - name: recording
           hostPath: { path: /var/lib/effecttrace-lab, type: DirectoryOrCreate }
 ---
+# Cluster-internal only. The API and the OTLP receiver have no built-in TLS;
+# the API supports an optional bearer token (--api-token-file). Restrict
+# access with NetworkPolicy and expose it only through an authenticating
+# ingress if needed (see docs/security-model.md). The kind lab adds a
+# loopback-only NodePort in deploy/lab/collector-nodeport.yaml.
 apiVersion: v1
 kind: Service
 metadata:
   name: effecttrace
   namespace: effecttrace-system
 spec:
-  type: NodePort
+  type: ClusterIP
   selector: { app.kubernetes.io/name: effecttrace-collector }
   ports:
-    - { name: api, port: 8080, targetPort: api, nodePort: 30080 }
+    - { name: api, port: 8080, targetPort: api }
     - { name: otlp-http, port: 4318, targetPort: otlp-http }
+---
+# Only the OpenTelemetry Collector may send spans; anything may reach the
+# read-only API inside the cluster. Requires a CNI that enforces
+# NetworkPolicy.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: effecttrace-collector
+  namespace: effecttrace-system
+spec:
+  podSelector:
+    matchLabels: { app.kubernetes.io/name: effecttrace-collector }
+  policyTypes: [Ingress]
+  ingress:
+    - ports: [{ port: 8080 }]
+    - from:
+        - namespaceSelector:
+            matchLabels: { kubernetes.io/metadata.name: observability }
+      ports: [{ port: 4318 }]

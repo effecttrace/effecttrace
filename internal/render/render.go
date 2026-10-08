@@ -25,7 +25,10 @@ type Options struct {
 func clean(s string) string {
 	var b strings.Builder
 	for _, r := range s {
-		if unicode.IsControl(r) || (r >= 0x80 && r < 0xa0) {
+		// Control characters and Unicode format characters (bidi
+		// overrides, zero-width joiners) could rewrite or reorder what
+		// the operator sees in a terminal.
+		if unicode.IsControl(r) || unicode.Is(unicode.Cf, r) || (r >= 0x80 && r < 0xa0) {
 			continue
 		}
 		b.WriteRune(r)
