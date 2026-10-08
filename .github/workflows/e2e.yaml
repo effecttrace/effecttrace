@@ -1,0 +1,50 @@
+name: e2e
+# Runs EffectTrace experiments against a real kind cluster on the runner.
+# The smoke subset runs on every push to main; the full suite on demand and
+# weekly.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      scenarios:
+        description: "Comma-separated scenario IDs (empty runs the full suite)"
+        required: false
+        default: ""
+  schedule:
+    - cron: "17 3 * * 1"
+permissions:
+  contents: read
+concurrency:
+  group: e2e-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  kind:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: go.mod
+      - name: Create lab
+        run: make demo-up
+      - name: Run experiments
+        env:
+          ONLY: ${{ github.event_name == 'push' && 'L01,L02,L07,L08,L11,L14,L16,L24' || inputs.scenarios }}
+        run: |
+          go run ./test/experiments/cmd/run --out test-results ${ONLY:+--only "$ONLY"}
+          go run ./test/experiments/cmd/summarize --dir test-results
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: e2e-results
+          path: test-results/
+      - name: Fail on failed experiments
+        run: |
+          jq -e '.scenarios.fail == 0 and .scenarios.error == 0' test-results/summary.json
+      - name: Delete lab
+        if: always()
+        run: make demo-down
