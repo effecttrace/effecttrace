@@ -125,6 +125,7 @@ type Store struct {
 	byName     map[nameKey][]string
 	children   map[string][]string
 	events     map[string]*obs.EventObservation
+	occ        map[string][]Occurrence
 	evOrder    []string
 	byRegard   map[string][]string
 	metrics    map[string][]obs.MetricResult
@@ -145,6 +146,7 @@ func New(cfg Config) *Store {
 		byName:   map[nameKey][]string{},
 		children: map[string][]string{},
 		events:   map[string]*obs.EventObservation{},
+		occ:      map[string][]Occurrence{},
 		byRegard: map[string][]string{},
 		metrics:  map[string][]obs.MetricResult{},
 		sources:  map[string][]obs.SourceStatus{},
@@ -198,7 +200,16 @@ func (s *Store) touch(t time.Time) {
 }
 
 func (s *Store) applyAudit(a *obs.AuditRequest) bool {
-	if _, ok := s.requests[a.AuditID]; ok {
+	if prev, ok := s.requests[a.AuditID]; ok {
+		// The same audit event read again (for example after a collector
+		// restart re-reads the log). If a different pseudonymization key
+		// produced a different user, keep the lexically smaller one so the
+		// result does not depend on arrival order.
+		if a.User < prev.User {
+			c := *a
+			s.requests[a.AuditID] = &c
+			return true
+		}
 		return false
 	}
 	c := *a
@@ -343,7 +354,48 @@ func (s *Store) applySource(st *obs.SourceStatus) bool {
 	return true
 }
 
+// Occurrence is one observed occurrence of an Event series.
+type Occurrence struct {
+	At      time.Time
+	Initial bool
+}
+
+// MaxOccurrences bounds the occurrences kept per Event series (the newest).
+const MaxOccurrences = 64
+
+// addOccurrence records an occurrence. Kubernetes aggregates repeated Events
+// into one object whose count grows, so a series can span several unrelated
+// episodes; graphs match occurrences, not just the first time, against
+// windows. The kept set is the newest MaxOccurrences, independent of order.
+func (s *Store) addOccurrence(uid string, o Occurrence) bool {
+	list := s.occ[uid]
+	for _, p := range list {
+		if p.At.Equal(o.At) && p.Initial == o.Initial {
+			return false
+		}
+	}
+	list = append(list, o)
+	slices.SortFunc(list, func(a, b Occurrence) int {
+		if c := a.At.Compare(b.At); c != 0 {
+			return c
+		}
+		if a.Initial == b.Initial {
+			return 0
+		}
+		if a.Initial {
+			return 1
+		}
+		return -1
+	})
+	if len(list) > MaxOccurrences {
+		list = list[len(list)-MaxOccurrences:]
+	}
+	s.occ[uid] = list
+	return true
+}
+
 func (s *Store) applyEvent(e *obs.EventObservation) bool {
+	added := s.addOccurrence(e.UID, Occurrence{At: e.At, Initial: e.Initial})
 	if prev, ok := s.events[e.UID]; ok {
 		// Event series update. Merge deterministically regardless of the
 		// order updates arrive in: earliest time, highest count.
@@ -365,7 +417,7 @@ func (s *Store) applyEvent(e *obs.EventObservation) bool {
 			prev.Note = e.Note
 			changed = true
 		}
-		return changed
+		return changed || added
 	}
 	c := *e
 	s.events[e.UID] = &c
@@ -382,6 +434,7 @@ func (s *Store) applyEvent(e *obs.EventObservation) bool {
 				delete(s.byRegard, r)
 			}
 			delete(s.events, old)
+			delete(s.occ, old)
 			s.stats.Evicted[obs.KindEvent]++
 		}
 	}
@@ -642,6 +695,11 @@ func (v View) EventsRegarding(uid string) []*obs.EventObservation {
 		return strings.Compare(a.UID, b.UID)
 	})
 	return out
+}
+
+// EventOccurrences returns the occurrences of an Event series, oldest first.
+func (v View) EventOccurrences(uid string) []Occurrence {
+	return slices.Clone(v.s.occ[uid])
 }
 
 // Metrics returns metric results recorded for an action.

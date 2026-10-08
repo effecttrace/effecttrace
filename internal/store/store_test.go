@@ -198,3 +198,43 @@ func TestLiveObservationTimesWinOverRelists(t *testing.T) {
 		})
 	}
 }
+
+func TestDuplicateAuditEventsMergeDeterministically(t *testing.T) {
+	a := obs.Record{Kind: obs.KindAudit, Audit: &obs.AuditRequest{AuditID: "x", Verb: "patch", Resource: "deployments", User: "user:bbbb", ReceivedAt: t0}}
+	b := obs.Record{Kind: obs.KindAudit, Audit: &obs.AuditRequest{AuditID: "x", Verb: "patch", Resource: "deployments", User: "user:aaaa", ReceivedAt: t0}}
+	for _, order := range [][]obs.Record{{a, b}, {b, a}} {
+		s := New(DefaultConfig())
+		for _, r := range order {
+			s.Apply(r)
+		}
+		s.Read(func(v View) {
+			if r, _ := v.Request("x"); r.User != "user:aaaa" {
+				t.Fatalf("user %s", r.User)
+			}
+		})
+	}
+}
+
+func TestEventSeriesKeepsOccurrences(t *testing.T) {
+	ev := func(at time.Time, count int32, initial bool) obs.Record {
+		return obs.Record{Kind: obs.KindEvent, Event: &obs.EventObservation{UID: "e", At: at, Regarding: model.ObjectRef{UID: "u"}, Reason: "Unhealthy", Count: count, Initial: initial}}
+	}
+	recs := []obs.Record{ev(t0, 1, true), ev(t0.Add(time.Second), 2, false), ev(t0.Add(3*time.Minute), 3, false), ev(t0.Add(3*time.Minute).Truncate(time.Second), 3, true)}
+	var want []Occurrence
+	for i, order := range [][]int{{0, 1, 2, 3}, {3, 2, 1, 0}, {2, 0, 3, 1}} {
+		s := New(DefaultConfig())
+		for _, j := range order {
+			s.Apply(recs[j])
+		}
+		var got []Occurrence
+		s.Read(func(v View) { got = v.EventOccurrences("e") })
+		if len(got) != 4 {
+			t.Fatalf("occurrences = %d", len(got))
+		}
+		if i == 0 {
+			want = got
+		} else if fmt.Sprint(got) != fmt.Sprint(want) {
+			t.Fatalf("order %v: %v != %v", order, got, want)
+		}
+	}
+}

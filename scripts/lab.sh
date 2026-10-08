@@ -102,6 +102,11 @@ up() {
   kc apply -f "${REPO}/deploy/lab/shop.yaml" >/dev/null
   kc apply -f "${REPO}/deploy/lab/observability.yaml" >/dev/null
   kc apply -f "${REPO}/deploy/collector/collector.yaml" >/dev/null
+  # A stable pseudonymization key, generated once and kept only in the cluster.
+  if ! kc -n effecttrace-system get secret effecttrace-identity >/dev/null 2>&1; then
+    kc -n effecttrace-system create secret generic effecttrace-identity \
+      --from-literal=key="$(head -c 32 /dev/urandom | od -An -tx1 | tr -d ' \n')" >/dev/null
+  fi
   kc apply -f "${REPO}/deploy/lab/collector-nodeport.yaml" >/dev/null
   kc apply -f "${REPO}/deploy/lab/demo-actor.yaml" >/dev/null
   # Restart our own components so freshly loaded images are used.

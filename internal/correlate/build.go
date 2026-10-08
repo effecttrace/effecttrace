@@ -600,17 +600,14 @@ func (b *builder) addEvents() {
 	for _, nid := range ids {
 		n := b.nodes[nid]
 		uid := n.Object.UID
-		for _, ev := range b.v.EventsRegarding(uid) {
-			covered := false
-			for _, m := range muts {
-				if m.win.contains(ev.At) {
-					covered = true
-					break
-				}
-			}
+		for _, evp := range b.v.EventsRegarding(uid) {
+			at, covered := b.occurrenceIn(evp.UID, muts)
 			if !covered {
 				continue
 			}
+			e := *evp
+			e.At = at
+			ev := &e
 			claims := map[string]bool{}
 			for _, m := range b.ix.byUID[uid] {
 				if m.win.contains(ev.At) {
@@ -658,6 +655,35 @@ func (b *builder) addEvents() {
 				"kubernetes-events", RuleEventInWindow, ev.At, model.Fact{Key: "regarding_uid", Value: uid}, model.Fact{Key: "event_uid", Value: ev.UID})
 		}
 	}
+}
+
+// occurrenceIn returns the earliest occurrence of an Event series inside one
+// of the action's windows, preferring live observation times over relisted
+// (second-precision) server timestamps.
+func (b *builder) occurrenceIn(eventUID string, muts []*mutation) (time.Time, bool) {
+	var live, relisted time.Time
+	for _, o := range b.v.EventOccurrences(eventUID) {
+		in := false
+		for _, m := range muts {
+			if m.win.contains(o.At) {
+				in = true
+				break
+			}
+		}
+		if !in {
+			continue
+		}
+		if !o.Initial && live.IsZero() {
+			live = o.At
+		}
+		if o.Initial && relisted.IsZero() {
+			relisted = o.At
+		}
+	}
+	if !live.IsZero() {
+		return live, true
+	}
+	return relisted, !relisted.IsZero()
 }
 
 func (b *builder) ownerOfReplacement(uid string) (string, bool) {
