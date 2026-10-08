@@ -1193,7 +1193,7 @@ func hostileTelemetry(ctx context.Context, e *Env, r *Result) error {
 	if err != nil {
 		return err
 	}
-	r.check("HTML escaped in API output", !bytes.Contains(raw, []byte("<script>")) && bytes.Contains(raw, []byte(`<script>`)), "JSON encoder escapes < and >")
+	r.check("HTML escaped in API output", !bytes.Contains(raw, []byte("<script>")) && bytes.Contains(raw, []byte(`\u003cscript\u003e`)), "JSON encoder escapes < and >")
 	g, err := model.UnmarshalGraph(raw)
 	if err != nil {
 		return err
