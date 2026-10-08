@@ -79,9 +79,22 @@ const MaxResponseBytes = 8 << 20
 func (e *Evaluator) Evaluate(ctx context.Context, t correlate.TelemetryTarget) []obs.MetricResult {
 	var out []obs.MetricResult
 	workloads := append(append([]correlate.Workload{}, t.InScope...), t.Others...)
+	unreachable := ""
 	for _, w := range workloads {
 		for _, s := range e.Signals {
-			out = append(out, e.evaluate(ctx, t, w, s))
+			if unreachable != "" {
+				// Fail fast: one transport failure means every query of this
+				// target would wait for its own timeout.
+				r := e.base(t, w, s)
+				r.Error = unreachable
+				out = append(out, r)
+				continue
+			}
+			r, transport := e.evaluate(ctx, t, w, s)
+			if transport {
+				unreachable = r.Error
+			}
+			out = append(out, r)
 		}
 	}
 	if len(out) == 0 {
@@ -92,21 +105,27 @@ func (e *Evaluator) Evaluate(ctx context.Context, t correlate.TelemetryTarget) [
 	return out
 }
 
-func (e *Evaluator) evaluate(ctx context.Context, t correlate.TelemetryTarget, w correlate.Workload, s Signal) obs.MetricResult {
-	r := obs.MetricResult{
+func (e *Evaluator) base(t correlate.TelemetryTarget, w correlate.Workload, s Signal) obs.MetricResult {
+	return obs.MetricResult{
 		ActionID: t.ActionID, Signal: s.Name, Unit: s.Unit, Namespace: t.Namespace, Workload: w.Name, WorkloadUID: w.UID,
 		BaselineStart: t.BaselineStart, WindowStart: t.WindowStart, WindowEnd: t.WindowEnd, Direction: "unchanged",
 		EvaluatedAt: time.Now().UTC(),
 	}
+}
+
+// evaluate returns the result and whether the failure (if any) was a
+// transport error, meaning Prometheus is unreachable.
+func (e *Evaluator) evaluate(ctx context.Context, t correlate.TelemetryTarget, w correlate.Workload, s Signal) (obs.MetricResult, bool) {
+	r := e.base(t, w, s)
 	if !dnsRE.MatchString(t.Namespace) || !dnsRE.MatchString(w.Name) {
 		r.Error = "workload or namespace name is not a valid DNS-1123 name"
-		return r
+		return r, false
 	}
 	q := strings.NewReplacer("$namespace", t.Namespace, "$workload", w.Name).Replace(s.Query)
 	samples, err := e.queryRange(ctx, q, t.BaselineStart, t.WindowEnd)
 	if err != nil {
 		r.Error = privacy.Text(err.Error(), 200)
-		return r
+		return r, errors.Is(err, errTransport)
 	}
 	var base, win []float64
 	for _, sm := range samples {
@@ -119,7 +138,7 @@ func (e *Evaluator) evaluate(ctx context.Context, t correlate.TelemetryTarget, w
 	}
 	r.Samples = len(win)
 	if len(base) == 0 || len(win) == 0 {
-		return r
+		return r, false
 	}
 	r.Baseline = mean(base)
 	if s.Reduce == "mean" {
@@ -128,8 +147,11 @@ func (e *Evaluator) evaluate(ctx context.Context, t correlate.TelemetryTarget, w
 		r.Observed = maxOf(win)
 	}
 	r.Changed, r.Direction = Compare(r.Baseline, r.Observed, s.AbsThreshold, s.RelThreshold)
-	return r
+	return r, false
 }
+
+// errTransport marks failures to reach Prometheus at all.
+var errTransport = errors.New("prometheus unreachable")
 
 // Compare reports whether observed differs from baseline by more than both
 // the absolute threshold and the relative threshold times the baseline.
@@ -202,7 +224,7 @@ func (e *Evaluator) queryRange(ctx context.Context, q string, start, end time.Ti
 	}
 	resp, err := client.Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("prometheus query failed: %w", err)
+		return nil, fmt.Errorf("%w: %w", errTransport, err)
 	}
 	defer func() { _ = resp.Body.Close() }()
 	body, err := io.ReadAll(io.LimitReader(resp.Body, MaxResponseBytes+1))

@@ -42,6 +42,11 @@ type Config struct {
 	MaxExclusions int
 	// MaxDepth bounds ownership traversal.
 	MaxDepth int
+	// MaxTelemetryAge is how long after its telemetry window ends an action
+	// may still be evaluated. A restarted collector does not re-evaluate
+	// older actions; their graphs complete with telemetry reported as not
+	// evaluated.
+	MaxTelemetryAge time.Duration
 }
 
 // DefaultConfig returns the documented defaults.
@@ -75,6 +80,7 @@ func DefaultConfig() Config {
 		TemporalFallback: true,
 		MaxExclusions:    50,
 		MaxDepth:         4,
+		MaxTelemetryAge:  10 * time.Minute,
 	}
 }
 

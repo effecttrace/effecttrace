@@ -205,7 +205,7 @@ func run(ctx context.Context, c config, logger *slog.Logger) error {
 		if err != nil {
 			return err
 		}
-		eval = &telemetry.Evaluator{BaseURL: c.promURL, Signals: sigs, Step: c.promStep, Client: &http.Client{Timeout: 10 * time.Second}}
+		eval = &telemetry.Evaluator{BaseURL: c.promURL, Signals: sigs, Step: c.promStep, Client: &http.Client{Timeout: 5 * time.Second}}
 	}
 	engine := correlate.NewEngine(st, ccfg, correlate.Options{TelemetryConfigured: eval != nil})
 

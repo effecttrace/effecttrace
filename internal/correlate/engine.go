@@ -194,13 +194,22 @@ func (e *Engine) PendingTelemetry(now time.Time) []TelemetryTarget {
 				continue
 			}
 			t, ok := telemetryTarget(v, a, muts, e.cfg)
-			if !ok || now.Before(t.WindowEnd) {
+			if !ok || now.Before(t.WindowEnd) || now.Sub(t.WindowEnd) > e.cfg.MaxTelemetryAge {
 				continue
 			}
 			out = append(out, t)
 		}
 	})
+	// Newest first, so a backlog never delays the most recent actions.
+	slices.SortStableFunc(out, func(a, b TelemetryTarget) int { return b.WindowEnd.Compare(a.WindowEnd) })
 	return out
+}
+
+// telemetryExpired reports whether an action's telemetry window ended too
+// long ago to be evaluated.
+func telemetryExpired(v store.View, a *action, muts []*mutation, cfg Config, now time.Time) bool {
+	t, ok := telemetryTarget(v, a, muts, cfg)
+	return ok && now.Sub(t.WindowEnd) > cfg.MaxTelemetryAge
 }
 
 func telemetryTarget(v store.View, a *action, muts []*mutation, cfg Config) (TelemetryTarget, bool) {

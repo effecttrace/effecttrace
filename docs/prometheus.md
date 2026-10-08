@@ -178,3 +178,14 @@ sum by (kind) (rate(effecttrace_ingest_records_total{result="rejected"}[5m]))
 - [Evidence model](evidence-model.md)
 - [ADR-004: temporal effect windows](adr/004-temporal-effect-windows.md)
 - [Troubleshooting](troubleshooting.md)
+
+## Evaluation order and failures
+
+Pending evaluations run newest first. If Prometheus cannot be reached, the
+remaining queries of that action are not attempted and every signal records
+the transport error, so one outage costs one timeout per action rather than
+one per query. Actions whose telemetry window ended more than
+`MaxTelemetryAge` (10 minutes) ago are not evaluated at all; a collector that
+restarts does not re-evaluate old actions, and their graphs report Prometheus
+coverage as `not evaluated`. The lab experiment L28 (metrics source
+unavailable right after a collector restart) found the backlog this prevents.

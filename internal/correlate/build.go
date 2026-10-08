@@ -774,7 +774,7 @@ func (b *builder) finish() {
 	switch {
 	case open:
 		g.Status = model.StatusObserving
-	case b.opts.TelemetryConfigured && len(metrics) == 0 && len(muts) > 0:
+	case b.opts.TelemetryConfigured && len(metrics) == 0 && len(muts) > 0 && !telemetryExpired(b.v, b.a, muts, b.cfg, b.ix.now):
 		g.Status = model.StatusSettling
 	default:
 		g.Status = model.StatusComplete
@@ -849,6 +849,8 @@ func (b *builder) coverage(muts []*mutation, metrics []obs.MetricResult) []model
 		prom.Detail = "no metrics source configured"
 	case len(muts) == 0:
 		prom.Detail = "no mutation to evaluate"
+	case len(metrics) == 0 && telemetryExpired(b.v, b.a, muts, b.cfg, b.ix.now):
+		prom.Detail = "not evaluated: the telemetry window ended before this collector could evaluate it (for example after a restart)"
 	case len(metrics) == 0:
 		prom.Detail = "telemetry not evaluated yet"
 	case errs == len(metrics):

@@ -194,8 +194,8 @@ Missing coverage reduces what a graph can show; it never turns into a guess.
 | Status | Meaning |
 | --- | --- |
 | `OBSERVING` | At least one observation window is still open. The graph can still grow. |
-| `SETTLING` | All reconciliation windows have closed, a metrics source is configured, the action made at least one mutation, and telemetry has not been evaluated yet. |
-| `COMPLETE` | All windows are closed and telemetry was evaluated (or no metrics source is configured, or there was nothing to evaluate). |
+| `SETTLING` | All reconciliation windows have closed, a metrics source is configured, the action made at least one mutation, and telemetry has not been evaluated yet (and its telemetry window ended less than `MaxTelemetryAge`, 10 min, ago). |
+| `COMPLETE` | All windows are closed and telemetry was evaluated (or no metrics source is configured, there was nothing to evaluate, or the telemetry window ended more than `MaxTelemetryAge` ago, for example before a restarted collector came up; coverage then says `not evaluated`). |
 
 Only `COMPLETE` graphs are exported over OTLP. A graph can still change after
 `COMPLETE` only if late-arriving observations for its windows are ingested

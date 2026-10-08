@@ -90,3 +90,25 @@ func TestSignalValidate(t *testing.T) {
 		}
 	}
 }
+
+func TestEvaluateFailsFastWhenUnreachable(t *testing.T) {
+	calls := 0
+	srv := httptest.NewServer(http.HandlerFunc(func(http.ResponseWriter, *http.Request) { calls++ }))
+	url := srv.URL
+	srv.Close() // nothing listens: every request fails at the transport
+	e := &Evaluator{BaseURL: url, Signals: []Signal{{Name: "a", Query: `q{s="$workload"}`}, {Name: "b", Query: `q{s="$workload"}`}}}
+	start := time.Now()
+	res := e.Evaluate(context.Background(), correlate.TelemetryTarget{Namespace: "shop",
+		InScope: []correlate.Workload{{Name: "checkout"}}, Others: []correlate.Workload{{Name: "payments"}, {Name: "inventory"}}})
+	if len(res) != 6 {
+		t.Fatalf("results = %d", len(res))
+	}
+	for _, r := range res {
+		if r.Error == "" {
+			t.Fatalf("missing error: %+v", r)
+		}
+	}
+	if time.Since(start) > 3*time.Second || calls != 0 {
+		t.Fatalf("did not fail fast (%v, %d calls)", time.Since(start), calls)
+	}
+}
