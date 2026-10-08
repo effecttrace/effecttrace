@@ -238,3 +238,23 @@ func TestEventSeriesKeepsOccurrences(t *testing.T) {
 		}
 	}
 }
+
+func TestAuditIDReuseIsBounded(t *testing.T) {
+	s := New(DefaultConfig())
+	rejected := 0
+	for i := range 1000 {
+		_, err := s.Apply(obs.Record{Kind: obs.KindAudit, Audit: &obs.AuditRequest{AuditID: "same", Verb: "patch", Resource: "deployments",
+			Name: fmt.Sprint("d", i), ReceivedAt: t0.Add(time.Duration(i) * time.Millisecond)}})
+		if errors.Is(err, ErrAuditIDReused) {
+			rejected++
+		}
+	}
+	s.Read(func(v View) {
+		if n := len(v.RequestsByAuditID("same")); n != MaxRequestsPerAuditID {
+			t.Fatalf("kept %d requests for one audit ID", n)
+		}
+	})
+	if rejected != 1000-MaxRequestsPerAuditID {
+		t.Fatalf("rejected %d", rejected)
+	}
+}

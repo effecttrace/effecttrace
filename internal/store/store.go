@@ -176,7 +176,12 @@ func (s *Store) Apply(r obs.Record) (bool, error) {
 	var applied bool
 	switch r.Kind {
 	case obs.KindAudit:
-		applied = s.applyAudit(r.Audit)
+		var err error
+		applied, err = s.applyAudit(r.Audit)
+		if err != nil {
+			s.stats.Rejected[r.Kind]++
+			return false, err
+		}
 	case obs.KindSpan:
 		applied = s.applySpan(r.Span)
 	case obs.KindObject:
@@ -213,7 +218,16 @@ func RequestKey(a *obs.AuditRequest) string {
 		a.Namespace + "|" + a.Name + "|" + a.ReceivedAt.UTC().Format(time.RFC3339Nano)
 }
 
-func (s *Store) applyAudit(a *obs.AuditRequest) bool {
+// MaxRequestsPerAuditID bounds how many distinct requests may share one
+// Audit-ID. Legitimate reuse is rare; a client reusing an ID at scale is
+// refused beyond this bound instead of growing one index entry.
+const MaxRequestsPerAuditID = 8
+
+// ErrAuditIDReused is returned when an Audit-ID is shared by too many
+// distinct requests.
+var ErrAuditIDReused = errors.New("audit ID reused by too many requests")
+
+func (s *Store) applyAudit(a *obs.AuditRequest) (bool, error) {
 	key := RequestKey(a)
 	if prev, ok := s.requests[key]; ok {
 		// The same audit event read again (for example after a collector
@@ -223,21 +237,25 @@ func (s *Store) applyAudit(a *obs.AuditRequest) bool {
 		if a.User < prev.User {
 			c := *a
 			s.requests[key] = &c
-			return true
+			return true, nil
 		}
-		return false
+		return false, nil
+	}
+	keys := s.byAudit[a.AuditID]
+	if len(keys) >= MaxRequestsPerAuditID {
+		return false, ErrAuditIDReused
 	}
 	c := *a
 	s.requests[key] = &c
 	s.reqOrder = append(s.reqOrder, key)
-	s.byAudit[a.AuditID] = append(s.byAudit[a.AuditID], key)
-	slices.Sort(s.byAudit[a.AuditID])
+	i, _ := slices.BinarySearch(keys, key)
+	s.byAudit[a.AuditID] = slices.Insert(keys, i, key)
 	s.touch(a.ReceivedAt)
 	for len(s.reqOrder) > s.cfg.MaxRequests {
 		s.evictRequest(s.reqOrder[0])
 		s.reqOrder = s.reqOrder[1:]
 	}
-	return true
+	return true, nil
 }
 
 func (s *Store) evictRequest(key string) {
