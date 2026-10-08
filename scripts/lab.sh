@@ -119,7 +119,12 @@ up() {
   kc -n effecttrace-system rollout restart deployment/effecttrace-collector >/dev/null
   kc -n effecttrace-demo rollout restart deployment/mcp-tools >/dev/null
   for d in shop/frontend shop/checkout shop/payments shop/inventory shop/loadgen observability/otel-collector observability/prometheus effecttrace-system/effecttrace-collector effecttrace-demo/mcp-tools; do
-    kc -n "${d%%/*}" rollout status "deployment/${d##*/}" --timeout=240s >/dev/null
+    if ! kc -n "${d%%/*}" rollout status "deployment/${d##*/}" --timeout=240s >/dev/null; then
+      log "deployment ${d} did not become ready; pods and recent events:"
+      kc -n "${d%%/*}" get pods -o wide >&2 || true
+      kc -n "${d%%/*}" get events --sort-by=.lastTimestamp 2>/dev/null | tail -15 >&2 || true
+      die "lab setup failed"
+    fi
   done
   log "lab is ready"
   log "  EffectTrace API     http://127.0.0.1:18080"
