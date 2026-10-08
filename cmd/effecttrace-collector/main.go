@@ -18,6 +18,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
@@ -190,6 +191,10 @@ func run(ctx context.Context, c config, logger *slog.Logger) error {
 				return float64(receiver.Stats.Throttled.Load())
 			}
 		})
+	m.Registry.MustRegister(prometheus.NewCounterFunc(prometheus.CounterOpts{
+		Name: "effecttrace_audit_id_reuse_total",
+		Help: "Audit-IDs that became untrusted because more requests than the bound carried them (possible client-supplied ID reuse).",
+	}, func() float64 { return float64(st.StatsSnapshot().AuditIDReuse) }))
 	pl = pipeline.New(st, c.queueSize, rec, m, logger)
 	receiver.Offer = pl.Offer
 

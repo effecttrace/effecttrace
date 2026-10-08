@@ -150,6 +150,7 @@ never used as labels.
 | `effecttrace_queue_capacity` | gauge | none | ingest queue capacity |
 | `effecttrace_graph_build_duration_seconds` | histogram | none | time to build one graph for an API request |
 | `effecttrace_telemetry_evaluations_total` | counter | `result` (`changed`, `unchanged`, `nodata`, `error`) | signal evaluations |
+| `effecttrace_audit_id_reuse_total` | counter | none | Audit-IDs that became untrusted because more than 8 requests carried them (possible client-supplied ID reuse) |
 | `effecttrace_graphs` | gauge | `status` (`OBSERVING`, `SETTLING`, `COMPLETE`) | retained graphs |
 | `effecttrace_actions` | gauge | `kind` (`MCP_TOOL_CALL`, `KUBERNETES_API_CALL`) | retained actions |
 | `effecttrace_graph_edges` | gauge | `evidence_type` (evidence classes) | edges across retained graphs |

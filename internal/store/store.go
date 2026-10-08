@@ -105,6 +105,9 @@ type Stats struct {
 	Duplicate map[obs.Kind]uint64
 	Rejected  map[obs.Kind]uint64
 	Evicted   map[obs.Kind]uint64
+	// AuditIDReuse counts Audit-IDs that became untrusted because more
+	// requests than MaxRequestsPerAuditID carried them.
+	AuditIDReuse uint64
 }
 
 type spanKey struct{ trace, span string }
@@ -178,7 +181,7 @@ func (s *Store) Apply(r obs.Record) (bool, error) {
 	var applied bool
 	switch r.Kind {
 	case obs.KindAudit:
-		applied, _ = s.applyAudit(r.Audit)
+		applied, _ = s.applyAudit(r.Audit) // never fails: records are always kept
 	case obs.KindSpan:
 		applied = s.applySpan(r.Span)
 	case obs.KindObject:
@@ -239,6 +242,9 @@ func (s *Store) applyAudit(a *obs.AuditRequest) (bool, error) {
 	s.requests[key] = &c
 	s.reqOrder = append(s.reqOrder, key)
 	s.auditCount[a.AuditID]++
+	if s.auditCount[a.AuditID] == MaxRequestsPerAuditID+1 {
+		s.stats.AuditIDReuse++
+	}
 	if keys := s.byAudit[a.AuditID]; len(keys) < MaxRequestsPerAuditID {
 		i, _ := slices.BinarySearch(keys, key)
 		s.byAudit[a.AuditID] = slices.Insert(keys, i, key)
@@ -606,7 +612,7 @@ func (s *Store) StatsSnapshot() Stats {
 		}
 		return out
 	}
-	return Stats{cp(s.stats.Applied), cp(s.stats.Duplicate), cp(s.stats.Rejected), cp(s.stats.Evicted)}
+	return Stats{cp(s.stats.Applied), cp(s.stats.Duplicate), cp(s.stats.Rejected), cp(s.stats.Evicted), s.stats.AuditIDReuse}
 }
 
 // Read runs fn with a consistent read-only view of the store.
@@ -659,6 +665,12 @@ func (v View) trustedKeys(auditID string) []string {
 		return nil
 	}
 	return keys
+}
+
+// AuditIDUntrusted reports whether an Audit-ID is carried by more requests
+// than the index holds, so it confirms nothing.
+func (v View) AuditIDUntrusted(auditID string) bool {
+	return v.s.auditCount[auditID] > 0 && v.trustedKeys(auditID) == nil
 }
 
 // RequestsByAuditID returns every request carrying an Audit-ID (more than

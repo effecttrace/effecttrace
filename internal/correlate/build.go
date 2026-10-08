@@ -191,6 +191,9 @@ func (b *builder) addActionAndRequests() {
 			if r.auditMismatch {
 				b.g.Notes = append(b.g.Notes, "A client span named an audit ID whose audit event disagrees on verb or object; the audit event was not used as confirmation.")
 			}
+			if r.auditUntrusted {
+				b.g.Notes = append(b.g.Notes, "A client span named an audit ID that many other requests also carry (possible Audit-ID reuse); it was not used as confirmation.")
+			}
 		case linkTemporal:
 			b.addNode(model.Node{ID: r.nodeID, Type: model.NodeKubernetesRequest, Label: requestLabel(r), Request: requestInfo(r), ObservedAt: r.at})
 			b.addEdge(root, r.nodeID, model.RelTemporalCorrelation,

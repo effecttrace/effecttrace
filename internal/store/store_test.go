@@ -264,5 +264,11 @@ func TestAuditIDReuseIsBoundedWithoutDroppingRecords(t *testing.T) {
 		if len(ids) != 1000 {
 			t.Fatalf("request IDs not unique: %d", len(ids))
 		}
+		if !v.AuditIDUntrusted("same") {
+			t.Fatal("reused audit ID not reported as untrusted")
+		}
 	})
+	if s.StatsSnapshot().AuditIDReuse != 1 {
+		t.Fatalf("reuse counter = %d", s.StatsSnapshot().AuditIDReuse)
+	}
 }

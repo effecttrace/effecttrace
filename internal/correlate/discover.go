@@ -45,6 +45,9 @@ type request struct {
 	// auditMismatch is set when the client span named an audit ID whose
 	// audit event disagrees with the span on verb, resource or object.
 	auditMismatch bool
+	// auditUntrusted is set when the span's audit ID is shared by so many
+	// requests that it is not used as evidence.
+	auditUntrusted bool
 }
 
 // action is a discovered action with its requests.
@@ -257,6 +260,8 @@ func spanRequest(v store.View, s *obs.Span) *request {
 			}
 		}
 		switch {
+		case v.AuditIDUntrusted(id):
+			r.auditUntrusted = true
 		case len(match) == 1:
 			r.audit = match[0]
 			r.at = match[0].ReceivedAt
