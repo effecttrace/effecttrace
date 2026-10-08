@@ -193,7 +193,7 @@ func P99(svc string) string {
 }
 
 func ErrorRatio(svc string) string {
-	return `sum(rate(shop_http_requests_total{namespace="shop",service="` + svc + `",code=~"5.."}[10s])) / clamp_min(sum(rate(shop_http_requests_total{namespace="shop",service="` + svc + `"}[10s])), 0.001)`
+	return `(sum(rate(shop_http_requests_total{namespace="shop",service="` + svc + `",code=~"5.."}[10s])) or vector(0)) / clamp_min(sum(rate(shop_http_requests_total{namespace="shop",service="` + svc + `"}[10s])), 0.001)`
 }
 
 // ErrNotFound is returned when EffectTrace does not know an action.

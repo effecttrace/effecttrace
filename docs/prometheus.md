@@ -31,12 +31,19 @@ signals:
   - name: http_error_ratio          # ^[a-z][a-z0-9_]*$, at most 63 chars
     unit: ratio                     # optional: ratio, seconds, or free text
     query: >-
-      sum(rate(shop_http_requests_total{namespace="$namespace",service="$workload",code=~"5.."}[10s]))
+      (sum(rate(shop_http_requests_total{namespace="$namespace",service="$workload",code=~"5.."}[10s])) or vector(0))
       / clamp_min(sum(rate(shop_http_requests_total{namespace="$namespace",service="$workload"}[10s])), 0.001)
     absThreshold: 0.02              # non-negative
     relThreshold: 1.0               # non-negative, multiple of |baseline|
     reduce: max                     # max (default) or mean
 ```
+
+> **Ratios from zero.** Prometheus returns no series for `sum(rate(...{code=~"5.."}))`
+> while there are no errors. Without `or vector(0)` on the numerator, the baseline
+> of an error ratio is empty whenever the service was healthy, and a rise from
+> zero errors can never be detected. The lab experiments found exactly this
+> (an error spike confirmed in Prometheus but not evaluated); every ratio signal
+> should guard its numerator the same way.
 
 The file is parsed strictly (unknown keys are errors). Each query must
 reference `$workload` and may reference `$namespace`. These are the only

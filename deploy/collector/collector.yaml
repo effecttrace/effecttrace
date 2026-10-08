@@ -67,7 +67,7 @@ data:
       - name: http_error_ratio
         unit: ratio
         query: >-
-          sum(rate(shop_http_requests_total{namespace="$namespace",service="$workload",code=~"5.."}[10s]))
+          (sum(rate(shop_http_requests_total{namespace="$namespace",service="$workload",code=~"5.."}[10s])) or vector(0))
           / clamp_min(sum(rate(shop_http_requests_total{namespace="$namespace",service="$workload"}[10s])), 0.001)
         absThreshold: 0.02
         relThreshold: 1.0
