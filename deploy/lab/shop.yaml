@@ -73,6 +73,18 @@ spec:
   ports:
     - { name: http, port: 8080, targetPort: http }
 ---
+# Headless twin used by the fault relay to reach every replica.
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-pods
+  namespace: shop
+spec:
+  clusterIP: None
+  selector: { app: frontend }
+  ports:
+    - { name: http, port: 8080, targetPort: http }
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -125,6 +137,18 @@ metadata:
   name: checkout
   namespace: shop
 spec:
+  selector: { app: checkout }
+  ports:
+    - { name: http, port: 8080, targetPort: http }
+---
+# Headless twin used by the fault relay to reach every replica.
+apiVersion: v1
+kind: Service
+metadata:
+  name: checkout-pods
+  namespace: shop
+spec:
+  clusterIP: None
   selector: { app: checkout }
   ports:
     - { name: http, port: 8080, targetPort: http }
@@ -185,6 +209,18 @@ spec:
   ports:
     - { name: http, port: 8080, targetPort: http }
 ---
+# Headless twin used by the fault relay to reach every replica.
+apiVersion: v1
+kind: Service
+metadata:
+  name: payments-pods
+  namespace: shop
+spec:
+  clusterIP: None
+  selector: { app: payments }
+  ports:
+    - { name: http, port: 8080, targetPort: http }
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -237,6 +273,18 @@ metadata:
   name: inventory
   namespace: shop
 spec:
+  selector: { app: inventory }
+  ports:
+    - { name: http, port: 8080, targetPort: http }
+---
+# Headless twin used by the fault relay to reach every replica.
+apiVersion: v1
+kind: Service
+metadata:
+  name: inventory-pods
+  namespace: shop
+spec:
+  clusterIP: None
   selector: { app: inventory }
   ports:
     - { name: http, port: 8080, targetPort: http }

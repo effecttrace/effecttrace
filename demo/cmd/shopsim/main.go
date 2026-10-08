@@ -21,6 +21,7 @@ import (
 	"io"
 	"log/slog"
 	"math/rand/v2"
+	"net"
 	"net/http"
 	"net/url"
 	"os"
@@ -215,7 +216,11 @@ func runLoadgen(ctx context.Context, logger *slog.Logger) error {
 	}
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, _ *http.Request) { fmt.Fprintln(w, "ok") })
-	// Relay fault injection to a fixed allowlist of in-namespace services.
+	// Relay fault injection to every replica of an allowlisted service. The
+	// replicas are resolved through the service's headless twin
+	// (<service>-pods); a single ClusterIP request would reach only one Pod,
+	// and keep-alive connections from callers may never reach that Pod.
+	relay := &http.Client{Timeout: 3 * time.Second, Transport: &http.Transport{DisableKeepAlives: true}}
 	mux.HandleFunc("POST /fault", func(w http.ResponseWriter, r *http.Request) {
 		svc := r.URL.Query().Get("service")
 		if !allowed[svc] {
@@ -226,13 +231,19 @@ func runLoadgen(ctx context.Context, logger *slog.Logger) error {
 		for _, k := range []string{"latency_ms", "error_rate", "duration"} {
 			q.Set(k, r.URL.Query().Get(k))
 		}
-		// #nosec G704 -- svc is checked against the FAULT_TARGETS allowlist above
-		req, _ := http.NewRequestWithContext(r.Context(), http.MethodPost, "http://"+svc+":8080/admin/fault?"+q.Encode(), nil)
-		// Every replica must receive the fault; the Service picks one, so
-		// repeat enough times to cover small replica counts.
+		ips, err := net.DefaultResolver.LookupHost(r.Context(), svc+"-pods")
+		if err != nil || len(ips) == 0 {
+			http.Error(w, "cannot resolve replicas", http.StatusBadGateway)
+			return
+		}
 		ok := 0
-		for range 12 {
-			resp, err := client.Do(req.Clone(r.Context())) // #nosec G704 -- allowlisted in-namespace service
+		for _, ip := range ips {
+			target := "http://" + net.JoinHostPort(ip, "8080") + "/admin/fault?" + q.Encode()
+			req, err := http.NewRequestWithContext(r.Context(), http.MethodPost, target, nil) // #nosec G704 -- replica IPs of an allowlisted service from cluster DNS
+			if err != nil {
+				continue
+			}
+			resp, err := relay.Do(req) // #nosec G704 -- replica IPs of an allowlisted service from cluster DNS
 			if err == nil {
 				if resp.StatusCode == http.StatusOK {
 					ok++
@@ -240,11 +251,11 @@ func runLoadgen(ctx context.Context, logger *slog.Logger) error {
 				_ = resp.Body.Close()
 			}
 		}
-		if ok == 0 {
-			http.Error(w, "fault relay failed", http.StatusBadGateway)
+		if ok != len(ips) {
+			http.Error(w, fmt.Sprintf("fault reached %d of %d replicas", ok, len(ips)), http.StatusBadGateway)
 			return
 		}
-		fmt.Fprintf(w, "fault relayed to %s (%d deliveries)\n", svc, ok) // #nosec G705 -- plain-text response; svc is allowlisted
+		fmt.Fprintf(w, "fault applied to %d replica(s) of %s\n", ok, svc) // #nosec G705 -- plain-text response; svc is allowlisted
 	})
 	srv := &http.Server{Addr: ":8080", Handler: mux, ReadHeaderTimeout: 5 * time.Second}
 	go func() { // #nosec G118 -- server shutdown goroutine, not request-scoped
