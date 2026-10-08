@@ -107,10 +107,9 @@ type Summary struct {
 		ConcurrentSeparation *float64 `json:"concurrentSeparationAccuracy"`
 	} `json:"attribution"`
 	Operational struct {
-		FirstEffectSeconds *Stat  `json:"firstStructuralEffectSeconds"`
-		CompleteSeconds    *Stat  `json:"graphCompleteSeconds"`
-		QueryMilliseconds  *Stat  `json:"graphQueryMilliseconds"`
-		Note               string `json:"note"`
+		CompleteSeconds   *Stat  `json:"graphCompleteSeconds"`
+		QueryMilliseconds *Stat  `json:"graphQueryMilliseconds"`
+		Note              string `json:"note"`
 	} `json:"operational"`
 	Failed []string `json:"failed"`
 }
@@ -124,7 +123,7 @@ func Summarize(rf *ResultsFile) Summary {
 	s.ByCategory = map[string]map[string]int{}
 	s.Failed = []string{}
 	var direct, structural Counts
-	var first, complete, query []float64
+	var complete, query []float64
 	s.Attribution.Scope = "live kind experiments (L*); replay variants with altered windows (R05, R06) are excluded because they change the configuration on purpose"
 	for _, r := range rf.Scenarios {
 		s.Scenarios["total"]++
@@ -153,9 +152,6 @@ func Summarize(rf *ResultsFile) Summary {
 			s.Attribution.UnrelatedTelemetry += len(o.Eval.UnrelatedTelemetry)
 			s.Attribution.AmbiguousClaims += len(o.Eval.AmbiguousClaimed)
 			s.Attribution.AmbiguitiesReported += o.Eval.Ambiguities
-			if o.FirstEffectS > 0 {
-				first = append(first, o.FirstEffectS)
-			}
 			if o.CompleteS > 0 {
 				complete = append(complete, o.CompleteS)
 			}
@@ -168,7 +164,6 @@ func Summarize(rf *ResultsFile) Summary {
 		v := round(float64(s.Attribution.ConcurrentSeparated) / float64(n))
 		s.Attribution.ConcurrentSeparation = &v
 	}
-	s.Operational.FirstEffectSeconds = stat(first)
 	s.Operational.CompleteSeconds = stat(complete)
 	s.Operational.QueryMilliseconds = stat(query)
 	s.Operational.Note = "Measured on a single-node kind cluster on a laptop by polling the API once per second; 'complete' includes the configured settle and telemetry windows. Not a production-scale measurement."

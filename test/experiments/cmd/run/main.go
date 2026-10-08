@@ -6,6 +6,7 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"flag"
 	"fmt"
@@ -163,7 +164,17 @@ func main() {
 	if _, err := exec.LookPath("docker"); err == nil {
 		engine = "docker"
 	}
-	if err := experiments.WriteJSON(filepath.Join(outDir, "environment.json"), experiments.CaptureEnvironment(root, kv, engineVersion(engine))); err != nil {
+	envFile := experiments.CaptureEnvironment(root, kv, engineVersion(engine))
+	if b, _, err := lab.Get(ctx, "/api/v1/status"); err == nil {
+		var st struct {
+			Version string `json:"version"`
+		}
+		if json.Unmarshal(b, &st) == nil {
+			// The collector image may be older than the harness commit.
+			envFile.Components["effecttraceCollectorImage"] = st.Version
+		}
+	}
+	if err := experiments.WriteJSON(filepath.Join(outDir, "environment.json"), envFile); err != nil {
 		fail(err)
 	}
 	logf("done: %d pass, %d fail, %d error, %d unsupported", sum.Scenarios["pass"], sum.Scenarios["fail"], sum.Scenarios["error"], sum.Scenarios["unsupported"])

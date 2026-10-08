@@ -31,17 +31,19 @@ type Check struct {
 
 // Outcome is one action of a scenario.
 type Outcome struct {
-	Label        string             `json:"label"`
-	ActionID     string             `json:"actionId"`
-	Kind         string             `json:"kind"`
-	TraceID      string             `json:"traceId,omitempty"`
-	Started      time.Time          `json:"started"`
-	Returned     time.Time          `json:"returned"`
-	End          time.Time          `json:"truthEnd"`
-	Truth        Truth              `json:"truth"`
-	Unrelated    int                `json:"unrelatedChangedObjects"`
-	Eval         Evaluation         `json:"evaluation"`
-	FirstEffectS float64            `json:"firstEffectSeconds,omitempty"`
+	Label     string     `json:"label"`
+	ActionID  string     `json:"actionId"`
+	Kind      string     `json:"kind"`
+	TraceID   string     `json:"traceId,omitempty"`
+	Started   time.Time  `json:"started"`
+	Returned  time.Time  `json:"returned"`
+	End       time.Time  `json:"truthEnd"`
+	Truth     Truth      `json:"truth"`
+	Unrelated int        `json:"unrelatedChangedObjects"`
+	Eval      Evaluation `json:"evaluation"`
+	// FirstEffectS is not reported: the harness starts polling only after
+	// the workload stabilizes, so it would measure time to the first poll.
+	FirstEffectS float64            `json:"-"`
 	CompleteS    float64            `json:"completeSeconds,omitempty"`
 	QueryMS      []float64          `json:"queryMilliseconds,omitempty"`
 	Graph        *model.EffectGraph `json:"-"`

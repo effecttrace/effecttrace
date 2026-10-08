@@ -156,7 +156,6 @@ func resultsMD(rf *experiments.ResultsFile, s *experiments.Summary, env *envFile
 		}
 		fmt.Fprintf(&b, "| %s | %d | %.3g %s | %.3g %s | %.3g %s |\n", name, st.N, st.P50, unit, st.P95, unit, st.Max, unit)
 	}
-	row("Action issued → first STRUCTURAL edge visible", "s", s.Operational.FirstEffectSeconds)
 	row("Action issued → graph COMPLETE (incl. settle and telemetry windows)", "s", s.Operational.CompleteSeconds)
 	row("Graph query (GET /api/v1/effects/{id})", "ms", s.Operational.QueryMilliseconds)
 	b.WriteString("\n" + s.Operational.Note + "\n\n")
@@ -208,7 +207,7 @@ func resultsMD(rf *experiments.ResultsFile, s *experiments.Summary, env *envFile
 	}
 	if len(env.Components) > 0 {
 		b.WriteString("\n## Environment\n\n| Component | Version |\n|---|---|\n")
-		for _, k := range []string{"kubernetes", "kindNodeImage", "kind", "opentelemetryCollector", "prometheus", "opentelemetryGo", "clientGo", "mcpGoSDK", "mcpProtocol", "go", "containerEngine"} {
+		for _, k := range []string{"effecttraceCollectorImage", "kubernetes", "kindNodeImage", "kind", "opentelemetryCollector", "prometheus", "opentelemetryGo", "clientGo", "mcpGoSDK", "mcpProtocol", "go", "containerEngine"} {
 			if v, ok := env.Components[k]; ok {
 				fmt.Fprintf(&b, "| %s | %s |\n", k, v)
 			}

@@ -253,3 +253,14 @@ results block from the JSON files. Numbers are never typed by hand.
    never from EffectTrace output.
 3. Use `standardChecks` and add scenario-specific checks with clear names.
 4. Update the table above.
+
+## A note on `firstEffectSeconds`
+
+`test-results/results.json` files generated before this note was added contain a
+per-action `firstEffectSeconds` field. It does not measure how quickly a
+structural effect became visible: the harness starts polling a graph only after
+the workload has stabilized, so the value is the time until the first poll. It
+is not used in `summary.json`, `docs/results.md`, the README or the website, and
+newer runs no longer emit it. `completeSeconds` is accurate to within the
+one-second poll interval and the collector's three-second evaluation tick,
+because a graph completes only after polling has started.
