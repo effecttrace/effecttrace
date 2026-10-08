@@ -148,6 +148,54 @@ func (l *Lab) Fault(ctx context.Context, service string, latencyMS int, errorRat
 	return nil
 }
 
+// PromURL is the lab Prometheus, used for positive controls only.
+const PromURL = "http://127.0.0.1:19090"
+
+// PromMax returns the maximum of a PromQL expression over [from, to],
+// queried directly from Prometheus. Experiments use it as a positive control:
+// an injected fault must be visible in the raw data before EffectTrace's
+// handling of it is judged.
+func (l *Lab) PromMax(ctx context.Context, query string, from, to time.Time) (float64, error) {
+	q := url.Values{"query": {query}, "start": {fmt.Sprint(from.Unix())}, "end": {fmt.Sprint(to.Unix())}, "step": {"2"}}
+	req, _ := http.NewRequestWithContext(ctx, http.MethodGet, PromURL+"/api/v1/query_range?"+q.Encode(), nil)
+	resp, err := l.HTTP.Do(req)
+	if err != nil {
+		return 0, err
+	}
+	defer resp.Body.Close()
+	var r struct {
+		Data struct {
+			Result []struct {
+				Values [][2]any `json:"values"`
+			} `json:"result"`
+		} `json:"data"`
+	}
+	if err := json.NewDecoder(resp.Body).Decode(&r); err != nil {
+		return 0, err
+	}
+	max := 0.0
+	for _, s := range r.Data.Result {
+		for _, v := range s.Values {
+			if str, ok := v[1].(string); ok {
+				var f float64
+				if _, err := fmt.Sscanf(str, "%g", &f); err == nil && f > max {
+					max = f
+				}
+			}
+		}
+	}
+	return max, nil
+}
+
+// P99 and ErrorRatio are the queries used by positive controls.
+func P99(svc string) string {
+	return `histogram_quantile(0.99, sum by (le) (rate(shop_http_request_duration_seconds_bucket{namespace="shop",service="` + svc + `"}[10s])))`
+}
+
+func ErrorRatio(svc string) string {
+	return `sum(rate(shop_http_requests_total{namespace="shop",service="` + svc + `",code=~"5.."}[10s])) / clamp_min(sum(rate(shop_http_requests_total{namespace="shop",service="` + svc + `"}[10s])), 0.001)`
+}
+
 // ErrNotFound is returned when EffectTrace does not know an action.
 var ErrNotFound = errors.New("not found")
 

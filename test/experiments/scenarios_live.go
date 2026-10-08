@@ -66,6 +66,13 @@ func args(kv ...any) map[string]any {
 	return m
 }
 
+// control records a positive control: the injected fault must be visible in
+// Prometheus, otherwise the experiment proves nothing.
+func control(ctx context.Context, e *Env, r *Result, what, query string, from, to time.Time, threshold float64) {
+	v, err := e.Lab.PromMax(ctx, query, from, to)
+	r.check("positive control: "+what, err == nil && v > threshold, "max %.3f (threshold %.3f) %v", v, threshold, err)
+}
+
 func findAction(ctx context.Context, e *Env, since time.Time, timeout time.Duration, match func(correlate.ActionSummary) bool) (string, error) {
 	deadline := time.Now().Add(timeout)
 	for time.Now().Before(deadline) {
@@ -355,6 +362,7 @@ func LiveScenarios() []Scenario {
 				if err != nil {
 					return err
 				}
+				control(ctx, e, r, "payments p99 rose during the window", P99("payments"), o.Started, o.End, 0.2)
 				excluded := false
 				for _, x := range o.Graph.Exclusions {
 					if x.Kind == "METRIC" && strings.Contains(x.Label, "payments") {
@@ -370,10 +378,21 @@ func LiveScenarios() []Scenario {
 				if err := e.Lab.Fault(ctx, "inventory", 0, 0.3, 45*time.Second); err != nil {
 					return err
 				}
-				_, err := deploymentAction(ctx, e, r, "payments", func() (*Outcome, error) {
+				o, err := deploymentAction(ctx, e, r, "payments", func() (*Outcome, error) {
 					return e.mcp(ctx, "agent scale_workload payments", "scale_workload", args("namespace", "shop", "deployment", "payments", "replicas", 3), false)
 				})
-				return err
+				if err != nil {
+					return err
+				}
+				control(ctx, e, r, "inventory error ratio rose during the window", ErrorRatio("inventory"), o.Started, o.End, 0.1)
+				excluded := false
+				for _, x := range o.Graph.Exclusions {
+					if x.Kind == "METRIC" && strings.Contains(x.Label, "http_error_ratio for inventory") {
+						excluded = true
+					}
+				}
+				r.check("inventory errors reported as an exclusion", excluded, "exclusion list")
+				return nil
 			}},
 		{ID: "L20", Title: "Unrelated fault inside the window of the same workload", Category: "live", Quiet: true,
 			Description: "The agent scales checkout 3 -> 4; a runtime fault (not caused by the action, by construction) adds 250 ms latency to checkout inside the window. EffectTrace must attach it only as TEMPORAL_CORRELATION and state that correlation is not causation. This experiment shows why the evidence class matters.",
@@ -388,6 +407,7 @@ func LiveScenarios() []Scenario {
 				if err != nil {
 					return err
 				}
+				control(ctx, e, r, "checkout p99 rose during the window", P99("checkout"), o.Started, o.End, 0.2)
 				attached := hasEdge(o.Graph, model.EvidenceTemporalCorrelation, "http_p99_latency for checkout")
 				onlyTemporal := true
 				for _, ed := range o.Graph.Edges {
@@ -423,9 +443,11 @@ func LiveScenarios() []Scenario {
 				if err := e.Lab.Fault(ctx, "inventory", 400, 0, 30*time.Second); err != nil {
 					return err
 				}
+				faultAt := time.Now()
 				if err := pause(ctx, 25*time.Second); err != nil {
 					return err
 				}
+				control(ctx, e, r, "inventory p99 rose after the window", P99("inventory"), faultAt, time.Now(), 0.3)
 				b, _, err := e.Lab.Get(ctx, "/api/v1/effects/"+o.ActionID)
 				if err != nil {
 					return err
