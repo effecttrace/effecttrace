@@ -307,6 +307,7 @@ func EventObservation(ev *corev1.Event, initial bool, at time.Time) *obs.EventOb
 			Namespace: ev.InvolvedObject.Namespace, Name: ev.InvolvedObject.Name, UID: string(ev.InvolvedObject.UID)},
 		Reason: privacy.Text(ev.Reason, 128), Type: privacy.Text(ev.Type, 32),
 		Note: privacy.Text(ev.Message, MaxEventNote), Controller: privacy.Text(controller, 128), Count: count,
+		Initial: initial,
 	}
 }
 

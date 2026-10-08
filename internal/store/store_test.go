@@ -177,3 +177,24 @@ func TestMergesAreOrderIndependent(t *testing.T) {
 		t.Fatalf("unexpected merge result %s", want)
 	}
 }
+
+func TestLiveObservationTimesWinOverRelists(t *testing.T) {
+	live := obs.Record{Kind: obs.KindEvent, Event: &obs.EventObservation{UID: "e", At: t0.Add(1500 * time.Millisecond), Regarding: model.ObjectRef{UID: "u"}, Reason: "Scheduled", Count: 1}}
+	relist := obs.Record{Kind: obs.KindEvent, Event: &obs.EventObservation{UID: "e", At: t0.Add(time.Second), Regarding: model.ObjectRef{UID: "u"}, Reason: "Scheduled", Count: 1, Initial: true}}
+	first := obs.Record{Kind: obs.KindMetric, Metric: &obs.MetricResult{ActionID: "a", Signal: "p99", Workload: "w", Samples: 10, EvaluatedAt: t0}}
+	later := obs.Record{Kind: obs.KindMetric, Metric: &obs.MetricResult{ActionID: "a", Signal: "p99", Workload: "w", Samples: 50, EvaluatedAt: t0.Add(time.Hour)}}
+	for _, order := range [][]obs.Record{{live, relist, first, later}, {relist, live, later, first}} {
+		s := New(DefaultConfig())
+		for _, r := range order {
+			s.Apply(r)
+		}
+		s.Read(func(v View) {
+			if at := v.EventsRegarding("u")[0].At; !at.Equal(t0.Add(1500 * time.Millisecond)) {
+				t.Errorf("event time %v, want the live observation time", at)
+			}
+			if n := v.Metrics("a")[0].Samples; n != 10 {
+				t.Errorf("metric samples %d, want the first evaluation", n)
+			}
+		})
+	}
+}

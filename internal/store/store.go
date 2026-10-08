@@ -348,7 +348,13 @@ func (s *Store) applyEvent(e *obs.EventObservation) bool {
 		// Event series update. Merge deterministically regardless of the
 		// order updates arrive in: earliest time, highest count.
 		changed := false
-		if e.At.Before(prev.At) {
+		switch {
+		case prev.Initial && !e.Initial:
+			// A live observation time is more precise than the server
+			// timestamp of a relisted Event.
+			prev.At, prev.Initial = e.At, false
+			changed = true
+		case prev.Initial == e.Initial && e.At.Before(prev.At):
 			prev.At = e.At
 			changed = true
 		}
@@ -383,9 +389,15 @@ func (s *Store) applyEvent(e *obs.EventObservation) bool {
 }
 
 // betterMetric orders duplicate evaluations of one signal deterministically
-// (for example re-evaluations after a collector restart): the most samples,
-// then the latest window end, then the lowest observed value.
+// (for example re-evaluations after a collector restart): the earliest
+// evaluation, then without evaluation times the most samples, the latest
+// window end and the lowest observed value.
 func betterMetric(a, b obs.MetricResult) bool {
+	// The first evaluation is the one the live graph reported; later ones
+	// come from a restarted collector re-evaluating old actions.
+	if !a.EvaluatedAt.Equal(b.EvaluatedAt) && !a.EvaluatedAt.IsZero() && !b.EvaluatedAt.IsZero() {
+		return a.EvaluatedAt.Before(b.EvaluatedAt)
+	}
 	if (a.Error == "") != (b.Error == "") {
 		return a.Error == ""
 	}

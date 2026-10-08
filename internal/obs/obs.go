@@ -136,6 +136,10 @@ type EventObservation struct {
 	Note       string          `json:"note,omitempty"`
 	Controller string          `json:"controller,omitempty"`
 	Count      int32           `json:"count,omitempty"`
+	// Initial is true for Events delivered by an informer's initial list,
+	// whose time is the server's (second-precision) timestamp rather than
+	// the collector's observation time.
+	Initial bool `json:"initial,omitempty"`
 }
 
 // MetricResult is the evaluation of one telemetry signal for one workload
@@ -156,6 +160,9 @@ type MetricResult struct {
 	Changed       bool      `json:"changed"`
 	Direction     string    `json:"direction"`
 	Error         string    `json:"error,omitempty"`
+	// EvaluatedAt is when the collector ran the query. When a restarted
+	// collector re-evaluates an action, the earliest evaluation is kept.
+	EvaluatedAt time.Time `json:"evaluatedAt,omitzero"`
 }
 
 // SourceStatus reports source health so graphs can state their coverage.

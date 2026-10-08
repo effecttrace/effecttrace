@@ -96,6 +96,7 @@ func (e *Evaluator) evaluate(ctx context.Context, t correlate.TelemetryTarget, w
 	r := obs.MetricResult{
 		ActionID: t.ActionID, Signal: s.Name, Unit: s.Unit, Namespace: t.Namespace, Workload: w.Name, WorkloadUID: w.UID,
 		BaselineStart: t.BaselineStart, WindowStart: t.WindowStart, WindowEnd: t.WindowEnd, Direction: "unchanged",
+		EvaluatedAt: time.Now().UTC(),
 	}
 	if !dnsRE.MatchString(t.Namespace) || !dnsRE.MatchString(w.Name) {
 		r.Error = "workload or namespace name is not a valid DNS-1123 name"
